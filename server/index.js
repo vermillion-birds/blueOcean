@@ -3,6 +3,8 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const cors = require("cors");
+const pool = require("../database/db.js")
+const {getBirdNames} = require("./controllers/birds.js")
 
 // middleware
 app.use(express.json())
@@ -11,10 +13,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use(cors());
 
 
-app.get('/bird',(req,res)=>{
-  console.log('from server')
-  res.send('this works!')
-})
+app.get('/birds',getBirdNames);
 
 const PORT = process.env.PORT || 3001;
 
