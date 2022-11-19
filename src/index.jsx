@@ -3,6 +3,7 @@ import React from "react";
 // Import from react-dom the ability to create a root render
 import { createRoot } from "react-dom/client";
 import  App from './App.jsx';
+import './assets/index.css';
 
 
 
