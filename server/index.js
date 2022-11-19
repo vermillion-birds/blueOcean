@@ -4,6 +4,9 @@ const app = express();
 const path = require("path");
 const cors = require("cors");
 
+// database
+const db = require('../db')
+
 // middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
