@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './assets/App.css';
-import Landing from './Landing.jsx';
+import Landing from './login/Landing.jsx';
 import { motion } from "framer-motion";
 import { Icon } from '@iconify/react';
 
