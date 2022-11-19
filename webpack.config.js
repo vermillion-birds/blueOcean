@@ -17,6 +17,13 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader','css-loader']
+      },
+      {
+        test:/\.wav$/,
+        loader: 'file-loader',
+        options:{
+          name:"dummyData"
+        }
       }
     ]
   },
