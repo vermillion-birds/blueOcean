@@ -1,11 +1,17 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import BirdBinderEntry from './BirdBinderEntry.jsx';
 
 const BirdList = (props) => {
+  //need some menu or toggle switch to determine card sort
+
+
+
+
   return (
     <div>
       <h1>Bird Collection</h1>
       <button>Add Bird Sighting</button>
+      {/* filter option for alphabetical and something else date scene? */}
       {[1,1,1].map((bird, i) => {
         return <BirdBinderEntry key={i} />
       })}
