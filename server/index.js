@@ -6,8 +6,7 @@ const cors = require("cors");
 const pool = require("../database/db.js")
 const {getBirdNames} = require("./controllers/birds.js")
 
-// database
-const db = require('../db')
+
 
 // middleware
 app.use(express.json())
