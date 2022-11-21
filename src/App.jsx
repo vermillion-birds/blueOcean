@@ -1,26 +1,31 @@
-import React, { useState, useEffect } from 'react'
+/* eslint-disable import/extensions */
+/* eslint-disable react/function-component-definition */
+import React, { useState, useEffect } from 'react';
 import './assets/App.css';
-import Landing from './Landing.jsx';
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
 import { Icon } from '@iconify/react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Auth0ProviderWithHistory from './login/auth0-provider-with-history.jsx';
+import Landing from './login/Landing.jsx';
+// import backgroundVideo from './assets/106433-bird-flock-test.mp4';
 
-const Component = React.forwardRef((props, ref) => (
-  <Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100"ref={ref} />
-))
-const MovingBird = motion(Component);
-
-export default function App() {
-
-  return (
-    <>
-     <motion.div style={{alignItems:'left'}}
-      initial={{x:50}}
-      animate={{ x: "calc(100vw - 50%)" }}
-      transition={{ duration: 20 }}>
-        <Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100"/>
+const App = () => (
+  <Router>
+    <Auth0ProviderWithHistory>
+      {/* <video autoPlay loop muted id="video">
+        <source src={backgroundVideo} type="video/mp4" />
+      </video> */}
+      <motion.div
+        style={{ display: 'flex' }}
+        animate={{ x: [0, 425, 200] }}
+        transition={{ duration: 10 }}
+      >
+        <Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100" />
       </motion.div>
       <h1>Birder</h1>
       <Landing />
-    </>
-  );
-}
+    </Auth0ProviderWithHistory>
+  </Router>
+);
+
+export default App;
