@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components';
 import { Icon } from '@iconify/react';
 import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
-import { useHistory, BrowserRouter, Route } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import AccountPage from './AccountPage.jsx';
 import UserSignUp from './UserSignUp.jsx';
 
@@ -29,7 +29,7 @@ const LandingButton = styled.button`
 const userdb = {
   firstName: 'brian',
   lastName: 'stern',
-  email: 'stern2510@gmail.com',
+  email: 'sterno2510@gmail.com',
   username: 'sterno2510',
   profileurl: '',
   zipcode: '08901',

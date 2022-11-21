@@ -16,7 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <Router>
     <Auth0ProviderWithHistory>
       <Switch>
-        <Route path="/user" component={AccountPage} />
+        <Route path="/user"> <AccountPage test={'test'}/> </Route>
         <Route path="/createUser" component={UserSignUp} />
         <Route path="/" component={App} />
       </Switch>

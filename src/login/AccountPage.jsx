@@ -14,7 +14,9 @@ const Container = styled.div`
   box-shadow: 5px 5px 10px;
 `;
 
-const AccountPage = ({ logoutWithRedirect }) => (
+const AccountPage = ({ logoutWithRedirect, test }) => {
+  console.log(test)
+  return (
   <Container>
     <div>Account Information</div>
     <button>Update Account</button>
@@ -22,6 +24,7 @@ const AccountPage = ({ logoutWithRedirect }) => (
     <button>My Birds</button>
     <button>My Friends</button>
   </Container>
-);
+  )
+};
 
 export default AccountPage;
