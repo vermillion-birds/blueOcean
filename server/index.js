@@ -4,7 +4,7 @@ const app = express();
 const path = require("path");
 const cors = require("cors");
 
-// middleware
+// middlewar e
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, "../public")));
