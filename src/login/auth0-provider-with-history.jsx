@@ -1,16 +1,16 @@
 /* eslint-disable react/function-component-definition */
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Auth0Provider } from '@auth0/auth0-react';
 
 const Auth0ProviderWithHistory = ({ children }) => {
   const domain = process.env.REACT_APP_AUTH0_DOMAIN;
   const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
 
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const onRedirectCallback = (appState) => {
-    navigate.push(appState?.returnTo || window.location.pathname);
+    history.push(appState?.returnTo || window.location.pathname);
   };
 
   return (
