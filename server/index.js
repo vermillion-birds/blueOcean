@@ -16,6 +16,10 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use(cors());
 
 app.get('/birds', getBirdNames);
+app.get('/user', ((req, res) => {
+  console.log('in user')
+  res.send('user')
+}))
 
 const PORT = process.env.PORT || 3001;
 
