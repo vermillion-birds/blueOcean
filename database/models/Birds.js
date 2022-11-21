@@ -18,6 +18,15 @@ const getBirds = () => {
     .catch(err =>  console.log('getBirds FROM DB ERROR ', err))
 }
 
+
+const postBirds = () => {
+
+};
+
+const postUser = () => {
+
+};
+
 module.exports = {
-  getBirds,
+  getBirds
 }
