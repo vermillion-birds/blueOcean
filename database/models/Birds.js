@@ -18,6 +18,13 @@ const getBirds = () => {
     .catch(err =>  console.log('getBirds FROM DB ERROR ', err))
 }
 
+
+const postBirds = () => {
+
+}
+
+
+
 module.exports = {
   getBirds,
 }
