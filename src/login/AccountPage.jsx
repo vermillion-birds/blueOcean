@@ -18,11 +18,7 @@ const AccountPage = ({ logoutWithRedirect }) => (
   <Container>
     <div>Account Information</div>
     <button>Update Account</button>
-    <button
-      onClick={() => logoutWithRedirect()}
-    >
-      Log Out
-    </button>
+    <button onClick={() => logoutWithRedirect()}>Log Out</button>
     <button>My Birds</button>
     <button>My Friends</button>
   </Container>
