@@ -25,6 +25,15 @@ const LandingButton = styled.button`
   width: 200px;
 `;
 
+const userdb = {
+  firstName: 'brian',
+  lastName: 'stern',
+  email: 'sterno250@gmail.com',
+  username: 'sterno2510',
+  profileurl: '',
+  zipcode: '08901',
+};
+
 const Landing = () => {
   const [addUserToggle, setAddUserToggle] = useState(false);
   const {
@@ -41,11 +50,11 @@ const Landing = () => {
   const login = () => {
     loginWithRedirect({});
   };
-  console.log(user);
+
   useEffect(() => {
     axios.get('/user')
       .then((data) => {
-        if (data.data.email === user.email) {
+        if (userdb.email === user.email) {
           console.log('send to account page');
         } else {
           console.log('send to create user page');
