@@ -4,8 +4,6 @@ import Landing from './Landing.jsx';
 import { motion } from "framer-motion";
 import { Icon } from '@iconify/react';
 
-import BirdCard from "./birdCard.jsx"
-
 const Component = React.forwardRef((props, ref) => (
   <Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100"ref={ref} />
 ))
@@ -23,7 +21,6 @@ export default function App() {
       </motion.div>
       <h1>Birder</h1>
       <Landing />
-      <BirdCard/>
     </>
   );
 }
