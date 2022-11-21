@@ -6,3 +6,4 @@ package-lock.json
 public/bundle.js
 .DS_Store
 .eslintrc.js
+sdc-database.pem
