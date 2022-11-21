@@ -8,6 +8,8 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Auth0ProviderWithHistory from './login/auth0-provider-with-history.jsx';
 import Landing from './login/Landing.jsx';
 // import backgroundVideo from './assets/106433-bird-flock-test.mp4';
+import BirdList from './BirdList.jsx';//remove whole line
+import FriendsList from './FriendsList.jsx';//remove whole line
 
 const App = () => (
   <Router>
@@ -24,6 +26,8 @@ const App = () => (
       </motion.div>
       <h1>Birder</h1>
       <Landing />
+      <FriendsList />
+      <BirdList />
     </Auth0ProviderWithHistory>
   </Router>
 );

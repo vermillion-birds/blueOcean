@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import BirdBinderEntry from './BirdBinderEntry.jsx';
+import BirdCard from './birdCard.jsx';
 
 const BirdList = (props) => {
   //need some menu or toggle switch to determine card sort
@@ -28,6 +29,7 @@ const BirdList = (props) => {
       location? */}
       <button>Submit</button>
     </form>
+    <BirdCard />
     </div>
   )
 }
