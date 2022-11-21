@@ -4,4 +4,7 @@ node_modules
 lgll92iu5a8
 package-lock.json
 public/bundle.js
+public/bundle.js
 .DS_Store
+.eslintrc.js
+sdc-database.pem
