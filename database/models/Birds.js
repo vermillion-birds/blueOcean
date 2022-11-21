@@ -21,10 +21,12 @@ const getBirds = () => {
 
 const postBirds = () => {
 
-}
+};
 
+const postUser = () => {
 
+};
 
 module.exports = {
-  getBirds,
+  getBirds
 }
