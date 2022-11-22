@@ -48,6 +48,8 @@ const NewBirdForm = ({ close }) => {
   const [note, setNote] = useState('');
   const [dateSeen, setDateSeen] = useState('');
   const [suggestedBirds, setSuggestedBirds] = useState([]);
+  const [typeAddress, setTypeAddress] = useState(false);
+  const [address, setAddress] = useState({});
   const sample = ['robin', 'blue jay', 'raven'];
 
   useEffect(() => {
@@ -73,6 +75,10 @@ const NewBirdForm = ({ close }) => {
 
   const onDateSeen = (e) => {
     setDateSeen(e.target.value);
+  };
+
+  const typeAddressIn = () => {
+    setTypeAddress(!typeAddress);
   };
 
   const submitForm = (event) => {
@@ -123,8 +129,16 @@ const NewBirdForm = ({ close }) => {
           <label>Date Seen</label>
           <input type="date" onChange={onDateSeen} />
           <br />
-          <button>grab location</button>
-          <button>fill out location or zip</button>
+          <button type="button">grab location</button>
+          <button onClick={typeAddressIn} type="button">fill out location or zip</button>
+          {typeAddress && (
+            <div>
+              address form to get here once I have better idea of how many states
+              {/* <label>zip code</label>
+              <input type="text" placeholder="ex. 12345" onChange={} />
+              <br /> */}
+            </div>
+          )}
           {/*
       photo from cloudinary?
       location? */}
