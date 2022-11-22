@@ -55,30 +55,37 @@ const Container = styled.div`
   margin: 0 auto;
   margin-top: 20vh;
   `;
-const BirdCard = () => (
-  <Container>
-    <SectionCard>
-      <aside>
-        <h3>Bird Name</h3>
-        <h3>Common Name</h3>
-        <SectionImage
-          src="https://images.pexels.com/photos/162140/duckling-birds-yellow-fluffy-162140.jpeg?auto=compress&cs=tinysrgb&w=1600"
-          alt="header image"
-          height="400"
-          width="384"
-        />
-        <Tag>First Seen</Tag>
-        <Tag>Last Seen:  </Tag>
-        <Tag>Count times seen:   </Tag>
-        <h3>Decription</h3>
-        <Decription>
-          This is the elusive baby duck. coming from the duck family.
-          It has long been held as the cutiest animal in the kingdom!
-        </Decription>
-        <h3>Personal Notes</h3>
-        <Decription>This is one of the cutest little birdies i have ever seen</Decription>
-      </aside>
-    </SectionCard>
-  </Container>
-);
+const BirdCard = () => {
+  const [flip, setFlip] = useState(false);
+
+  return (
+    <Container onClick={() => {
+      setFlip(!flip);
+    }}
+    >
+      <SectionCard>
+        <aside>
+          <h3>Bird Name</h3>
+          <h3>Common Name</h3>
+          <SectionImage
+            src="https://images.pexels.com/photos/162140/duckling-birds-yellow-fluffy-162140.jpeg?auto=compress&cs=tinysrgb&w=1600"
+            alt="header image"
+            height="400"
+            width="384"
+          />
+          <Tag>First Seen</Tag>
+          <Tag>Last Seen:  </Tag>
+          <Tag>Count times seen:   </Tag>
+          <h3>Decription</h3>
+          <Decription>
+            This is the elusive baby duck. coming from the duck family.
+            It has long been held as the cutiest animal in the kingdom!
+          </Decription>
+          <h3>Personal Notes</h3>
+          <Decription>This is one of the cutest little birdies i have ever seen</Decription>
+        </aside>
+      </SectionCard>
+    </Container>
+  );
+};
 export default BirdCard;
