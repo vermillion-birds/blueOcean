@@ -72,10 +72,11 @@ const getWikiSummary = async (scientificName) => {
 const postBird = async (req, res) => {
   let nameAttempt = req.body.commonName;
   const {lat, lng} = req.body.location; //requires that location is an object with lat and lng properties
+  const notes = req.body.notes; // user notes
+  const dateSeen = req.body.dateSeen;
   try {
     const { sciName, commonName } = await getScientificName(nameAttempt);
     const summary = await getWikiSummary(sciName);
-    // console.log(sciName, ' also known as ', commonName, ': ', summary)
   } catch (err) {
     console.log(err)
   }

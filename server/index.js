@@ -15,11 +15,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, "../public")));
 app.use(cors());
-
-app.get('/birds', getBirdNames);
-
 const PORT = process.env.PORT || 3001;
 
+app.get('/birds', getBirdNames);
 app.post('/user', createNewUser);
 app.get('/location', getGeoLocFromAddress);
 app.post('/birds', postBird)
