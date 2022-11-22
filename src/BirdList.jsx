@@ -9,6 +9,7 @@ import NewBirdForm from './NewBirdForm.jsx';
 const BirdList = (props) => {
   // need some menu or toggle switch to determine card sort
   const [addingBird, setAddingBird] = useState(false);
+  const [currUser, setCurrUser] = useState(true);
 
   const nowAddingBird = () => {
     setAddingBird(!addingBird);
@@ -17,7 +18,7 @@ const BirdList = (props) => {
   return (
     <div>
       <h1>Bird Collection</h1>
-      <button onClick={nowAddingBird}>Add Bird Sighting</button>
+      {currUser && <button onClick={nowAddingBird}>Add Bird Sighting</button>}
       {/* filter option for alphabetical and something else date scene? */}
       {[1,1,1].map((bird, i) => {
         return <BirdBinderEntry key={i} />

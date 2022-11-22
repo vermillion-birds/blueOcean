@@ -15,7 +15,7 @@ const FriendsList = (props) => {
       console.log(friendSearch);
       // sort all users where username or birds sceen name matches term
     } else {
-      console.log('return to seeing all friends')
+      console.log('return to seeing all friends');
     }
   }, [friendSearch]);
 
