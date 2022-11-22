@@ -5,7 +5,8 @@ const app = express();
 const path = require("path");
 const cors = require("cors");
 const pool = require("../database/db.js");
-const { getBirdNames, postBird } = require("./controllers/birds.js")
+const { getBirdNames, postBird, getGeoLocFromAddress } = require("./controllers/birds.js");
+const {createNewUser} = require("./controllers/users.js");
 
 
 
@@ -19,7 +20,8 @@ app.get('/birds', getBirdNames);
 
 const PORT = process.env.PORT || 3001;
 
-app.post('/users')
+app.post('/user', createNewUser);
+app.get('/location', getGeoLocFromAddress);
 app.post('/birds', postBird)
 
 app.listen(PORT, () => {
