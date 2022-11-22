@@ -118,6 +118,10 @@ const NewBirdForm = ({ close }) => {
     setSuggestedBirds([]);
   };
 
+  const checkAddress = () => {
+    console.log(state, street, zip, place);
+  };
+
   const submitForm = (event) => {
     event.preventDefault();
     const birdInfo = {
@@ -192,6 +196,7 @@ const NewBirdForm = ({ close }) => {
               <label>State initials?</label>
               <input type="text" placeholder="ex. VA" onChange={onState} />
               <br />
+              <button type="button" onClick={checkAddress}>check address</button>
 
             </div>
           )}
