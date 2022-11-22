@@ -55,8 +55,8 @@ const Container = styled.div`
   margin: 0 auto;
   margin-top: 20vh;
   `;
-const BirdCard = () => {
-  return(<Container>
+const BirdCard = () => (
+  <Container>
     <SectionCard>
       <aside>
         <h3>Bird Name</h3>
@@ -67,14 +67,18 @@ const BirdCard = () => {
           height="400"
           width="384"
         />
+        <Tag>First Seen</Tag>
         <Tag>Last Seen:  </Tag>
         <Tag>Count times seen:   </Tag>
         <h3>Decription</h3>
-        <Decription>This is the elusive baby duck. comming from the duck family. It has long been held as the cutiest animal in the kingdom!</Decription>
+        <Decription>
+          This is the elusive baby duck. coming from the duck family.
+          It has long been held as the cutiest animal in the kingdom!
+        </Decription>
         <h3>Personal Notes</h3>
         <Decription>This is one of the cutest little birdies i have ever seen</Decription>
       </aside>
     </SectionCard>
-  </Container>);
-};
+  </Container>
+);
 export default BirdCard;
