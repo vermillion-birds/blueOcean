@@ -64,7 +64,7 @@ const NewBirdForm = ({ close }) => {
       console.log(birdName);
       // sort all users where username or birds sceen name matches term
       const filtered = sample.filter((bird) => {
-        return bird.includes(birdName);
+        return bird.toUpperCase().includes(birdName.toUpperCase());
       });
       if (filtered.length === 1 && filtered[0] === birdName) {
         setSuggestedBirds([]);
@@ -151,10 +151,10 @@ const NewBirdForm = ({ close }) => {
             <input type="text" placeholder="ex. cardinal" onChange={onBirdName} />
             {(suggestedBirds.length > 0) && (
             <div>
-              {suggestedBirds.map((bird) => {
+              {suggestedBirds.map((bird, i) => {
                 console.log(bird);
                 return (
-                  <div onClick={() => {suggestionClicked(bird)}}>
+                  <div key={i} onClick={() => {suggestionClicked(bird)}}>
                     {bird}
                   </div>
                 );

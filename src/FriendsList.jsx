@@ -25,7 +25,7 @@ const FriendsList = (props) => {
       console.log(friendSearch);
       // sort all users where username or birds sceen name matches term
       const filtered = sample.filter((friend) => {
-        return friend.includes(friendSearch);
+        return friend.toUpperCase().includes(friendSearch.toUpperCase());
       });
       setSuggestedFriends(filtered);
     } else {
