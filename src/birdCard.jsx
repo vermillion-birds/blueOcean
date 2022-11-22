@@ -75,9 +75,9 @@ const BirdCard = () => {
               height="400"
               width="384"
             />
-            <Tag>First Seen</Tag>
+            <Tag>First Seen:   </Tag>
             <Tag>Last Seen:  </Tag>
-            <Tag>Count times seen:   </Tag>
+            <Tag>Times seen:   </Tag>
             <h3>Decription</h3>
             <Decription>
               This is the elusive baby duck. coming from the duck family.
