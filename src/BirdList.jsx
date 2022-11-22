@@ -7,6 +7,7 @@ import React, {useState, useEffect} from 'react';
 import BirdBinderEntry from './BirdBinderEntry.jsx';
 import BirdCard from './birdCard.jsx';
 import NewBirdForm from './NewBirdForm.jsx';
+import './assets/BirdList.css';
 
 const BirdList = (props) => {
   // need some menu or toggle switch to determine card sort
@@ -38,7 +39,7 @@ const BirdList = (props) => {
 
   useEffect(() => {
     generateCardRows();
-  }, [birds]);
+  }, []);
 
   return (
     <div>
@@ -48,14 +49,14 @@ const BirdList = (props) => {
       {(cardRows.length > 0) && cardRows.map((row) => {
         if (row[1]) {
           return (
-            <div>
+            <div className="full-card-row">
               <BirdBinderEntry bird={row[0]} />
               <BirdBinderEntry bird={row[1]} />
             </div>
           );
         }
         return (
-          <div>
+          <div className="half-card-row">
             <BirdBinderEntry bird={row[0]} />
           </div>
         );
