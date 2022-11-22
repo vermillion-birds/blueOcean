@@ -76,7 +76,7 @@ const BirdCard = () => {
               width="384"
             />
             <Tag>First Seen:   </Tag>
-            <Tag>Last Seen:  </Tag>
+            <Tag>Last Seen:    </Tag>
             <Tag>Times seen:   </Tag>
             <h3>Decription</h3>
             <Decription>
