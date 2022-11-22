@@ -145,6 +145,7 @@ const NewBirdForm = ({ close }) => {
   return (
     <ModalBackground>
       <ModalContainer>
+        <button onClick={() => { close(); }}>CLOSE</button>
         <form onSubmit="return false">
           <div className="dropdown">
             <label>Birds Common Name</label>
@@ -154,7 +155,7 @@ const NewBirdForm = ({ close }) => {
               {suggestedBirds.map((bird, i) => {
                 console.log(bird);
                 return (
-                  <div key={i} onClick={() => {suggestionClicked(bird)}}>
+                  <div key={i} onClick={() => { suggestionClicked(bird); }}>
                     {bird}
                   </div>
                 );
