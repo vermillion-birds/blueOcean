@@ -52,6 +52,11 @@ const NewBirdForm = ({ close }) => {
   const [suggestedBirds, setSuggestedBirds] = useState([]);
   const [typeAddress, setTypeAddress] = useState(false);
   const [address, setAddress] = useState({});
+  const [zip, setZip] = useState('');
+  const [street, setStreet] = useState('');
+  const [state, setState] = useState('');
+  const [place, setPlace] = useState('');
+  const [placeName, setPlaceName] = useState('');
   const sample = ['robin', 'blue jay', 'raven'];
 
   useEffect(() => {
@@ -82,6 +87,26 @@ const NewBirdForm = ({ close }) => {
 
   const onDateSeen = (e) => {
     setDateSeen(e.target.value);
+  };
+
+  const onPlaceName = (e) => {
+    setPlaceName(e.target.value);
+  };
+
+  const onZip = (e) => {
+    setZip(e.target.value);
+  };
+
+  const onPlace = (e) => {
+    setPlace(e.target.value);
+  };
+
+  const onStreet = (e) => {
+    setStreet(e.target.value);
+  };
+
+  const onState = (e) => {
+    setState(e.target.value);
   };
 
   const typeAddressIn = () => {
@@ -142,14 +167,31 @@ const NewBirdForm = ({ close }) => {
           <label>Date Seen</label>
           <input type="date" onChange={onDateSeen} />
           <br />
+          <label>Nickname of Lacation seen</label>
+          <input type="text" placeholder="ex. park on 1st" onChange={onPlaceName} />
+          <br />
           <button type="button">grab location</button>
           <button onClick={typeAddressIn} type="button">fill out location or zip</button>
           {typeAddress && (
             <div>
-              address form to get here once I have better idea of how many states
-              {/* <label>zip code</label>
-              <input type="text" placeholder="ex. 12345" onChange={} />
-              <br /> */}
+              {/* address form to get here once I have better idea of how many states */}
+              <label>zip code</label>
+              <input type="text" placeholder="ex. 12345" onChange={onZip} />
+              <br />
+              OR
+              <br />
+              <label>Place</label>
+              <input type="text" placeholder="ex. Central Park" onChange={onPlace} />
+              <br />
+              OR
+              <br />
+              <label>Street Address</label>
+              <input type="text" placeholder="ex. 123 main st" onChange={onStreet} />
+              <br />
+              <label>State initials?</label>
+              <input type="text" placeholder="ex. VA" onChange={onState} />
+              <br />
+
             </div>
           )}
           {/*
