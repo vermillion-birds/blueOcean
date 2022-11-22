@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react"
 import Card from '@mui/material/Card';
 import styled, { css } from 'styled-components';
+import Map from './Map.jsx';
 
 const BirdCard = () => {
 
@@ -57,7 +58,7 @@ const BirdCard = () => {
 
   return (
     <Container>
-       <SectionCard>
+      <SectionCard>
       <aside>
     <h3>Bird Name</h3>
  <SectionImage src={'https://images.pexels.com/photos/162140/duckling-birds-yellow-fluffy-162140.jpeg?auto=compress&cs=tinysrgb&w=1600'} alt="header image"height="400" width="384"
@@ -67,6 +68,7 @@ const BirdCard = () => {
 
   </aside>
     </SectionCard>
+    <Map/>
     </Container>
 
 
