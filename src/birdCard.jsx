@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import styled, { css } from 'styled-components';
+import ReactCardFlip from 'react-card-flip';
 
 const SectionCard = styled.aside`
     border: 4mm ridge #213547;
@@ -59,33 +60,48 @@ const BirdCard = () => {
   const [flip, setFlip] = useState(false);
 
   return (
-    <Container onClick={() => {
-      setFlip(!flip);
-    }}
+    <ReactCardFlip
+      isFlipped={flip}
+      flipDirection="vertical"
     >
-      <SectionCard>
-        <aside>
-          <h3>Bird Name</h3>
-          <h3>Common Name</h3>
-          <SectionImage
-            src="https://images.pexels.com/photos/162140/duckling-birds-yellow-fluffy-162140.jpeg?auto=compress&cs=tinysrgb&w=1600"
-            alt="header image"
-            height="400"
-            width="384"
-          />
-          <Tag>First Seen</Tag>
-          <Tag>Last Seen:  </Tag>
-          <Tag>Count times seen:   </Tag>
-          <h3>Decription</h3>
-          <Decription>
-            This is the elusive baby duck. coming from the duck family.
-            It has long been held as the cutiest animal in the kingdom!
-          </Decription>
-          <h3>Personal Notes</h3>
-          <Decription>This is one of the cutest little birdies i have ever seen</Decription>
-        </aside>
-      </SectionCard>
-    </Container>
+      <Container>
+        <SectionCard onClick={() => setFlip(!flip)}>
+          <aside>
+            <h3>Bird Name</h3>
+            <h3>Common Name</h3>
+            <SectionImage
+              src="https://images.pexels.com/photos/162140/duckling-birds-yellow-fluffy-162140.jpeg?auto=compress&cs=tinysrgb&w=1600"
+              alt="header image"
+              height="400"
+              width="384"
+            />
+            <Tag>First Seen</Tag>
+            <Tag>Last Seen:  </Tag>
+            <Tag>Count times seen:   </Tag>
+            <h3>Decription</h3>
+            <Decription>
+              This is the elusive baby duck. coming from the duck family.
+              It has long been held as the cutiest animal in the kingdom!
+            </Decription>
+            <h3>Personal Notes</h3>
+            <Decription>This is one of the cutest little birdies i have ever seen</Decription>
+          </aside>
+        </SectionCard>
+      </Container>
+      <Container>
+        <SectionCard onClick={() => setFlip(!flip)}>
+          <aside>
+            <h3>Location</h3>
+            <SectionImage
+              src="https://media.istockphoto.com/id/1189064346/photo/city-map-with-pin-pointers-3d-rendering-image.jpg?s=612x612&w=is&k=20&c=4SZpTpQFkcJDuy5wJjs-a3JDaZyM1jEFbZVk2laEol4="
+              alt="header image"
+              height="400"
+              width="384"
+            />
+          </aside>
+        </SectionCard>
+      </Container>
+    </ReactCardFlip>
   );
 };
 export default BirdCard;
