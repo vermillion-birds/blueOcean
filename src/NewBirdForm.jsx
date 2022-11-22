@@ -1,10 +1,12 @@
+/* eslint-disable react/jsx-wrap-multilines */
+/* eslint-disable arrow-body-style */
 /* eslint-disable react/prop-types */
 /* eslint-disable comma-dangle */
 /* eslint-disable object-shorthand */
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/function-component-definition */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -45,6 +47,21 @@ const NewBirdForm = ({ close }) => {
   const [birdName, setBirdName] = useState('');
   const [note, setNote] = useState('');
   const [dateSeen, setDateSeen] = useState('');
+  const [suggestedBirds, setSuggestedBirds] = useState([]);
+  const sample = ['robin', 'blue jay', 'raven'];
+
+  useEffect(() => {
+    if (birdName.length !== 0) {
+      console.log(birdName);
+      // sort all users where username or birds sceen name matches term
+      const filtered = sample.filter((bird) => {
+        return bird.includes(birdName);
+      });
+      setSuggestedBirds(filtered);
+    } else {
+      console.log('done typing bird name');
+    }
+  }, [birdName]);
 
   const onBirdName = (e) => {
     setBirdName(e.target.value);
@@ -61,9 +78,11 @@ const NewBirdForm = ({ close }) => {
   const submitForm = (event) => {
     event.preventDefault();
     const birdInfo = {
-      name: birdName,
+      commmonName: birdName,
       note: note,
-      dateSeen: dateSeen
+      dateSeen: dateSeen,
+      // location: {lat: lng:},
+      // photo: url
     };
     // const form = document.getElementById("bird-form");
 
@@ -83,15 +102,29 @@ const NewBirdForm = ({ close }) => {
     <ModalBackground>
       <ModalContainer>
         <form onSubmit="return false">
-          <label>Birds Common Name</label>
-          <input type="text" placeholder="ex. cardinal" onChange={onBirdName} />
-          <br />
+          <div className="dropdown">
+            <label>Birds Common Name</label>
+            <input type="text" placeholder="ex. cardinal" onChange={onBirdName} />
+            {(suggestedBirds.length > 0) && (
+            <div>
+              {suggestedBirds.map((bird) => {
+                console.log(bird);
+                return (
+                  <div>
+                    {bird}
+                  </div>
+                );
+              })}
+            </div>)}
+          </div>
           <label>Personal Note</label>
           <input type="textarea" placeholder="a place to jot down your thoughts on this or future birdsightings" onChange={onNote} />
           <br />
           <label>Date Seen</label>
           <input type="date" onChange={onDateSeen} />
           <br />
+          <button>grab location</button>
+          <button>fill out location or zip</button>
           {/*
       photo from cloudinary?
       location? */}
