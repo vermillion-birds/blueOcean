@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable arrow-body-style */
 /* eslint-disable react/prop-types */
@@ -59,7 +61,11 @@ const NewBirdForm = ({ close }) => {
       const filtered = sample.filter((bird) => {
         return bird.includes(birdName);
       });
-      setSuggestedBirds(filtered);
+      if (filtered.length === 1 && filtered[0] === birdName) {
+        setSuggestedBirds([]);
+      } else {
+        setSuggestedBirds(filtered);
+      }
     } else {
       setSuggestedBirds([]);
       console.log('done typing bird name');
@@ -82,6 +88,11 @@ const NewBirdForm = ({ close }) => {
     setTypeAddress(!typeAddress);
   };
 
+  const suggestionClicked = (bird) => {
+    setBirdName(bird);
+    setSuggestedBirds([]);
+  };
+
   const submitForm = (event) => {
     event.preventDefault();
     const birdInfo = {
@@ -94,16 +105,17 @@ const NewBirdForm = ({ close }) => {
     // const form = document.getElementById("bird-form");
 
     // form.addEventListener('submit', submitForm);
+    console.log(birdInfo);
 
-    axios.post('/whatever', birdInfo)
-      .then((data) => {
-        console.log(data);
-        // propably update too
-        close();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // axios.post('/whatever', birdInfo)
+    //   .then((data) => {
+    //     console.log(data);
+    //     // propably update too
+    //     close();
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
   return (
     <ModalBackground>
@@ -117,7 +129,7 @@ const NewBirdForm = ({ close }) => {
               {suggestedBirds.map((bird) => {
                 console.log(bird);
                 return (
-                  <div>
+                  <div onClick={() => {suggestionClicked(bird)}}>
                     {bird}
                   </div>
                 );
