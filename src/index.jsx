@@ -1,25 +1,37 @@
+/* eslint-disable react/function-component-definition */
 /* eslint-disable import/extensions */
 // Bring React in to build a component.
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM, { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Icon } from '@iconify/react';
+import { useAuth0 } from '@auth0/auth0-react';
 import Auth0ProviderWithHistory from './login/auth0-provider-with-history.jsx';
 import AccountPage from './login/AccountPage.jsx';
-import Landing from './login/Landing.jsx';
 import UserSignUp from './login/UserSignUp.jsx';
+import BirdList from './BirdList.jsx';
 // Import from react-dom the ability to create a root render
 import App from './App.jsx';
 import './assets/index.css';
 
-// create the root of the app by selection where the app should be mounted in the dom
-ReactDOM.createRoot(document.getElementById('root')).render(
+const MainComponent = () => (
   <Router>
     <Auth0ProviderWithHistory>
       <Switch>
-        <Route path="/user"> <AccountPage test={'test'}/> </Route>
+        <Route path="/user">
+          {' '}
+          <AccountPage />
+          {' '}
+        </Route>
         <Route path="/createUser" component={UserSignUp} />
-        <Route path="/" component={App} />
+        <Route exact path="/" component={App} />
+        <Route path="/birdList" component={BirdList} />
       </Switch>
     </Auth0ProviderWithHistory>
-  </Router>,
+  </Router>
+);
+
+// create the root of the app by selection where the app should be mounted in the dom
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <MainComponent />,
 );
