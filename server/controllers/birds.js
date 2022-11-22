@@ -1,7 +1,11 @@
 const axios = require('axios');
 require("dotenv").config();
 const parseString = require('xml2js').parseString;
-const { getBirds } = require('../../database/models/Birds.js');
+const {
+  getBirds,
+  createABird,
+  createBirdSighting
+} = require('../../database/models/Birds.js');
 
 const getBirdNames = (req, res) => {
   console.log('REQUEST RECEIVED');
@@ -70,15 +74,33 @@ const getWikiSummary = async (scientificName) => {
 }
 
 const postBird = async (req, res) => {
-  let nameAttempt = req.body.commonName;
-  const {lat, lng} = req.body.location; //requires that location is an object with lat and lng properties
+
+  let bodyName = req.body.commonName;
+  const { lat, lng } = req.body.location; //requires that location is an object with lat and lng properties
   const notes = req.body.notes; // user notes
   const dateSeen = req.body.dateSeen;
+  const userId = req.body.user_id;
+  const url = req.body.url;
+  const birdObj = {
+    notes: notes,
+    dateSeen: dateSeen,
+    url: url,
+    user_id: userId
+  };
   try {
-    const { sciName, commonName } = await getScientificName(nameAttempt);
-    const summary = await getWikiSummary(sciName);
+    if (!req.body.bird_id) {
+      const { sciName } = await getScientificName(bodyName);
+      const summary = await getWikiSummary(sciName);
+      birdObj.sciName = sciName;
+      birdObj.summary = summary;
+      birdObj.commonName = bodyName;
+      const birdId = await createABird(birdObj);
+      birdObj.bird_id= birdId;
+    }
+    await createBirdSighting(birdObj)
+    res.sendStatus(200)
   } catch (err) {
-    console.log(err)
+    res.status(500).send(err);
   }
 }
 

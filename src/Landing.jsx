@@ -1,6 +1,8 @@
 /* eslint-disable react/function-component-definition */
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { Icon } from '@iconify/react';
+
 
 const Container = styled.div`
   display: grid;
@@ -14,17 +16,20 @@ const Container = styled.div`
   box-shadow: 5px 5px 10px;
 `;
 
-const AccountPage = ({ logoutWithRedirect, test }) => {
-  console.log(test)
-  return (
-  <Container>
-    <div>Account Information</div>
-    <button>Update Account</button>
-    <button onClick={() => logoutWithRedirect()}>Log Out</button>
-    <button>My Birds</button>
-    <button>My Friends</button>
-  </Container>
-  )
-};
+const LandingButton = styled.button`
+  height: 100px;
+  width: 200px;
+`;
 
-export default AccountPage;
+const Landing = () => (
+  <Container>
+    <div>
+      <Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100" />
+    </div>
+    <LandingButton>Login</LandingButton>
+    <div>Don't Have An Account?</div>
+    <LandingButton>Create Account</LandingButton>
+  </Container>
+  );
+
+export default Landing;
