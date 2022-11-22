@@ -21,8 +21,7 @@ const BirdList = (props) => {
   };
 
   const generateCardRows = () => {
-    var cardStorage = [];
-    console.log('hit');
+    const cardStorage = [];
     // cardStorage.concat(birds);
 
     for (let i = 0; i < birds.length; i++) {
@@ -32,8 +31,6 @@ const BirdList = (props) => {
         cardStorage.push([i, i + 1]);
       }
     }
-
-    console.log(cardStorage);
     setCardRows(cardStorage);
   };
 
