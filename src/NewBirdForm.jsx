@@ -61,6 +61,7 @@ const NewBirdForm = ({ close }) => {
       });
       setSuggestedBirds(filtered);
     } else {
+      setSuggestedBirds([]);
       console.log('done typing bird name');
     }
   }, [birdName]);
