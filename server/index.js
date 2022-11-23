@@ -35,6 +35,11 @@ const PORT = process.env.PORT || 3001;
 
 app.post('/birds', postBird);
 
+app.get('/birdCards/:user_id', ((req, res) => {
+  console.log(req.params);
+  res.send('hitting sever from get birdcards');
+}))
+
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
 });

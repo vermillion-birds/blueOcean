@@ -3,6 +3,7 @@
 /* eslint-disable react/function-component-definition */
 import React, {useState, useEffect} from 'react';
 import FriendEntry from './FriendEntry.jsx';
+import BirdList from './BirdList.jsx';// remove whole line
 
 const FriendsList = (props) => {
   const [friendSearch, setFriendSearch] = useState('');
@@ -51,6 +52,8 @@ const FriendsList = (props) => {
       {[1,1,1].map((bird, i) => {
         return (<FriendEntry key={i} />);
       })}
+
+      <BirdList friend={1723} />
 
     </div>
   );

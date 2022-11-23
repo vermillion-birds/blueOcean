@@ -8,6 +8,7 @@ import BirdBinderEntry from './BirdBinderEntry.jsx';
 import BirdCard from './birdCard.jsx';
 import NewBirdForm from './NewBirdForm.jsx';
 import './assets/BirdList.css';
+import axios from 'axios';
 
 const BirdList = (props) => {
   // need some menu or toggle switch to determine card sort
@@ -15,13 +16,29 @@ const BirdList = (props) => {
   const [currUser, setCurrUser] = useState(true);
   const [cardRows, setCardRows] = useState([]);
   const [cardView, setCardView] = useState(false);
+  const [cardsBird, setCardsBird] = useState({});
   const birds = [[1], [1], [1], [1], [1]];
+
+  const getBirdInfo = () => {
+    axios.get(`/birdcards/${1}`)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log('error getting bird cards info', err);
+      });
+  };
+
+  useEffect(() => {
+    getBirdInfo();
+  }, []);// ?
 
   const nowAddingBird = () => {
     setAddingBird(!addingBird);
   };
 
   const cardClicked = (card) => {
+    setCardsBird(card);
     setCardView(!cardView);
   };
 
@@ -72,7 +89,7 @@ const BirdList = (props) => {
           {addingBird && <NewBirdForm close={() => { setAddingBird(); }} />}
         </div>
       )}
-      {cardView && <BirdCard />}
+      {cardView && <BirdCard bird={cardsBird} />}
     </div>
   );
 };
