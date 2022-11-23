@@ -77,12 +77,12 @@ const postBird = async (req, res) => {
 
   let bodyName = req.body.commonName;
   // const { lat, lng } = req.body.location; //requires that location is an object with lat and lng properties
-  const notes = req.body.notes; // user notes
+  const note = req.body.note; // user notes
   const dateSeen = req.body.dateSeen;
   const userId = req.body.user_id;
   // const url = req.body.url;
   const birdObj = {
-    notes: notes,
+    notes: note,
     dateSeen: dateSeen,
     // url: url,
     user_id: userId
@@ -95,10 +95,11 @@ const postBird = async (req, res) => {
       // birdObj.summary = summary;
       // birdObj.commonName = bodyName;
       const birdId = await createABird(birdObj);
-      birdObj.bird_id= birdId;
+      birdObj.bird_id = birdId;
     } else {
-      // birdObj.bird_id= birdId; bird_id id get from get birds.
+      birdObj.bird_id = req.body.bird_id;
     }
+    console.log(birdObj, bodyName);
     await createBirdSighting(birdObj)
     res.sendStatus(200)
   } catch (err) {
