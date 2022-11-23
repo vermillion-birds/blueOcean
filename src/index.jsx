@@ -7,10 +7,12 @@ import ReactDOM, { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useHistory } from 'react-router-dom';
 import Auth0ProviderWithHistory from './login/auth0-provider-with-history.jsx';
 import AccountPage from './login/AccountPage.jsx';
 import UserSignUp from './login/UserSignUp.jsx';
 import BirdList from './BirdList.jsx';
+import FriendsList from './FriendsList.jsx';
 // Import from react-dom the ability to create a root render
 import App from './App.jsx';
 import './assets/index.css';
@@ -19,6 +21,11 @@ const MainComponent = () => {
   const [globalUser, setGlobalUser] = useState({});
   const [userID, setUserID] = useState(0);
   const [allUsers, setAllUsers] = useState([]);
+  const history = useHistory();
+
+  const returnToAccountPage = () => {
+    history.push('/user');
+  };
 
   useEffect(() => {
     axios.get('/allUsers')
@@ -55,6 +62,7 @@ const MainComponent = () => {
             {' '}
           </Route>
           <Route path="/birdList" component={BirdList} />
+          <Route path="/friendsList" component={FriendsList} />
         </Switch>
       </Auth0ProviderWithHistory>
     </Router>

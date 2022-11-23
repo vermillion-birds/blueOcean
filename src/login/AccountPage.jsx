@@ -50,7 +50,7 @@ const AccountPage = ({ globalUser }) => {
         <button type="button" onClick={() => updateUser()}>Update Account</button>
         <button type="button" onClick={() => logoutWithRedirect()}>Log Out</button>
         <button type="button" onClick={() => history.push('/birdList')}>My Birds</button>
-        <button type="button">My Friends</button>
+        <button type="button" onClick={() => history.push('/friendsList')}>My Friends</button>
       </Container>
     </>
   );

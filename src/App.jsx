@@ -7,9 +7,8 @@ import { Icon } from '@iconify/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Landing from './login/Landing.jsx';
 // import backgroundVideo from './assets/106433-bird-flock-test.mp4';
-// import FlyingBird from './assets/101335-parrot.gif';
-// import BirdList from './BirdList.jsx';// remove whole line
-// import FriendsList from './FriendsList.jsx';// remove whole line
+import FlyingBird from './assets/101335-parrot.gif';
+
 
 const App = ({globalUser, setGlobalUser}) => (
   <>
@@ -26,8 +25,6 @@ const App = ({globalUser, setGlobalUser}) => (
     </motion.div>
     <h1>Birder</h1>
     <Landing globalUser={globalUser} setGlobalUser={setGlobalUser} />
-    {/* <FriendsList />
-    <BirdList /> */}
   </>
 
 );
