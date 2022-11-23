@@ -4,13 +4,13 @@
 /* eslint-disable react/function-component-definition */
 import React from 'react';
 
-const FriendEntry = ({chatClicked, birdClicked}) => {
+const FriendEntry = ({chatClicked, birdClicked, friend}) => {
   return (
     <div>
       <span>{':)'}</span>
       <span>Friends Name</span>
-      <button>Chat With Friend</button>
-      <button>See Friends Cards</button>
+      <button onClick={(friend) => {chatClicked(friend)}}>Chat With Friend</button>
+      <button onClick={(friend) => {birdClicked(friend)}}>See Friends Cards</button>
     </div>
   )
 }

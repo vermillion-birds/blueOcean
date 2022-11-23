@@ -20,7 +20,15 @@ const getBirdNames = (req, res) => {
 const getBirdCards = (req, res) => {
   getAllBirdCardInfo(parseInt(req.params.user_id))
   .then((data) => {
-    res.status(200).send(data.rows[0].birdcardinfo)
+    let results = [];
+    if (data.rows[0]) {
+      results = data.rows[0].birdcardinfo
+    }
+    //  console.log('data.row[0]', data.rows[0])
+
+
+    console.log('birdCards in server', results)
+    res.status(200).send(results);
   })
   .catch(err => {
     console.log('ERROR IN GETBIRDCARDS ', err);
