@@ -25,7 +25,7 @@ const getOneUserID = (req) => pool.query(`SELECT user_id FROM users WHERE email 
 
 const getUsers = () => pool.query('SELECT * FROM users');
 
-// const updateOneUser = (req) =>
+const updateOneUser = (req) => {}
 
 module.exports = {
   postUser, getEmail, getOneUser, getOneUserID, getUsers,
