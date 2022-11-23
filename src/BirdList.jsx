@@ -28,7 +28,7 @@ const BirdList = ({userID, friend, back, allBirds}) => {
     // conditional to check if friend or user
     axios.get(`/birdcards/${userID}`)
       .then((data) => {
-        console.log('bird card data: ', data);
+        console.log('bird card data: ', data.data);
         setBirds(data.data);
       })
       .catch((err) => {
