@@ -24,6 +24,11 @@ app.get('/user', ((req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 }));
 
+// returns the route for friends list
+app.get('/friendsList', ((req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+}));
+
 // returns the route to create a new user form
 app.get('/createUser', ((req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));

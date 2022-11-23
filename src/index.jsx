@@ -11,6 +11,7 @@ import Auth0ProviderWithHistory from './login/auth0-provider-with-history.jsx';
 import AccountPage from './login/AccountPage.jsx';
 import UserSignUp from './login/UserSignUp.jsx';
 import BirdList from './BirdList.jsx';
+import FriendsList from './FriendsList.jsx';
 // Import from react-dom the ability to create a root render
 import App from './App.jsx';
 import './assets/index.css';
@@ -55,6 +56,7 @@ const MainComponent = () => {
             {' '}
           </Route>
           <Route path="/birdList" component={BirdList} />
+          <Route path="/friendsList" component={FriendsList} />
         </Switch>
       </Auth0ProviderWithHistory>
     </Router>
