@@ -4,7 +4,8 @@ const parseString = require('xml2js').parseString;
 const {
   getBirds,
   createABird,
-  createBirdSighting
+  createBirdSighting,
+  getAllBirdCardInfo
 } = require('../../database/models/Birds.js');
 
 const getBirdNames = (req, res) => {
@@ -16,6 +17,15 @@ const getBirdNames = (req, res) => {
   })
 }
 
+const getBirdCards = (req, res) => {
+  getAllBirdCardInfo(parseInt(req.params.user_id))
+  .then((data) => {
+    res.status(200).send(data.rows[0].birdcardinfo)
+  })
+  .catch(err => {
+    console.log('ERROR IN GETBIRDCARDS ', err);
+  })
+}
 
 // bird address validation: https://developers.google.com/maps/documentation/address-validation/requests-validate-address  get location in geocode
 // requests will be sent to https://www.googleapis.com/geolocation/v1/geolocate?key=YOUR_API_KEY
@@ -114,6 +124,7 @@ const postBird = async (req, res) => {
 module.exports = {
   getBirdNames,
   postBird,
-  getGeoLocFromAddress
+  getGeoLocFromAddress,
+  getBirdCards
 }
 

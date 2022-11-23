@@ -154,7 +154,6 @@ const NewBirdForm = ({ close }) => {
     setStreet('');
     setState('');
     setPlace('');
-    setPlaceName('');
   };
 
   const selectAddress = (index) => {

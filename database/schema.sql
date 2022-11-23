@@ -1,4 +1,4 @@
- -- Database: blue_ocean
+-- Database: blue_ocean
 
 -- DROP DATABASE IF EXISTS blue_ocean;
 
@@ -11,4 +11,3 @@
 --     TABLESPACE = pg_default
 --     CONNECTION LIMIT = -1
 --     IS_TEMPLATE = False;
-

@@ -38,12 +38,12 @@ const ModalContainer = styled.div`{
 }`;
 
 const UserSignUp = () => {
-  const [firstNameForm, setFirstName] = useState('');
-  const [lastNameForm, setLastName] = useState('');
-  const [emailForm, setEmail] = useState('');
-  const [userNameForm, setUserName] = useState('');
+  const [firstNameForm, setFirstName] = useState(null);
+  const [lastNameForm, setLastName] = useState(null);
+  const [emailForm, setEmail] = useState(null);
+  const [userNameForm, setUserName] = useState(null);
   const [zipCodeForm, setZipCode] = useState(0);
-  const [profilePictureForm, setProfilePicture] = useState('');
+  const [profilePictureForm, setProfilePicture] = useState(null);
   const history = useHistory();
 
   const submitForm = () => {
