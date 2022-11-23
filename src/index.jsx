@@ -61,8 +61,12 @@ const MainComponent = () => {
             <App globalUser={globalUser} setGlobalUser={setGlobalUser} />
             {' '}
           </Route>
-          <Route path="/birdList" component={BirdList} />
-          <Route path="/friendsList" component={FriendsList} />
+          <Route path="/birdList">
+            <BirdList userID={userID} home="?" />
+          </Route>
+          <Route path="/friendsList">
+            <FriendsList userID={userID} allUsers={allUsers} home="?" />
+          </Route>
         </Switch>
       </Auth0ProviderWithHistory>
     </Router>

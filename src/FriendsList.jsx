@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable no-param-reassign */
 /* eslint-disable max-len */
@@ -24,7 +25,7 @@ const FriendsList = ({userID, allUsers, home}) => {
 
   const onSuggestions = () => {
     setSuggestions(!suggestions);
-    setSuggestedFriends(sample);
+    setSuggestedFriends(allUsers);
   };
 
   const onBirdClick = (friend) => {
@@ -44,7 +45,7 @@ const FriendsList = ({userID, allUsers, home}) => {
       setSuggestions(true);
       console.log(friendSearch);
       // sort all users where username or birds sceen name matches term
-      const filtered = sample.filter((friend) => {
+      const filtered = allUsers.filter((friend) => {
         return friend.toUpperCase().includes(friendSearch.toUpperCase());
       });
       setSuggestedFriends(filtered);

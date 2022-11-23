@@ -11,19 +11,21 @@ import NewBirdForm from './NewBirdForm.jsx';
 import './assets/BirdList.css';
 import axios from 'axios';
 
-const BirdList = ({userId, friend, back, home}) => {
+const BirdList = ({userID, friend, back, home}) => {
   // need some menu or toggle switch to determine card sort
   const [addingBird, setAddingBird] = useState(false);
   const [currUser, setCurrUser] = useState(true);
   const [cardRows, setCardRows] = useState([]);
   const [cardView, setCardView] = useState(false);
   const [cardsBird, setCardsBird] = useState({});
-  const birds = [[1], [1], [1], [1], [1]];
+  const [birds, setBirds] = useState([]);
 
   const getBirdInfo = () => {
-    axios.get(`/birdcards/${1}`)
+    // conditional to check if friend or user
+    axios.get(`/birdcards/${userID}`)
       .then((data) => {
         console.log(data);
+        // setBirds(data);
       })
       .catch((err) => {
         console.log('error getting bird cards info', err);
