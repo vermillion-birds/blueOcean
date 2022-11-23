@@ -29,6 +29,14 @@ module.exports = {
         options:{
           name:"dummyData"
         }
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
       }
     ]
   },
