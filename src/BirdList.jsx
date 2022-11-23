@@ -69,7 +69,7 @@ const BirdList = ({userID, friend, back, home}) => {
       {!cardView && (
         <div>
           <h1>Bird Collection</h1>
-          <button>Return Home</button>
+          <button onClick={home()}>Return Home</button>
           {!currUser && <button onClick={back()}>Back to Friend List</button>}
           <br/>
           {currUser && <button onClick={nowAddingBird}>Add Bird Sighting</button>}

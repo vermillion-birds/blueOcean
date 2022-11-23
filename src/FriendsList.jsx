@@ -59,6 +59,7 @@ const FriendsList = ({userID, allUsers, home}) => {
     <div>
       {(!birdsView && !chatView) && (
       <div>
+        <button onClick={home()}>Return Home</button>
         <div>
           <button onClick={onSuggestions}>See Suggested Friends</button>
           <div>
