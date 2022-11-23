@@ -55,12 +55,10 @@ const Landing = ({ setGlobalUser }) => {
   };
 
   useEffect(() => {
-    console.log('enter use effect with user', user)
     if (user) {
       setGlobalUser(user);
       axios.get('/userInfo', { params: { email: user.email } })
         .then((data) => {
-          console.log('DATA IN USEEFFECT', data);
           if (data.data[0] !== undefined) {
             history.push('/user');
             console.log('send to account page');
