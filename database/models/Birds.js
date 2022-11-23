@@ -67,6 +67,7 @@ const getBirds = () => {
       });
   })
   .catch((err) => console.log('getBirds FROM DB ERROR ', err));
+}
 
 const createABird = (birdObj) => {
 // create a row in Birds, return bird_id
