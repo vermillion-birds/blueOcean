@@ -1,3 +1,6 @@
+/* eslint-disable react/jsx-wrap-multilines */
+/* eslint-disable no-param-reassign */
+/* eslint-disable max-len */
 /* eslint-disable react/button-has-type */
 /* eslint-disable arrow-body-style */
 /* eslint-disable react/function-component-definition */
@@ -6,12 +9,13 @@ import FriendEntry from './FriendEntry.jsx';
 import BirdList from './BirdList.jsx';// remove whole line
 import Chat from './Chat.jsx';
 
-const FriendsList = ({userID, users}) => {
+const FriendsList = ({userID, allUsers, home}) => {
   const [friendSearch, setFriendSearch] = useState('');
   const [suggestions, setSuggestions] = useState(false);
   const [suggestedFriends, setSuggestedFriends] = useState([]);
   const [birdsView, setBirdsView] = useState(false);
   const [chatView, setChatView] = useState(false);
+  const [clickedFriend, setClickedFriend] = useState({});
   const sample = ['name1', 'name2', 'name3'];
 
   const onFriendSearch = (e) => {
@@ -23,8 +27,16 @@ const FriendsList = ({userID, users}) => {
     setSuggestedFriends(sample);
   };
 
-  const cardsClicked = (friend) => {
-    setCardView(!cardView);
+  const onBirdClick = (friend) => {
+    friend = friend || {};
+    setClickedFriend(friend);
+    setBirdsView(!birdsView);
+  };
+
+  const onChatClicked = (friend) => {
+    friend = friend || {};
+    setClickedFriend(friend);
+    setChatView(!chatView);
   }
 
   useEffect(() => {
@@ -44,24 +56,28 @@ const FriendsList = ({userID, users}) => {
 
   return (
     <div>
+      {(!birdsView && !chatView) && (
       <div>
-        <button onClick={onSuggestions}>See Suggested Friends</button>
         <div>
-          <input type="text" placeholder="Find Fellow Birders" onChange={onFriendSearch} />
-          {suggestions && (
-            suggestedFriends.map((friend, i) => {
-              return (<div key={i}>{friend}</div>);
-            })
-          )}
+          <button onClick={onSuggestions}>See Suggested Friends</button>
+          <div>
+            <input type="text" placeholder="Find Fellow Birders" onChange={onFriendSearch} />
+            {suggestions && (
+              suggestedFriends.map((friend, i) => {
+                return (<div key={i}>{friend}</div>);
+              })
+            )}
+          </div>
         </div>
+        <h1>Your Friends</h1>
+        {[1, 1, 1].map((bird, i) => {
+          return (<FriendEntry key={i} chatClicked={(friend) => {onChatClicked(friend)}}
+            birdClicked={(friend) => { onBirdClick(friend); }} />);
+        })}
       </div>
-      <h1>Your Friends</h1>
-      {[1,1,1].map((bird, i) => {
-        return (<FriendEntry key={i} />);
-      })}
-
-      {birdsView && <BirdList friend={1723} />}
-      <Chat friend={1} userID={userID} />
+      )}
+      {birdsView && <BirdList friend={clickedFriend} back={() => {onBirdClick()}} userID={userID} home={home()} />}
+      {chatView && <Chat friend={clickedFriend} userID={userID} back={() => {onChatClicked()}} allUsers={allUsers} home={home()} />}
 
     </div>
   );

@@ -7,7 +7,7 @@ import { Icon } from '@iconify/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Landing from './login/Landing.jsx';
 // import backgroundVideo from './assets/106433-bird-flock-test.mp4';
-import FlyingBird from './assets/101335-parrot.gif';
+// import FlyingBird from './assets/101335-parrot.gif';
 
 
 const App = ({globalUser, setGlobalUser}) => (

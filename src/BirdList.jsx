@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable operator-assignment */
 /* eslint-disable comma-dangle */
 /* eslint-disable react/button-has-type */
@@ -10,7 +11,7 @@ import NewBirdForm from './NewBirdForm.jsx';
 import './assets/BirdList.css';
 import axios from 'axios';
 
-const BirdList = (props) => {
+const BirdList = ({userId, friend, back, home}) => {
   // need some menu or toggle switch to determine card sort
   const [addingBird, setAddingBird] = useState(false);
   const [currUser, setCurrUser] = useState(true);
@@ -38,6 +39,7 @@ const BirdList = (props) => {
   };
 
   const cardClicked = (card) => {
+    card = card || {};
     setCardsBird(card);
     setCardView(!cardView);
   };
@@ -65,6 +67,9 @@ const BirdList = (props) => {
       {!cardView && (
         <div>
           <h1>Bird Collection</h1>
+          <button>Return Home</button>
+          {!currUser && <button onClick={back()}>Back to Friend List</button>}
+          <br/>
           {currUser && <button onClick={nowAddingBird}>Add Bird Sighting</button>}
           {/* filter option for alphabetical and something else date scene? */}
           {(cardRows.length > 0) && cardRows.map((row, i) => {
@@ -89,13 +94,13 @@ const BirdList = (props) => {
           {addingBird && <NewBirdForm close={() => { setAddingBird(); }} />}
         </div>
       )}
-      {cardView && <BirdCard bird={cardsBird} />}
+      {cardView && <BirdCard bird={cardsBird} back={() => {cardClicked()}} />}
     </div>
   );
 };
 
 export default BirdList;
-
-{/* <Route path="/birdList"> */}
-          //   <BirdList userID={userID} />
-          // </Route>
+// app.get('/birdCards/:user_id', ((req, res) => {
+//   console.log(req.params);
+//   res.send('hitting sever from get birdcards');
+// }))
