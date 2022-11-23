@@ -45,6 +45,13 @@ const ModalContainer = styled.div`{
 
 }`;
 
+const DropDownDiv = styled.div`
+{
+  border:solid;
+  cursor: pointer;
+}
+`
+
 const NewBirdForm = ({ close }) => {
   const [birdName, setBirdName] = useState('');
   const [note, setNote] = useState('');
@@ -57,6 +64,9 @@ const NewBirdForm = ({ close }) => {
   const [state, setState] = useState('');
   const [place, setPlace] = useState('');
   const [placeName, setPlaceName] = useState('');
+  const [addressOptions, setAddressOptions] = useState([]);
+  const [locationObj, setLocationObj] = useState({});
+  const [addressValReturned, setAddressValReturned] = useState(false);
   const sample = ['robin', 'blue jay', 'raven'];
 
   useEffect(() => {
@@ -118,8 +128,38 @@ const NewBirdForm = ({ close }) => {
     setSuggestedBirds([]);
   };
 
+  const getAddressFromBrowser = (event) => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLocationObj({ lat: position.coords.latitude, lng: position.coords.longitude });
+    });
+  }
+
   const checkAddress = () => {
-    console.log(state, street, zip, place);
+    const addressString = place + street +' ' + state + ' '+ zip;
+    axios.post('/location', {
+      address: addressString
+    } )
+    .then(results => {
+      const options = results.data;
+      setAddressOptions(options);
+      setAddressValReturned(true);
+
+    })
+    .catch(err => {
+      const noAddresses = {formatted_address: "No results: please try a different address"}
+      setAddressOptions([noAddresses]);
+      setAddressValReturned(true);
+    })
+    setZip('');
+    setStreet('');
+    setState('');
+    setPlace('');
+  };
+
+  const selectAddress = (index) => {
+    let latLong = addressOptions[index].geometry.location ;
+    setLocationObj(latLong);
+    setAddressValReturned(false);
   };
 
   const submitForm = (event) => {
@@ -129,8 +169,8 @@ const NewBirdForm = ({ close }) => {
       note: note,
       dateSeen: dateSeen,
       user_id: 1,
-      bird_id: 1
-      // location: {lat: lng:},
+      bird_id: 1,
+      location: locationObj
       // photo: url
     };
     // const form = document.getElementById("bird-form");
@@ -148,6 +188,7 @@ const NewBirdForm = ({ close }) => {
         console.log('error posting bird sighting: ', err);
       });
   };
+
   return (
     <ModalBackground>
       <ModalContainer>
@@ -157,16 +198,16 @@ const NewBirdForm = ({ close }) => {
             <label>Birds Common Name</label>
             <input type="text" placeholder="ex. cardinal" onChange={onBirdName} />
             {(suggestedBirds.length > 0) && (
-            <div>
-              {suggestedBirds.map((bird, i) => {
-                console.log(bird);
-                return (
-                  <div key={i} onClick={() => { suggestionClicked(bird); }}>
-                    {bird}
-                  </div>
-                );
-              })}
-            </div>)}
+              <div>
+                {suggestedBirds.map((bird, i) => {
+                  console.log(bird);
+                  return (
+                    <div key={i} onClick={() => { suggestionClicked(bird); }}>
+                      {bird}
+                    </div>
+                  );
+                })}
+              </div>)}
           </div>
           <label>Personal Note</label>
           <input type="textarea" placeholder="a place to jot down your thoughts on this or future birdsightings" onChange={onNote} />
@@ -174,10 +215,10 @@ const NewBirdForm = ({ close }) => {
           <label>Date Seen</label>
           <input type="date" onChange={onDateSeen} />
           <br />
-          <label>Nickname of Lacation seen</label>
+          <label>Nickname of Location seen</label>
           <input type="text" placeholder="ex. park on 1st" onChange={onPlaceName} />
           <br />
-          <button type="button">grab location</button>
+          <button type="button" onClick={getAddressFromBrowser}>grab location</button>
           <button onClick={typeAddressIn} type="button">fill out location or zip</button>
           {typeAddress && (
             <div>
@@ -198,10 +239,27 @@ const NewBirdForm = ({ close }) => {
               <label>State initials?</label>
               <input type="text" placeholder="ex. VA" onChange={onState} />
               <br />
+              {
+              addressValReturned &&
+              addressOptions.map((option, index) => {
+                return (
+                  <DropDownDiv
+                    key={index}
+                    index={index}
+                    onClick={(event) => {selectAddress(index)}}>
+                      {option.formatted_address}
+                  </DropDownDiv>
+                )
+              })
+
+
+
+              }
               <button type="button" onClick={checkAddress}>check address</button>
 
             </div>
           )}
+
           {/*
       photo from cloudinary?
       location? */}

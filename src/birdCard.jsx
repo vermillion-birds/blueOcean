@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import styled, { css } from 'styled-components';
-import ReactCardFlip from 'react-card-flip';
+// import ReactCardFlip from 'react-card-flip';
 import Map from './Map.jsx';
 
 const SectionCard = styled.aside`

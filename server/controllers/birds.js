@@ -4,7 +4,8 @@ const parseString = require('xml2js').parseString;
 const {
   getBirds,
   createABird,
-  createBirdSighting
+  createBirdSighting,
+  getAllBirdCardInfo
 } = require('../../database/models/Birds.js');
 
 const getBirdNames = (req, res) => {
@@ -16,6 +17,23 @@ const getBirdNames = (req, res) => {
   })
 }
 
+const getBirdCards = (req, res) => {
+  getAllBirdCardInfo(parseInt(req.params.user_id))
+  .then((data) => {
+    let results = [];
+    if (data.rows[0]) {
+      results = data.rows[0].birdcardinfo
+    }
+    //  console.log('data.row[0]', data.rows[0])
+
+
+    console.log('birdCards in server', results)
+    res.status(200).send(results);
+  })
+  .catch(err => {
+    console.log('ERROR IN GETBIRDCARDS ', err);
+  })
+}
 
 // bird address validation: https://developers.google.com/maps/documentation/address-validation/requests-validate-address  get location in geocode
 // requests will be sent to https://www.googleapis.com/geolocation/v1/geolocate?key=YOUR_API_KEY
@@ -26,10 +44,13 @@ const getBirdNames = (req, res) => {
 
 const getGeoLocFromAddress = async (req, res) => {
   let addressString = req.body.address.split(' ').join('%20');
+  console.log(addressString, 'addressString');
   let googleURL = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?fields=formatted_address%2Cname%2Cgeometry&input=${addressString}&inputtype=textquery&key=${process.env.GOOGLE_MAPS_API_KEY}`;
   try {
     let response = await axios.get(googleURL);
+    console.log(response, 'response');
     let formattedAddress = response.data.candidates;
+    console.log(formattedAddress, 'formatted address')
     res.send(formattedAddress);
   } catch (err) {
     console.log('there is an error in getGeoLocfromAddress', err);
@@ -76,7 +97,7 @@ const getWikiSummary = async (scientificName) => {
 const postBird = async (req, res) => {
 
   let bodyName = req.body.commonName;
-  // const { lat, lng } = req.body.location; //requires that location is an object with lat and lng properties
+  const { lat, lng } = req.body.location; //requires that location is an object with lat and lng properties
   const note = req.body.note; // user notes
   const dateSeen = req.body.dateSeen;
   const userId = req.body.user_id;
@@ -91,15 +112,14 @@ const postBird = async (req, res) => {
     if (!req.body.bird_id) {
       const { sciName } = await getScientificName(bodyName);
       const summary = await getWikiSummary(sciName);
-      // birdObj.sciName = sciName;
-      // birdObj.summary = summary;
-      // birdObj.commonName = bodyName;
+      birdObj.sciName = sciName;
+      birdObj.summary = summary;
+      birdObj.commonName = bodyName;
       const birdId = await createABird(birdObj);
       birdObj.bird_id = birdId;
     } else {
       birdObj.bird_id = req.body.bird_id;
     }
-    console.log(birdObj, bodyName);
     await createBirdSighting(birdObj)
     res.sendStatus(200)
   } catch (err) {
@@ -112,6 +132,7 @@ const postBird = async (req, res) => {
 module.exports = {
   getBirdNames,
   postBird,
-  getGeoLocFromAddress
+  getGeoLocFromAddress,
+  getBirdCards
 }
 

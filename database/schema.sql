@@ -1,4 +1,4 @@
- -- Database: blue_ocean
+-- Database: blue_ocean
 
 -- DROP DATABASE IF EXISTS blue_ocean;
 

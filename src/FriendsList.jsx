@@ -11,7 +11,7 @@ import BirdList from './BirdList.jsx';// remove whole line
 import Chat from './Chat.jsx';
 import { useHistory } from 'react-router-dom';
 
-const FriendsList = ({userID, allUsers, home}) => {
+const FriendsList = ({userID, allUsers}) => {
   const [friendSearch, setFriendSearch] = useState('');
   const [suggestions, setSuggestions] = useState(false);
   const [suggestedFriends, setSuggestedFriends] = useState([]);
@@ -74,14 +74,14 @@ const FriendsList = ({userID, allUsers, home}) => {
           </div>
         </div>
         <h1>Your Friends</h1>
-        {[1, 1, 1].map((bird, i) => {
-          return (<FriendEntry key={i} chatClicked={(friend) => {onChatClicked(friend)}}
+        {[1, 1, 1].map((friend, i) => {
+          return (<FriendEntry key={i} friend={friend} chatClicked={(friend) => {onChatClicked(friend)}}
             birdClicked={(friend) => { onBirdClick(friend); }} />);
         })}
       </div>
       )}
-      {birdsView && <BirdList friend={clickedFriend} back={() => {onBirdClick()}} userID={userID} home={home()} />}
-      {chatView && <Chat friend={clickedFriend} userID={userID} back={() => {onChatClicked()}} allUsers={allUsers} home={home()} />}
+      {birdsView && <BirdList friend={clickedFriend} back={() => {onBirdClick()}} userID={userID} />}
+      {chatView && <Chat friend={clickedFriend} userID={userID} back={() => {onChatClicked()}} allUsers={allUsers} />}
 
     </div>
   );
