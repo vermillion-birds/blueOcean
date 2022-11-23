@@ -6,7 +6,7 @@ const app = express();
 const path = require('path');
 const cors = require('cors');
 const pool = require('../database/db.js');
-const { getBirdNames, postBird } = require('./controllers/birds.js');
+const { getBirdNames, postBird, getBirdCards} = require('./controllers/birds.js');
 const {
   addUser, getUser, getUserEmail, updateUser, getUserID, getAllUsers,
 } = require('./controllers/users.js');
@@ -34,10 +34,13 @@ app.get('/createUser', ((req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 }));
 
+app.get('/birdCards/:user_id', getBirdCards);
 // returns the route for the bird list
 app.get('/birdList', ((req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 }));
+
+app.get('/birdCards/:user_id', getBirdCards);
 
 // posts new user to db
 app.post('/addUser', addUser);
