@@ -94,7 +94,7 @@ const MainComponent = () => {
             {' '}
           </Route>
           <Route path="/birdList">
-            <BirdList userID={userID} home={returnToAccountPage} allBrids={allBirds} />
+            <BirdList userID={userID} allBirds={allBirds} />
           </Route>
           <Route path="/friendsList">
             <FriendsList userID={userID} allUsers={allUsers} home={returnToAccountPage} />
