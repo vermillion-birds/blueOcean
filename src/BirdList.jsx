@@ -19,15 +19,17 @@ const BirdList = ({userID, friend, back, allBirds}) => {
   const [cardRows, setCardRows] = useState([]);
   const [cardView, setCardView] = useState(false);
   const [cardsBird, setCardsBird] = useState({});
-  const [birds, setBirds] = useState([1,1,1,1,1]);
+  const [birds, setBirds] = useState([]);
   const history = useHistory();
+
+  console.log('id', userID);
 
   const getBirdInfo = () => {
     // conditional to check if friend or user
     axios.get(`/birdcards/${userID}`)
       .then((data) => {
-        console.log('bird card data: ', data);
-        // setBirds(data);
+        console.log('bird card data: ', data.data);
+        setBirds(data.data);
       })
       .catch((err) => {
         console.log('error getting bird cards info', err);
@@ -36,11 +38,13 @@ const BirdList = ({userID, friend, back, allBirds}) => {
 
   useEffect(() => {
     getBirdInfo();
-  }, []);// ?
+  }, [userID]);// ?
 
   const nowAddingBird = () => {
     setAddingBird(!addingBird);
     console.log('all birds: ', allBirds);
+    console.log('user: ', userID);
+    console.log('birds: ', birds);
   };
 
   const cardClicked = (card) => {
@@ -53,11 +57,11 @@ const BirdList = ({userID, friend, back, allBirds}) => {
     const cardStorage = [];
     // cardStorage.concat(birds);
 
-    for (let i = 0; i < birds.length; i++) {
+    for (let i = 0; i < birds.length; i += 2) {
       if (i === birds.length - 1) {
-        cardStorage.push([i + 1]);
+        cardStorage.push([birds[i]]);
       } else {
-        cardStorage.push([i, i + 1]);
+        cardStorage.push([birds[i], birds[i + 1]]);
       }
     }
     setCardRows(cardStorage);
@@ -65,7 +69,7 @@ const BirdList = ({userID, friend, back, allBirds}) => {
 
   useEffect(() => {
     generateCardRows();
-  }, []);
+  }, [birds]);
 
   return (
     <div>

@@ -35,7 +35,7 @@ const userdb = {
   zipcode: '08901',
 };
 
-const Landing = ({ setGlobalUser }) => {
+const Landing = ({ setGlobalUser, globalUser }) => {
   const [addUserToggle, setAddUserToggle] = useState(false);
   const history = useHistory();
 
@@ -63,7 +63,7 @@ const Landing = ({ setGlobalUser }) => {
             history.push('/user');
             console.log('send to account page');
           } else {
-            console.log('DATA IN ELSE', data)
+            console.log('DATA IN ELSE', data);
             history.push('/createUser');
             console.log('send to create user page');
           }
@@ -94,7 +94,13 @@ const Landing = ({ setGlobalUser }) => {
       </Container>
       )}
       {isAuthenticated
-      && <AccountPage logoutWithRedirect={logoutWithRedirect} />}
+      && (
+      <AccountPage
+        logoutWithRedirect={logoutWithRedirect}
+        globalUser={globalUser}
+        setGlobalUser={setGlobalUser}
+      />
+      )}
     </>
   );
 };
