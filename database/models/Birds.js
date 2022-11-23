@@ -19,8 +19,11 @@ const getBirds = () => {
 }
 
 
-const postBirds = () => {
-
+const createABird = () => {
+// create a row in Birds, return bird_id
+};
+const createBirdSighting = () => {
+// create row in Bird_User and in Bird_Photo
 };
 
 const postUser = () => {
@@ -28,5 +31,7 @@ const postUser = () => {
 };
 
 module.exports = {
-  getBirds
+  getBirds,
+  createABird,
+  createBirdSighting
 }
