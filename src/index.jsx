@@ -4,10 +4,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ReactDOM, { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router, Route, Switch, useHistory,
+} from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { useHistory } from 'react-router-dom';
 import Auth0ProviderWithHistory from './login/auth0-provider-with-history.jsx';
 import AccountPage from './login/AccountPage.jsx';
 import UserSignUp from './login/UserSignUp.jsx';
@@ -26,6 +27,28 @@ const MainComponent = () => {
   const returnToAccountPage = () => {
     history.push('/user');
   };
+
+  useEffect(() => {
+    const data = window.localStorage.getItem('globalUser');
+    if (data !== null) {
+      setGlobalUser(JSON.parse(data));
+    }
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem('globalUser', JSON.stringify(globalUser));
+  }, [globalUser]);
+
+  useEffect(() => {
+    const data = window.localStorage.getItem('userID');
+    if (data !== null) {
+      setUserID(JSON.parse(data));
+    }
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem('userID', JSON.stringify(userID));
+  }, [userID]);
 
   useEffect(() => {
     axios.get('/allUsers')
@@ -53,7 +76,7 @@ const MainComponent = () => {
         <Switch>
           <Route path="/user">
             {' '}
-            <AccountPage globalUser={globalUser} />
+            <AccountPage setGlobalUser={setGlobalUser} globalUser={globalUser} />
             {' '}
           </Route>
           <Route path="/createUser" component={UserSignUp} />
