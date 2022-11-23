@@ -12,7 +12,7 @@ import './assets/BirdList.css';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
-const BirdList = ({userID, friend, back}) => {
+const BirdList = ({userID, friend, back, allBirds}) => {
   // need some menu or toggle switch to determine card sort
   const [addingBird, setAddingBird] = useState(false);
   const [currUser, setCurrUser] = useState(true);
@@ -95,7 +95,7 @@ const BirdList = ({userID, friend, back}) => {
         return <BirdBinderEntry key={i} />
       })} */}
 
-          {addingBird && <NewBirdForm close={() => { setAddingBird(); }} />}
+          {addingBird && <NewBirdForm close={() => { setAddingBird(); } } allBirds={allBrids} />}
         </div>
       )}
       {cardView && <BirdCard bird={cardsBird} back={() => {cardClicked()}} />}
