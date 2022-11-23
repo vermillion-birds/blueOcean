@@ -62,10 +62,10 @@ const MainComponent = () => {
             {' '}
           </Route>
           <Route path="/birdList">
-            <BirdList userID={userID} home="?" />
+            <BirdList userID={userID} home={() => {returnToAccountPage()}} />
           </Route>
           <Route path="/friendsList">
-            <FriendsList userID={userID} allUsers={allUsers} home="?" />
+            <FriendsList userID={userID} allUsers={allUsers} home={() => {returnToAccountPage()}} />
           </Route>
         </Switch>
       </Auth0ProviderWithHistory>
