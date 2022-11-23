@@ -85,7 +85,9 @@ const postBird = async (req, res) => {
     notes: notes,
     dateSeen: dateSeen,
     url: url,
-    user_id: userId
+    user_id: userId,
+    lat: lat;
+    lon: lng;
   };
   try {
     if (!req.body.bird_id) {
