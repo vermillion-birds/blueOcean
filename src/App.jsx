@@ -10,6 +10,7 @@ import Landing from './login/Landing.jsx';
 // import backgroundVideo from './assets/106433-bird-flock-test.mp4';
 import BirdList from './BirdList.jsx';//remove whole line
 import FriendsList from './FriendsList.jsx';//remove whole line
+import Chat from './Chat.jsx';
 
 const App = () => (
   <Router>
@@ -28,6 +29,7 @@ const App = () => (
       <Landing />
       <FriendsList />
       <BirdList />
+      <Chat />
     </Auth0ProviderWithHistory>
   </Router>
 );
