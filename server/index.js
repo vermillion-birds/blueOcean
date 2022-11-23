@@ -6,7 +6,7 @@ const app = express();
 const path = require('path');
 const cors = require('cors');
 const pool = require('../database/db.js');
-const { getBirdNames, postBird, getGeoLocFromAddress } = require('./controllers/birds.js');
+const { getBirdNames, postBird } = require('./controllers/birds.js');
 
 // middlewar e
 app.use(express.json());
@@ -16,23 +16,20 @@ app.use(cors());
 
 app.get('/birds', getBirdNames);
 
+// returns the route for a confirmed user
 app.get('/user', ((req, res) => {
-  console.log('in user get user');
   res.sendFile(path.join(__dirname, '../public/index.html'));
 }));
 
-app.get('/userInfo', ((req, res) => {
-  console.log('in user get userinfo');
-  res.send('user');
-}));
-
+// returns the route to create a new user form
 app.get('/createUser', ((req, res) => {
-  console.log('in user get user');
   res.sendFile(path.join(__dirname, '../public/index.html'));
 }));
 
-
-app.post('/birds', postBird);
+// returns the route for the bird list
+app.get('/birdList', ((req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+}));
 
 const PORT = process.env.PORT || 3001;
 
