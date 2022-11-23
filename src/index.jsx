@@ -38,7 +38,7 @@ const MainComponent = () => {
       });
     axios.get('/birds')
       .then((data) => {
-        console.log('birds? ', data.data);
+        // console.log('birds? ', data.data);
         setAllBirds(data.data);
       })
       .catch((err) => {
