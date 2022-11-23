@@ -95,3 +95,7 @@ const BirdList = (props) => {
 };
 
 export default BirdList;
+
+{/* <Route path="/birdList"> */}
+          //   <BirdList userID={userID} />
+          // </Route>

@@ -4,11 +4,14 @@
 import React, {useState, useEffect} from 'react';
 import FriendEntry from './FriendEntry.jsx';
 import BirdList from './BirdList.jsx';// remove whole line
+import Chat from './Chat.jsx';
 
-const FriendsList = (props) => {
+const FriendsList = ({userID, users}) => {
   const [friendSearch, setFriendSearch] = useState('');
   const [suggestions, setSuggestions] = useState(false);
   const [suggestedFriends, setSuggestedFriends] = useState([]);
+  const [birdsView, setBirdsView] = useState(false);
+  const [chatView, setChatView] = useState(false);
   const sample = ['name1', 'name2', 'name3'];
 
   const onFriendSearch = (e) => {
@@ -19,6 +22,10 @@ const FriendsList = (props) => {
     setSuggestions(!suggestions);
     setSuggestedFriends(sample);
   };
+
+  const cardsClicked = (friend) => {
+    setCardView(!cardView);
+  }
 
   useEffect(() => {
     if (friendSearch.length !== 0) {
@@ -53,7 +60,8 @@ const FriendsList = (props) => {
         return (<FriendEntry key={i} />);
       })}
 
-      <BirdList friend={1723} />
+      {birdsView && <BirdList friend={1723} />}
+      <Chat friend={1} userID={userID} />
 
     </div>
   );
