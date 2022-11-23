@@ -18,16 +18,14 @@ const getBirdNames = (req, res) => {
 }
 
 const getBirdCards = (req, res) => {
-  const user_id = parseInt(req.params.user_id);
-  getAllBirdCardInfo(user_id)
-    .then((data) => {
-    console.log(data.rows[0].birdcardinfo);
-    res.send(data.rows[0].birdcardinfo)
-    })
-    .catch(err => console.log('ERROR IN GETBIRDCARDS ', err))
-
+  getAllBirdCardInfo(parseInt(req.params.user_id))
+  .then((data) => {
+    res.status(200).send(data.rows[o].birdcardinfo)
+  })
+  .catch(err => {
+    conole.log('ERROR IN GETBIRDCARDS ', err);
+  })
 }
-
 
 // bird address validation: https://developers.google.com/maps/documentation/address-validation/requests-validate-address  get location in geocode
 // requests will be sent to https://www.googleapis.com/geolocation/v1/geolocate?key=YOUR_API_KEY
@@ -88,29 +86,30 @@ const getWikiSummary = async (scientificName) => {
 const postBird = async (req, res) => {
 
   let bodyName = req.body.commonName;
-  const { lat, lng } = req.body.location; //requires that location is an object with lat and lng properties
-  const notes = req.body.notes; // user notes
+  // const { lat, lng } = req.body.location; //requires that location is an object with lat and lng properties
+  const note = req.body.note; // user notes
   const dateSeen = req.body.dateSeen;
   const userId = req.body.user_id;
-  const url = req.body.url;
+  // const url = req.body.url;
   const birdObj = {
-    notes: notes,
+    notes: note,
     dateSeen: dateSeen,
     url: url,
-    user_id: userId,
-    lat: lat,
-    lon: lng
+    user_id: userId
   };
   try {
     if (!req.body.bird_id) {
       const { sciName } = await getScientificName(bodyName);
       const summary = await getWikiSummary(sciName);
-      birdObj.sciName = sciName;
-      birdObj.summary = summary;
-      birdObj.commonName = bodyName;
+      // birdObj.sciName = sciName;
+      // birdObj.summary = summary;
+      // birdObj.commonName = bodyName;
       const birdId = await createABird(birdObj);
-      birdObj.bird_id= birdId;
+      birdObj.bird_id = birdId;
+    } else {
+      birdObj.bird_id = req.body.bird_id;
     }
+    console.log(birdObj, bodyName);
     await createBirdSighting(birdObj)
     res.sendStatus(200)
   } catch (err) {
