@@ -7,6 +7,7 @@ import ReactDOM, { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useHistory } from 'react-router-dom';
 import Auth0ProviderWithHistory from './login/auth0-provider-with-history.jsx';
 import AccountPage from './login/AccountPage.jsx';
 import UserSignUp from './login/UserSignUp.jsx';
@@ -20,6 +21,11 @@ const MainComponent = () => {
   const [globalUser, setGlobalUser] = useState({});
   const [userID, setUserID] = useState(0);
   const [allUsers, setAllUsers] = useState([]);
+  const history = useHistory();
+
+  const returnToAccountPage = () => {
+    history.push('/user');
+  };
 
   useEffect(() => {
     axios.get('/allUsers')
