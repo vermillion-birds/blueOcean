@@ -8,7 +8,7 @@ const cors = require('cors');
 const pool = require('../database/db.js');
 const { getBirdNames, postBird, getBirdCards} = require('./controllers/birds.js');
 const {
-  addUser, getUser, getUserEmail, updateUser, getUserID, getAllUsers,
+  addUser, getUser, getUserEmail, updateUser, getUserID, getAllUsers, getFriendList
 } = require('./controllers/users.js');
 
 // middlewar e
@@ -54,6 +54,8 @@ app.put('/updateUser', updateUser);
 app.get('/userID', getUserID);
 // get all users
 app.get('/allUsers', getAllUsers);
+// get a list of friends for one user
+app.get('/friendsList/:user_id', getFriendList);
 
 const PORT = process.env.PORT || 3001;
 

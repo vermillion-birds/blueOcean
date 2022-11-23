@@ -25,8 +25,10 @@ const getOneUserID = (req) => pool.query(`SELECT user_id FROM users WHERE email 
 
 const getUsers = () => pool.query('SELECT * FROM users');
 
+const getFriends = (user_id) => pool.query(`SELECT json_agg(friend_user_id) AS Friendship FROM FRIENDSHIPS WHERE logged_in_user_id = ${user_id}`)
+
 // const updateOneUser = (req) =>
 
 module.exports = {
-  postUser, getEmail, getOneUser, getOneUserID, getUsers,
+  postUser, getEmail, getOneUser, getOneUserID, getUsers, getFriends,
 };
