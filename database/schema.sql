@@ -11,8 +11,3 @@
 --     TABLESPACE = pg_default
 --     CONNECTION LIMIT = -1
 --     IS_TEMPLATE = False;
-
-DROP DATABASE IF EXISTS chat;
-CREATE DATABASE chat;
-
-\c chat;
