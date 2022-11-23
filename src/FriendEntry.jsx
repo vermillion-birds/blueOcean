@@ -4,7 +4,7 @@
 /* eslint-disable react/function-component-definition */
 import React from 'react';
 
-const FriendEntry = (props) => {
+const FriendEntry = ({chatClicked, birdClicked}) => {
   return (
     <div>
       <span>{':)'}</span>
