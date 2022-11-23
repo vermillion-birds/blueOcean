@@ -18,13 +18,21 @@ const Container = styled.div`
   box-shadow: 5px 5px 10px;
 `;
 
-const AccountPage = ({ globalUser, setGlobalUser, userID, setUserID }) => {
+const AccountPage = ({ globalUser, setGlobalUser }) => {
   const [update, setUpdate] = useState(false);
   const history = useHistory();
   const { logout, user } = useAuth0();
   const logoutWithRedirect = () => logout({
     returnTo: window.location.origin,
   });
+
+  // useEffect(() => {
+  //   setGlobalUser(JSON.parse(JSON.stringify(localStorage.getItem('globalUser'))));
+  // }, []);
+
+  // useEffect(() => {
+  //   localStorage.setItem('globalUser', globalUser);
+  // }, [globalUser]);
 
   const updateUser = () => {
     setUpdate(!update);

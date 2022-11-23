@@ -1,7 +1,7 @@
 /* eslint-disable import/extensions */
 const axios = require('axios');
 const {
-  postUser, getEmail, getOneUser, updateOneUser, getOneUserID, getUsers,
+  postUser, getEmail, getOneUser, updateOneUser, getOneUserID, getUsers, getFriends
 } = require('../../database/models/Users.js');
 
 const getAllUsers = (req, res) => {
@@ -69,6 +69,17 @@ const getUserEmail = (req, res) => {
       console.log(err);
     });
 };
+
+const getFriendList = (req, res) => {
+  console.log('INSIDE GETFRIENDLIST');
+  getFriends(parseInt(req.params.user_id))
+  .then((data) => {
+    console.log(data);
+    res.status(200).send(data.rows[0].friends)
+  })
+  .catch(err => console.log('ERROR IN GETFRIENDLIST ', err))
+};
+
 require('dotenv').config();
 // const { postUser } = require('../../database/models/Birds.js');
 
@@ -100,5 +111,5 @@ const getUserGeoLocFromZip = async (zip) => {
 };
 
 module.exports = {
-  addUser, getUser, getUserEmail, updateUser, createNewUser, getUserID, getAllUsers,
+  addUser, getUser, getUserEmail, updateUser, createNewUser, getUserID, getAllUsers,getFriendList,
 };
