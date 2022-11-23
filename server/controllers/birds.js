@@ -1,6 +1,11 @@
 const axios = require('axios');
+require("dotenv").config();
 const parseString = require('xml2js').parseString;
-const { getBirds } = require('../../database/models/Birds.js');
+const {
+  getBirds,
+  createABird,
+  createBirdSighting
+} = require('../../database/models/Birds.js');
 
 const getBirdNames = (req, res) => {
   console.log('REQUEST RECEIVED');
@@ -12,8 +17,26 @@ const getBirdNames = (req, res) => {
 }
 
 
+// bird address validation: https://developers.google.com/maps/documentation/address-validation/requests-validate-address  get location in geocode
+// requests will be sent to https://www.googleapis.com/geolocation/v1/geolocate?key=YOUR_API_KEY
+
 // animalData[0]['ax21:anyMatchList'].map(i => i['ax21:sciName'])[1][0]
 // animalData[0]["ax21:anyMatchList"].map(i => i["ax21:commonNameList"]).flat().map(i =>i["ax21:commonNames"]).flat().map(i => i['ax21:commonName']).flat()
+
+
+const getGeoLocFromAddress = async (req, res) => {
+  let addressString = req.body.address.split(' ').join('%20');
+  let googleURL = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?fields=formatted_address%2Cname%2Cgeometry&input=${addressString}&inputtype=textquery&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+  try {
+    let response = await axios.get(googleURL);
+    let formattedAddress = response.data.candidates;
+    res.send(formattedAddress);
+  } catch (err) {
+    console.log('there is an error in getGeoLocfromAddress', err);
+    res.status(404);
+  }
+};
+
 const getScientificName = async (nameAttempt) => {
   let taxinomicUrl = `http://www.itis.gov/ITISWebService/services/ITISService/searchForAnyMatch`;
   const response = await axios.get(taxinomicUrl, {
@@ -42,22 +65,45 @@ const getScientificName = async (nameAttempt) => {
 }
 
 const getWikiSummary = async (scientificName) => {
-    let queryName = scientificName.split(' ').join('_');
-    const summary = await axios({
-      method: 'get',
-      url: `https://en.wikipedia.org/api/rest_v1/page/summary/${queryName}`
-    })
-    return summary.data.extract;
+  let queryName = scientificName.split(' ').join('_');
+  const summary = await axios({
+    method: 'get',
+    url: `https://en.wikipedia.org/api/rest_v1/page/summary/${queryName}`
+  })
+  return summary.data.extract;
 }
 
 const postBird = async (req, res) => {
-  let nameAttempt = req.body.commonName;
+
+  let bodyName = req.body.commonName;
+  // const { lat, lng } = req.body.location; //requires that location is an object with lat and lng properties
+  const note = req.body.note; // user notes
+  const dateSeen = req.body.dateSeen;
+  const userId = req.body.user_id;
+  // const url = req.body.url;
+  const birdObj = {
+    notes: note,
+    dateSeen: dateSeen,
+    // url: url,
+    user_id: userId
+  };
   try {
-    const { sciName, commonName } = await getScientificName(nameAttempt);
-    const summary = await getWikiSummary(sciName);
-    console.log(summary)
+    if (!req.body.bird_id) {
+      const { sciName } = await getScientificName(bodyName);
+      const summary = await getWikiSummary(sciName);
+      // birdObj.sciName = sciName;
+      // birdObj.summary = summary;
+      // birdObj.commonName = bodyName;
+      const birdId = await createABird(birdObj);
+      birdObj.bird_id = birdId;
+    } else {
+      birdObj.bird_id = req.body.bird_id;
+    }
+    console.log(birdObj, bodyName);
+    await createBirdSighting(birdObj)
+    res.sendStatus(200)
   } catch (err) {
-    console.log(err)
+    res.status(500).send(err);
   }
 }
 
@@ -65,6 +111,7 @@ const postBird = async (req, res) => {
 
 module.exports = {
   getBirdNames,
-  postBird
+  postBird,
+  getGeoLocFromAddress
 }
 
