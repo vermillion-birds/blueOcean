@@ -15,14 +15,12 @@ const postUser = (req) => {
   }
 
   return pool.query(postQuery)
-    .then((data) => (data))
-    .catch((err) => {
-      console.log(err);
-    });
 };
 
-const getEmail = (req) => pool.query(`SELECT email from USERS WHERE email='blah.com';`);
+const getEmail = (req) => pool.query(`SELECT email from USERS WHERE email='${req.email}';`);
+
+const getOneUser = (req) => pool.query(`SELECT * FROM users WHERE email='${req.email}';`);
 
 module.exports = {
-  postUser, getEmail,
+  postUser, getEmail, getOneUser,
 };

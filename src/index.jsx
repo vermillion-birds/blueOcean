@@ -14,22 +14,29 @@ import BirdList from './BirdList.jsx';
 import App from './App.jsx';
 import './assets/index.css';
 
-const MainComponent = () => (
-  <Router>
-    <Auth0ProviderWithHistory>
-      <Switch>
-        <Route path="/user">
-          {' '}
-          <AccountPage />
-          {' '}
-        </Route>
-        <Route path="/createUser" component={UserSignUp} />
-        <Route exact path="/" component={App} />
-        <Route path="/birdList" component={BirdList} />
-      </Switch>
-    </Auth0ProviderWithHistory>
-  </Router>
-);
+const MainComponent = () => {
+  const [globalUser, setGlobalUser] = useState({});
+
+  return (
+    <Router>
+      <Auth0ProviderWithHistory>
+        <Switch>
+          <Route path="/user">
+            {' '}
+            <AccountPage globalUser={globalUser} />
+            {' '}
+          </Route>
+          <Route path="/createUser" component={UserSignUp} />
+          <Route exact path="/">
+            <App globalUser={globalUser} setGlobalUser={setGlobalUser}/>
+            {' '}
+          </Route>
+          <Route path="/birdList" component={BirdList} />
+        </Switch>
+      </Auth0ProviderWithHistory>
+    </Router>
+  );
+};
 
 // create the root of the app by selection where the app should be mounted in the dom
 ReactDOM.createRoot(document.getElementById('root')).render(

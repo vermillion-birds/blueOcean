@@ -35,7 +35,7 @@ const userdb = {
   zipcode: '08901',
 };
 
-const Landing = () => {
+const Landing = ({ setGlobalUser }) => {
   const [addUserToggle, setAddUserToggle] = useState(false);
   const history = useHistory();
 
@@ -55,14 +55,17 @@ const Landing = () => {
   };
 
   useEffect(() => {
+    console.log('enter use effect with user', user)
     if (user) {
+      setGlobalUser(user);
       axios.get('/userInfo', { params: { email: user.email } })
         .then((data) => {
-          console.log(data.data[0]);
+          console.log('DATA IN USEEFFECT', data);
           if (data.data[0] !== undefined) {
             history.push('/user');
             console.log('send to account page');
           } else {
+            console.log('DATA IN ELSE', data)
             history.push('/createUser');
             console.log('send to create user page');
           }

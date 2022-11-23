@@ -7,7 +7,7 @@ const path = require('path');
 const cors = require('cors');
 const pool = require('../database/db.js');
 const { getBirdNames, postBird } = require('./controllers/birds.js');
-const { addUser, getUser } = require('./controllers/users.js');
+const { addUser, getUser, getUserEmail } = require('./controllers/users.js');
 
 // middlewar e
 app.use(express.json());
@@ -39,7 +39,8 @@ app.get('/birdList', ((req, res) => {
 //   res.send('sterno2510@gmail.com');
 // });
 app.post('/addUser', addUser);
-app.get('/userInfo', getUser);
+app.get('/userInfo', getUserEmail);
+app.get('/getUser', getUser);
 
 // gets user information from DB with current user's email
 // app.get('/userInfo', ((req, res) => {

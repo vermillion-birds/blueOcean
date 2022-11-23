@@ -11,7 +11,7 @@ import FlyingBird from './assets/101335-parrot.gif';
 // import BirdList from './BirdList.jsx';// remove whole line
 // import FriendsList from './FriendsList.jsx';// remove whole line
 
-const App = () => (
+const App = ({globalUser, setGlobalUser}) => (
   <>
     {/* <video autoPlay loop muted id="video">
         <source src={backgroundVideo} type="video/mp4" />
@@ -25,7 +25,7 @@ const App = () => (
       <Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100" />
     </motion.div>
     <h1>Birder</h1>
-    <Landing />
+    <Landing globalUser={globalUser} setGlobalUser={setGlobalUser} />
     {/* <FriendsList />
     <BirdList /> */}
   </>

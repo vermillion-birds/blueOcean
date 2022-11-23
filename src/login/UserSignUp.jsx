@@ -55,20 +55,26 @@ const UserSignUp = () => {
       zipCode: zipCodeForm,
       profilePicture: profilePictureForm,
     };
+    console.log('NEW USER', newUser)
+    history.push('/user');
     axios.post('/addUser', newUser)
       .then((data) => {
         console.log('activated post', data);
-        history.push('/user');
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  const cancel = () => {
+    history.push('/user');
+  };
+
   return (
     <ModalBackground>
       <ModalContainer>
         <form>
-          <button type="button" onClick={() => { setAddUserToggle(false); }}>Cancel</button>
+          <button type="button" onClick={() => { cancel(); }}>Cancel</button>
           <div>First Name</div>
           <input required onChange={(e) => { setFirstName(e.target.value); }} type="text" placeholder="First Name" />
           <div>Last Name</div>
@@ -80,7 +86,7 @@ const UserSignUp = () => {
           <div>Zip Code</div>
           <input required onChange={(e) => { setZipCode(e.target.value); }} type="number" placeholder="Zip Code" />
           <div>Profile Picture</div>
-          <button type="submit" onClick={() => { submitForm(); }}>Submit</button>
+          <button type="submit" onClick={()=>{submitForm()}}>Submit</button>
         </form>
       </ModalContainer>
     </ModalBackground>
