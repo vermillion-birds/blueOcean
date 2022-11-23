@@ -1,6 +1,8 @@
 /* eslint-disable react/function-component-definition */
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const ModalBackground = styled.div`{
   width: 100%;
@@ -35,39 +37,54 @@ const ModalContainer = styled.div`{
 
 }`;
 
-const UserSignUp = ({ setAddUserToggle }) => {
+const UserSignUp = () => {
   const [firstNameForm, setFirstName] = useState('');
   const [lastNameForm, setLastName] = useState('');
   const [emailForm, setEmail] = useState('');
+  const [userNameForm, setUserName] = useState('');
   const [zipCodeForm, setZipCode] = useState(0);
   const [profilePictureForm, setProfilePicture] = useState('');
+  const history = useHistory();
 
   const submitForm = () => {
-    const user = {
+    const newUser = {
       firstName: firstNameForm,
       lastName: lastNameForm,
+      userName: userNameForm,
       email: emailForm,
       zipCode: zipCodeForm,
       profilePicture: profilePictureForm,
     };
-    setAddUserToggle(false);
+    history.push('/user');
+    axios.post('/addUser', newUser)
+      .then((data) => {
+        console.log('activated post', data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
+
+  const cancel = () => {
+    history.push('/user');
+  };
+
   return (
     <ModalBackground>
       <ModalContainer>
         <form>
-          <button type="button" onClick={() => { setAddUserToggle(false); }}>Cancel</button>
+          <button type="button" onClick={() => { cancel(); }}>Cancel</button>
           <div>First Name</div>
           <input required onChange={(e) => { setFirstName(e.target.value); }} type="text" placeholder="First Name" />
           <div>Last Name</div>
           <input required onChange={(e) => { setLastName(e.target.value); }} type="text" placeholder="Last Name" />
+          <div>User Name</div>
+          <input required onChange={(e) => { setUserName(e.target.value); }} type="text" placeholder="User Name" />
           <div>Email Address</div>
           <input required onChange={(e) => { setEmail(e.target.value); }} type="email" placeholder="Email Address" />
           <div>Zip Code</div>
           <input required onChange={(e) => { setZipCode(e.target.value); }} type="number" placeholder="Zip Code" />
           <div>Profile Picture</div>
-          <div>form</div>
-          <div>User Sign Up Form</div>
           <button type="submit" onClick={() => { submitForm(); }}>Submit</button>
         </form>
       </ModalContainer>

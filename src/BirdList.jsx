@@ -14,10 +14,15 @@ const BirdList = (props) => {
   const [addingBird, setAddingBird] = useState(false);
   const [currUser, setCurrUser] = useState(true);
   const [cardRows, setCardRows] = useState([]);
+  const [cardView, setCardView] = useState(false);
   const birds = [[1], [1], [1], [1], [1]];
 
   const nowAddingBird = () => {
     setAddingBird(!addingBird);
+  };
+
+  const cardClicked = (card) => {
+    setCardView(!cardView);
   };
 
   const generateCardRows = () => {
@@ -40,30 +45,34 @@ const BirdList = (props) => {
 
   return (
     <div>
-      <h1>Bird Collection</h1>
-      {currUser && <button onClick={nowAddingBird}>Add Bird Sighting</button>}
-      {/* filter option for alphabetical and something else date scene? */}
-      {(cardRows.length > 0) && cardRows.map((row) => {
-        if (row[1]) {
-          return (
-            <div className="full-card-row">
-              <BirdBinderEntry bird={row[0]} />
-              <BirdBinderEntry bird={row[1]} />
-            </div>
-          );
-        }
-        return (
-          <div className="half-card-row">
-            <BirdBinderEntry bird={row[0]} />
-          </div>
-        );
-      })}
-      {/* {[1,1,1].map((bird, i) => {
+      {!cardView && (
+        <div>
+          <h1>Bird Collection</h1>
+          {currUser && <button onClick={nowAddingBird}>Add Bird Sighting</button>}
+          {/* filter option for alphabetical and something else date scene? */}
+          {(cardRows.length > 0) && cardRows.map((row, i) => {
+            if (row[1]) {
+              return (
+                <div key={i} className="full-card-row">
+                  <BirdBinderEntry clicked={(bird) => { cardClicked(bird); }} bird={row[0]} />
+                  <BirdBinderEntry clicked={(bird) => { cardClicked(bird); }} bird={row[1]} />
+                </div>
+              );
+            }
+            return (
+              <div key={i} className="half-card-row">
+                <BirdBinderEntry clicked={(bird) => { cardClicked(bird); }} bird={row[0]} />
+              </div>
+            );
+          })}
+          {/* {[1,1,1].map((bird, i) => {
         return <BirdBinderEntry key={i} />
       })} */}
 
-      {addingBird && <NewBirdForm close={() => { setAddingBird(); }} />}
-      <BirdCard />
+          {addingBird && <NewBirdForm close={() => { setAddingBird(); }} />}
+        </div>
+      )}
+      {cardView && <BirdCard />}
     </div>
   );
 };
