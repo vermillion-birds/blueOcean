@@ -8,9 +8,10 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Landing from './login/Landing.jsx';
 // import backgroundVideo from './assets/106433-bird-flock-test.mp4';
 import FlyingBird from './assets/101335-parrot.gif';
+import Chat from './Chat.jsx';
 
 
-const App = ({globalUser, setGlobalUser}) => (
+const App = ({globalUser, setGlobalUser, userID, setUserID}) => (
   <>
     {/* <video autoPlay loop muted id="video">
         <source src={backgroundVideo} type="video/mp4" />
@@ -24,7 +25,7 @@ const App = ({globalUser, setGlobalUser}) => (
       <Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100" />
     </motion.div>
     <h1>Birder</h1>
-    <Landing globalUser={globalUser} setGlobalUser={setGlobalUser} />
+    <Landing globalUser={globalUser} setGlobalUser={setGlobalUser} userID={userID} setUserID={setUserID}/>
   </>
 
 );

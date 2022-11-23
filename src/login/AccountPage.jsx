@@ -18,7 +18,7 @@ const Container = styled.div`
   box-shadow: 5px 5px 10px;
 `;
 
-const AccountPage = ({ globalUser }) => {
+const AccountPage = ({ globalUser, setGlobalUser, userID, setUserID }) => {
   const [update, setUpdate] = useState(false);
   const history = useHistory();
   const { logout, user } = useAuth0();

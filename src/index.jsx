@@ -46,7 +46,7 @@ const MainComponent = () => {
         console.log(err);
       });
   }, [globalUser]);
-
+  console.log('this is the user id', userID);
   return (
     <Router>
       <Auth0ProviderWithHistory>
@@ -58,7 +58,7 @@ const MainComponent = () => {
           </Route>
           <Route path="/createUser" component={UserSignUp} />
           <Route exact path="/">
-            <App globalUser={globalUser} setGlobalUser={setGlobalUser} />
+            <App globalUser={globalUser} setGlobalUser={setGlobalUser} userID={userID} setUserID={setUserID} />
             {' '}
           </Route>
           <Route path="/birdList" component={BirdList} />

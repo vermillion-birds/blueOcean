@@ -35,7 +35,7 @@ const userdb = {
   zipcode: '08901',
 };
 
-const Landing = ({ setGlobalUser }) => {
+const Landing = ({ globalUser, setGlobalUser, userID, setUserID }) => {
   const [addUserToggle, setAddUserToggle] = useState(false);
   const history = useHistory();
 
@@ -94,7 +94,7 @@ const Landing = ({ setGlobalUser }) => {
       </Container>
       )}
       {isAuthenticated
-      && <AccountPage logoutWithRedirect={logoutWithRedirect} />}
+      && <AccountPage logoutWithRedirect={logoutWithRedirect} globalUser={globalUser} setGlobalUser={setGlobalUser} userID={userID} setUserID={setUserID}/>}
     </>
   );
 };

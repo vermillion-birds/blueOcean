@@ -4,7 +4,7 @@ import ChatUsers from './ChatUsers.jsx';
 import ChatWelcomeScreen from './ChatWelcomeScreen.jsx';
 import ChatContainer from './ChatContainer.jsx';
 
-function Chat () {
+function Chat ({globalUser, setGlobalUser}) {
   const [users, setUsers] = useState(['First user', 'Second User', 'Third User', 'Fourth user', 'First user', 'Second User', 'Third User', 'Fourth user']);
   const [currentUser, setCurrentUser] = useState(undefined);
   return (
