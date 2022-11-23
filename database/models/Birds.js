@@ -1,4 +1,4 @@
-const {pool} = require('../db.js');
+const { pool } = require('../db.js');
 
 /*
 return [] all bird card info for a user_id
@@ -61,14 +61,12 @@ const getBirds = () => {
         console.log('RETREIVING FROM DATABASE');
         return res.rows;
       })
-      .catch(err => {
+      .catch((err) => {
         client.release();
-        console.log('getBirds FROM DB ERROR ', err)
-      })
-    })
-    .catch(err =>  console.log('getBirds FROM DB ERROR ', err))
-}
-
+        console.log('getBirds FROM DB ERROR ', err);
+      });
+  })
+  .catch((err) => console.log('getBirds FROM DB ERROR ', err));
 
 const createABird = (birdObj) => {
 // create a row in Birds, return bird_id
@@ -88,10 +86,6 @@ const createBirdSighting = (birdObj) => {
     INSERT INTO bird_photos(photo_url, user_id, bird_id, location_lat, location_lon, date)
     VALUES (${birdObj.url}, ${birdObj.user_id}, ${birdObj.bird_id}, ${birdObj.lat}, ${birdObj.lon}, ${birdObj.dateSeen})
   )`)
-};
-
-const postUser = () => {
-
 };
 
 module.exports = {

@@ -94,7 +94,7 @@ const postBird = async (req, res) => {
   const birdObj = {
     notes: note,
     dateSeen: dateSeen,
-    url: url,
+    // url: url,
     user_id: userId
   };
   try {
