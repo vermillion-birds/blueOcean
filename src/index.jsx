@@ -21,6 +21,7 @@ const MainComponent = () => {
   const [globalUser, setGlobalUser] = useState({});
   const [userID, setUserID] = useState(0);
   const [allUsers, setAllUsers] = useState([]);
+  const [allBirds, setAllBirds] = useState([]);
   const history = useHistory();
 
   const returnToAccountPage = () => {
@@ -31,6 +32,14 @@ const MainComponent = () => {
     axios.get('/allUsers')
       .then((data) => {
         setAllUsers(data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    axios.get('/birds')
+      .then((data) => {
+        // console.log('birds? ', data.data);
+        setAllBirds(data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -61,8 +70,12 @@ const MainComponent = () => {
             <App globalUser={globalUser} setGlobalUser={setGlobalUser} />
             {' '}
           </Route>
-          <Route path="/birdList" component={BirdList} />
-          <Route path="/friendsList" component={FriendsList} />
+          <Route path="/birdList">
+            <BirdList userID={userID} home={returnToAccountPage} allBrids={allBirds} />
+          </Route>
+          <Route path="/friendsList">
+            <FriendsList userID={userID} allUsers={allUsers} home={returnToAccountPage} />
+          </Route>
         </Switch>
       </Auth0ProviderWithHistory>
     </Router>
