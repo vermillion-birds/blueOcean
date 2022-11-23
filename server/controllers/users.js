@@ -74,7 +74,8 @@ const getFriendList = (req, res) => {
   console.log('INSIDE GETFRIENDLIST');
   getFriends(parseInt(req.params.user_id))
   .then((data) => {
-    res.status(200).send(data.rows[0].friendship)
+    console.log(data);
+    res.status(200).send(data.rows[0].friends)
   })
   .catch(err => console.log('ERROR IN GETFRIENDLIST ', err))
 };
