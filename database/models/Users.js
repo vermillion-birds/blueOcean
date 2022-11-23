@@ -42,6 +42,7 @@ const getFriends = (user_id) => pool.query(`
   WHERE user_id = ANY (SELECT unnest(arr) FROM frdsArray)`);
 
 // const updateOneUser = (req) =>
+const updateOneUser = (req) => {}
 
 module.exports = {
   postUser, getEmail, getOneUser, getOneUserID, getUsers, getFriends,

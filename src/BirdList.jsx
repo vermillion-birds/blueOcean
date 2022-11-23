@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable operator-assignment */
 /* eslint-disable comma-dangle */
 /* eslint-disable react/button-has-type */
@@ -8,20 +9,42 @@ import BirdBinderEntry from './BirdBinderEntry.jsx';
 import BirdCard from './birdCard.jsx';
 import NewBirdForm from './NewBirdForm.jsx';
 import './assets/BirdList.css';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
-const BirdList = (props) => {
+const BirdList = ({userID, friend, back, allBirds}) => {
   // need some menu or toggle switch to determine card sort
   const [addingBird, setAddingBird] = useState(false);
   const [currUser, setCurrUser] = useState(true);
   const [cardRows, setCardRows] = useState([]);
   const [cardView, setCardView] = useState(false);
-  const birds = [[1], [1], [1], [1], [1]];
+  const [cardsBird, setCardsBird] = useState({});
+  const [birds, setBirds] = useState([1,1,1,1,1]);
+  const history = useHistory();
+
+  const getBirdInfo = () => {
+    // conditional to check if friend or user
+    axios.get(`/birdcards/${userID}`)
+      .then((data) => {
+        console.log(data);
+        // setBirds(data);
+      })
+      .catch((err) => {
+        console.log('error getting bird cards info', err);
+      });
+  };
+
+  useEffect(() => {
+    getBirdInfo();
+  }, []);// ?
 
   const nowAddingBird = () => {
     setAddingBird(!addingBird);
   };
 
   const cardClicked = (card) => {
+    card = card || {};
+    setCardsBird(card);
     setCardView(!cardView);
   };
 
@@ -48,6 +71,9 @@ const BirdList = (props) => {
       {!cardView && (
         <div>
           <h1>Bird Collection</h1>
+          <button onClick={() => {history.push('/user')}}>Return Home</button>
+          {!currUser && <button onClick={back()}>Back to Friend List</button>}
+          <br/>
           {currUser && <button onClick={nowAddingBird}>Add Bird Sighting</button>}
           {/* filter option for alphabetical and something else date scene? */}
           {(cardRows.length > 0) && cardRows.map((row, i) => {
@@ -69,12 +95,16 @@ const BirdList = (props) => {
         return <BirdBinderEntry key={i} />
       })} */}
 
-          {addingBird && <NewBirdForm close={() => { setAddingBird(); }} />}
+          {addingBird && <NewBirdForm close={() => { setAddingBird(); } } allBirds={allBirds} />}
         </div>
       )}
-      {cardView && <BirdCard />}
+      {cardView && <BirdCard bird={cardsBird} back={() => {cardClicked()}} />}
     </div>
   );
 };
 
 export default BirdList;
+// app.get('/birdCards/:user_id', ((req, res) => {
+//   console.log(req.params);
+//   res.send('hitting sever from get birdcards');
+// }))

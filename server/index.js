@@ -6,7 +6,7 @@ const app = express();
 const path = require('path');
 const cors = require('cors');
 const pool = require('../database/db.js');
-const { getBirdNames, postBird, getBirdCards} = require('./controllers/birds.js');
+const { getBirdNames, postBird, getGeoLocFromAddress, getBirdCards} = require('./controllers/birds.js');
 const {
   addUser, getUser, getUserEmail, updateUser, getUserID, getAllUsers, getFriendList
 } = require('./controllers/users.js');
@@ -40,6 +40,9 @@ app.get('/birdList', ((req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 }));
 
+app.post('/location', getGeoLocFromAddress);
+
+
 app.get('/birdCards/:user_id', getBirdCards);
 
 // posts new user to db
@@ -52,6 +55,7 @@ app.get('/getUser', getUser);
 app.put('/updateUser', updateUser);
 // get userID based on email
 app.get('/userID', getUserID);
+
 // get all users
 app.get('/allUsers', getAllUsers);
 // get a list of friends for one user
@@ -59,7 +63,6 @@ app.get('/friendsList/:user_id', getFriendList);
 
 const PORT = process.env.PORT || 3001;
 
-app.post('/birds', postBird);
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
