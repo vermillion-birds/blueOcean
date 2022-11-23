@@ -9,6 +9,7 @@ import React, {useState, useEffect} from 'react';
 import FriendEntry from './FriendEntry.jsx';
 import BirdList from './BirdList.jsx';// remove whole line
 import Chat from './Chat.jsx';
+import { useHistory } from 'react-router-dom';
 
 const FriendsList = ({userID, allUsers, home}) => {
   const [friendSearch, setFriendSearch] = useState('');
@@ -18,6 +19,7 @@ const FriendsList = ({userID, allUsers, home}) => {
   const [chatView, setChatView] = useState(false);
   const [clickedFriend, setClickedFriend] = useState({});
   const sample = ['name1', 'name2', 'name3'];
+  const history = useHistory();
 
   const onFriendSearch = (e) => {
     setFriendSearch(e.target.value);
@@ -59,7 +61,7 @@ const FriendsList = ({userID, allUsers, home}) => {
     <div>
       {(!birdsView && !chatView) && (
       <div>
-        <button onClick={home()}>Return Home</button>
+        <button onClick={() => {history.push('/user')}}>Return Home</button>
         <div>
           <button onClick={onSuggestions}>See Suggested Friends</button>
           <div>

@@ -10,15 +10,17 @@ import BirdCard from './birdCard.jsx';
 import NewBirdForm from './NewBirdForm.jsx';
 import './assets/BirdList.css';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
-const BirdList = ({userID, friend, back, home}) => {
+const BirdList = ({userID, friend, back}) => {
   // need some menu or toggle switch to determine card sort
   const [addingBird, setAddingBird] = useState(false);
   const [currUser, setCurrUser] = useState(true);
   const [cardRows, setCardRows] = useState([]);
   const [cardView, setCardView] = useState(false);
   const [cardsBird, setCardsBird] = useState({});
-  const [birds, setBirds] = useState([]);
+  const [birds, setBirds] = useState([1,1,1,1,1]);
+  const history = useHistory();
 
   const getBirdInfo = () => {
     // conditional to check if friend or user
@@ -69,7 +71,7 @@ const BirdList = ({userID, friend, back, home}) => {
       {!cardView && (
         <div>
           <h1>Bird Collection</h1>
-          <button onClick={home()}>Return Home</button>
+          <button onClick={() => {history.push('/user')}}>Return Home</button>
           {!currUser && <button onClick={back()}>Back to Friend List</button>}
           <br/>
           {currUser && <button onClick={nowAddingBird}>Add Bird Sighting</button>}
