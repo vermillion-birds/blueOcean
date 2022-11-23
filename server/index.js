@@ -34,7 +34,7 @@ app.get('/birdList', ((req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 }));
 
-app.get('/location', getGeoLocFromAddress);
+app.post('/location', getGeoLocFromAddress);
 const PORT = process.env.PORT || 3001;
 
 

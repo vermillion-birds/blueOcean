@@ -26,10 +26,13 @@ const getBirdNames = (req, res) => {
 
 const getGeoLocFromAddress = async (req, res) => {
   let addressString = req.body.address.split(' ').join('%20');
+  console.log(addressString, 'addressString');
   let googleURL = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?fields=formatted_address%2Cname%2Cgeometry&input=${addressString}&inputtype=textquery&key=${process.env.GOOGLE_MAPS_API_KEY}`;
   try {
     let response = await axios.get(googleURL);
+    console.log(response, 'response');
     let formattedAddress = response.data.candidates;
+    console.log(formattedAddress, 'formatted address')
     res.send(formattedAddress);
   } catch (err) {
     console.log('there is an error in getGeoLocfromAddress', err);
@@ -76,7 +79,7 @@ const getWikiSummary = async (scientificName) => {
 const postBird = async (req, res) => {
 
   let bodyName = req.body.commonName;
-  // const { lat, lng } = req.body.location; //requires that location is an object with lat and lng properties
+  const { lat, lng } = req.body.location; //requires that location is an object with lat and lng properties
   const note = req.body.note; // user notes
   const dateSeen = req.body.dateSeen;
   const userId = req.body.user_id;
@@ -91,15 +94,14 @@ const postBird = async (req, res) => {
     if (!req.body.bird_id) {
       const { sciName } = await getScientificName(bodyName);
       const summary = await getWikiSummary(sciName);
-      // birdObj.sciName = sciName;
-      // birdObj.summary = summary;
-      // birdObj.commonName = bodyName;
+      birdObj.sciName = sciName;
+      birdObj.summary = summary;
+      birdObj.commonName = bodyName;
       const birdId = await createABird(birdObj);
       birdObj.bird_id = birdId;
     } else {
       birdObj.bird_id = req.body.bird_id;
     }
-    console.log(birdObj, bodyName);
     await createBirdSighting(birdObj)
     res.sendStatus(200)
   } catch (err) {
