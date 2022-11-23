@@ -76,27 +76,30 @@ const getWikiSummary = async (scientificName) => {
 const postBird = async (req, res) => {
 
   let bodyName = req.body.commonName;
-  const { lat, lng } = req.body.location; //requires that location is an object with lat and lng properties
-  const notes = req.body.notes; // user notes
+  // const { lat, lng } = req.body.location; //requires that location is an object with lat and lng properties
+  const note = req.body.note; // user notes
   const dateSeen = req.body.dateSeen;
   const userId = req.body.user_id;
-  const url = req.body.url;
+  // const url = req.body.url;
   const birdObj = {
-    notes: notes,
+    notes: note,
     dateSeen: dateSeen,
-    url: url,
+    // url: url,
     user_id: userId
   };
   try {
     if (!req.body.bird_id) {
       const { sciName } = await getScientificName(bodyName);
       const summary = await getWikiSummary(sciName);
-      birdObj.sciName = sciName;
-      birdObj.summary = summary;
-      birdObj.commonName = bodyName;
+      // birdObj.sciName = sciName;
+      // birdObj.summary = summary;
+      // birdObj.commonName = bodyName;
       const birdId = await createABird(birdObj);
-      birdObj.bird_id= birdId;
+      birdObj.bird_id = birdId;
+    } else {
+      birdObj.bird_id = req.body.bird_id;
     }
+    console.log(birdObj, bodyName);
     await createBirdSighting(birdObj)
     res.sendStatus(200)
   } catch (err) {
