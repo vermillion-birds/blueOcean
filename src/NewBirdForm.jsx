@@ -128,23 +128,24 @@ const NewBirdForm = ({ close }) => {
       commmonName: birdName,
       note: note,
       dateSeen: dateSeen,
+      user_id: 1
       // location: {lat: lng:},
       // photo: url
     };
     // const form = document.getElementById("bird-form");
 
     // form.addEventListener('submit', submitForm);
-    console.log(birdInfo);
+    // console.log(birdInfo);
 
-    // axios.post('/whatever', birdInfo)
-    //   .then((data) => {
-    //     console.log(data);
-    //     // propably update too
-    //     close();
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    axios.post('/whatever', birdInfo)
+      .then((data) => {
+        console.log(data);
+        // propably update too
+        close();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <ModalBackground>
