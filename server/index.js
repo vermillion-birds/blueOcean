@@ -6,7 +6,7 @@ const app = express();
 const path = require('path');
 const cors = require('cors');
 const pool = require('../database/db.js');
-const { getBirdNames, postBird } = require('./controllers/birds.js');
+const { getBirdNames, postBird, getGeoLocFromAddress } = require('./controllers/birds.js');
 
 // middlewar e
 app.use(express.json());
@@ -31,9 +31,11 @@ app.get('/createUser', ((req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 }));
 
-const PORT = process.env.PORT || 3001;
 
 app.post('/birds', postBird);
+
+const PORT = process.env.PORT || 3001;
+
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
