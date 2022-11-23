@@ -6,7 +6,10 @@ const app = express();
 const path = require('path');
 const cors = require('cors');
 const pool = require('../database/db.js');
-const { getBirdNames, postBird } = require('./controllers/birds.js');
+const { getBirdNames, postBird, getGeoLocFromAddress } = require('./controllers/birds.js');
+const {
+  addUser, getUser, getUserEmail, updateUser,
+} = require('./controllers/users.js');
 
 // middlewar e
 app.use(express.json());
@@ -31,6 +34,7 @@ app.get('/birdList', ((req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 }));
 
+app.get('/location', getGeoLocFromAddress);
 const PORT = process.env.PORT || 3001;
 
 
