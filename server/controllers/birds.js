@@ -18,12 +18,14 @@ const getBirdNames = (req, res) => {
 }
 
 const getBirdCards = (req, res) => {
-  console.log('TESTING GET ALL BIRD CARD INFO')
   const user_id = parseInt(req.params.user_id);
-  getAllBirdCardInfo(user_id).then((data) => {
+  getAllBirdCardInfo(user_id)
+    .then((data) => {
     console.log(data.rows[0].birdcardinfo);
     res.send(data.rows[0].birdcardinfo)
-  })
+    })
+    .catch(err => console.log('ERROR IN GETBIRDCARDS ', err))
+
 }
 
 
