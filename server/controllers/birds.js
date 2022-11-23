@@ -4,7 +4,8 @@ const parseString = require('xml2js').parseString;
 const {
   getBirds,
   createABird,
-  createBirdSighting
+  createBirdSighting,
+  getAllBirdCardInfo
 } = require('../../database/models/Birds.js');
 
 const getBirdNames = (req, res) => {
@@ -13,6 +14,15 @@ const getBirdNames = (req, res) => {
 
     console.log(names);
     res.send(names);
+  })
+}
+
+const getBirdCards = (req, res) => {
+  console.log('TESTING GET ALL BIRD CARD INFO')
+  const user_id = parseInt(req.params.user_id);
+  getAllBirdCardInfo(user_id).then((data) => {
+    console.log(data.rows[0].birdcardinfo);
+    res.send(data.rows[0].birdcardinfo)
   })
 }
 
@@ -86,8 +96,8 @@ const postBird = async (req, res) => {
     dateSeen: dateSeen,
     url: url,
     user_id: userId,
-    lat: lat;
-    lon: lng;
+    lat: lat,
+    lon: lng
   };
   try {
     if (!req.body.bird_id) {
@@ -111,6 +121,7 @@ const postBird = async (req, res) => {
 module.exports = {
   getBirdNames,
   postBird,
-  getGeoLocFromAddress
+  getGeoLocFromAddress,
+  getBirdCards
 }
 

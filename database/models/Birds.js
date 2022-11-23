@@ -1,5 +1,56 @@
 const {pool} = require('../db.js');
 
+/*
+return [] all bird card info for a user_id
+user_id = 1
+[{
+  common_name:
+  scentific_name:
+  summary:
+  note:
+  first_seen:
+  last_seen:
+  count:
+  bird_photos:[url, url,...]
+  location:[{lat: ,lng: }, [], ...]
+},{},...]
+const getAllBirdCardInfo
+*/
+const getAllBirdCardInfo = (user_id) => {
+  console.log('QUERYING WITH USER ID ', user_id)
+  return pool.query(`
+  with birdsArray AS (
+    SELECT array_agg(bird_id) AS arr FROM bird_user WHERE user_id = ${user_id}
+  )
+
+  SELECT array_agg(
+    json_build_object (
+      'user_id', ${user_id},
+      'bird_id', birds.bird_id,
+      'common_name',birds.bird_common_name,
+      'scentific_name',birds.scentific_name,
+      'summary', birds.summary,
+      'first_seen', bird_user.first_seen,
+      'last_seen', bird_user.last_seen,
+      'count', bird_user.count,
+      'bird_photos', (SELECT json_agg(bird_photos.photo_url) FROM bird_photos WHERE bird_photos.bird_id = birds.bird_id),
+      'bird_location', (SELECT json_agg(
+        json_build_object(
+          'lat', bird_photos.location_lat,
+          'lng', bird_photos.location_lon
+        )) FROM bird_photos WHERE bird_photos.bird_id = birds.bird_id)
+    )
+  ) AS birdCardInfo
+  FROM birds
+  JOIN bird_user
+  ON birds.bird_id = bird_user.bird_id
+  WHERE birds.bird_id = ANY (SELECT unnest(arr) FROM birdsArray)
+  GROUP BY bird_user.user_id
+  LIMIT 1
+  `)
+}
+
+
 const getBirds = () => {
   return pool.connect()
     .then(client => {
@@ -46,5 +97,6 @@ const postUser = () => {
 module.exports = {
   getBirds,
   createABird,
-  createBirdSighting
+  createBirdSighting,
+  getAllBirdCardInfo
 }
