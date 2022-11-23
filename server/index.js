@@ -7,7 +7,9 @@ const path = require('path');
 const cors = require('cors');
 const pool = require('../database/db.js');
 const { getBirdNames, postBird } = require('./controllers/birds.js');
-const { addUser, getUser, getUserEmail } = require('./controllers/users.js');
+const {
+  addUser, getUser, getUserEmail, updateUser,
+} = require('./controllers/users.js');
 
 // middlewar e
 app.use(express.json());
@@ -24,7 +26,6 @@ app.get('/user', ((req, res) => {
 
 // returns the route to create a new user form
 app.get('/createUser', ((req, res) => {
-  console.log('in user get user');
   res.sendFile(path.join(__dirname, '../public/index.html'));
 }));
 
@@ -33,20 +34,14 @@ app.get('/birdList', ((req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 }));
 
-// posts new user information to the DB
-// app.post('/addUser', (req, res) => {
-//   console.log('IN ADDING USER ROUTE', req.body);
-//   res.send('sterno2510@gmail.com');
-// });
+// posts new user to db
 app.post('/addUser', addUser);
+// confirms user email exists in db
 app.get('/userInfo', getUserEmail);
+// get's user information to be updated
 app.get('/getUser', getUser);
-
-// gets user information from DB with current user's email
-// app.get('/userInfo', ((req, res) => {
-//   console.log('in user get userinfo');
-//   res.send('user');
-// }));
+// update's user information
+app.put('/updateUser', updateUser);
 
 const PORT = process.env.PORT || 3001;
 

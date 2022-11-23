@@ -55,7 +55,6 @@ const UserSignUp = () => {
       zipCode: zipCodeForm,
       profilePicture: profilePictureForm,
     };
-    console.log('NEW USER', newUser)
     history.push('/user');
     axios.post('/addUser', newUser)
       .then((data) => {
@@ -86,7 +85,7 @@ const UserSignUp = () => {
           <div>Zip Code</div>
           <input required onChange={(e) => { setZipCode(e.target.value); }} type="number" placeholder="Zip Code" />
           <div>Profile Picture</div>
-          <button type="submit" onClick={()=>{submitForm()}}>Submit</button>
+          <button type="submit" onClick={() => { submitForm(); }}>Submit</button>
         </form>
       </ModalContainer>
     </ModalBackground>

@@ -48,12 +48,10 @@ const UpdateForm = ({ setUpdate, update, globalUser }) => {
   const history = useHistory();
   const [userSet, setUserSet] = useState(false);
 
-  console.log('USER', user);
-
   useEffect(() => {
     axios.get('/getUser', { params: { email: globalUser.email } })
       .then((data) => {
-        setUser(data.data);
+        setUser(data.data[0]);
       })
       .catch((err) => {
         console.log(err);
@@ -65,19 +63,27 @@ const UpdateForm = ({ setUpdate, update, globalUser }) => {
   }, [user]);
 
   const submitForm = () => {
-    const newUser = {
-      firstName: firstNameForm,
-      lastName: lastNameForm,
-      userName: userNameForm,
-      email: emailForm,
-      zipCode: zipCodeForm,
-      profilePicture: profilePictureForm,
-    };
-    console.log('NEW USER', newUser);
+    const newUser = {};
+    if (firstNameForm.length > 0) {
+      newUser['firstName'] = firstNameForm;
+    }
+    if (lastNameForm.length > 0) {
+      newUser['lastName'] = lastNameForm;
+    }
+    if (userNameForm.length > 0) {
+      newUser['userName'] = userNameForm;
+    }
+    if (emailForm.length > 0) {
+      newUser['email'] = emailForm;
+    }
+    if (zipCodeForm.length !== 0) {
+      newUser['zipCode'] = firstNameForm;
+    }
+
     history.push('/user');
-    axios.post('/addUser', newUser)
+    axios.put('/updateUser', newUser)
       .then((data) => {
-        console.log('activated post', data);
+        console.log('updated user');
       })
       .catch((error) => {
         console.log(error);
@@ -98,15 +104,15 @@ const UpdateForm = ({ setUpdate, update, globalUser }) => {
           <form>
             <button type="button" onClick={() => { cancel(); }}>Cancel</button>
             <div>First Name</div>
-            <input value={user.first_name} required onChange={(e) => { setFirstName(e.target.value); }} type="text" />
+            <input defaultValue={user.first_name} required onChange={(e) => { setFirstName(e.target.value); }} type="text" />
             <div>Last Name</div>
-            <input required onChange={(e) => { setLastName(e.target.value); }} type="text" placeholder="Last Name" />
+            <input defaultValue={user.last_name} required onChange={(e) => { setLastName(e.target.value); }} type="text" placeholder="Last Name" />
             <div>User Name</div>
-            <input required onChange={(e) => { setUserName(e.target.value); }} type="text" placeholder="User Name" />
+            <input defaultValue={user.username} required onChange={(e) => { setUserName(e.target.value); }} type="text" placeholder="User Name" />
             <div>Email Address</div>
-            <input required onChange={(e) => { setEmail(e.target.value); }} type="email" placeholder="Email Address" />
+            <input defaultValue={user.email} required onChange={(e) => { setEmail(e.target.value); }} type="email" placeholder="Email Address" />
             <div>Zip Code</div>
-            <input required onChange={(e) => { setZipCode(e.target.value); }} type="number" placeholder="Zip Code" />
+            <input defaultValue={user.user_location} required onChange={(e) => { setZipCode(e.target.value); }} type="number" placeholder="Zip Code" />
             <div>Profile Picture</div>
             <button type="submit" onClick={() => { submitForm(); }}>Submit</button>
           </form>

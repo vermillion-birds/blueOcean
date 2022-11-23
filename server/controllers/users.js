@@ -1,6 +1,8 @@
 /* eslint-disable import/extensions */
 const axios = require('axios');
-const { postUser, getEmail, getOneUser } = require('../../database/models/Users.js');
+const {
+  postUser, getEmail, getOneUser, updateOneUser,
+} = require('../../database/models/Users.js');
 
 const addUser = (req, res) => {
   postUser(req.body)
@@ -19,6 +21,9 @@ const getUserEmail = (req, res) => {
   getEmail(req.query)
     .then((data) => {
       res.send(data.rows);
+    })
+    .catch((err) => {
+      console.log(err);
     });
 };
 
@@ -26,9 +31,22 @@ const getUser = (req, res) => {
   getOneUser(req.query)
     .then((data) => {
       res.send(data.rows);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const updateUser = (req, res) => {
+  updateOneUser(req.body)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      console.log(err);
     });
 };
 
 module.exports = {
-  addUser, getUser, getUserEmail,
+  addUser, getUser, getUserEmail, updateUser,
 };
