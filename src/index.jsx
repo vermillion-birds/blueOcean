@@ -1,7 +1,8 @@
 /* eslint-disable react/function-component-definition */
 /* eslint-disable import/extensions */
 // Bring React in to build a component.
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import ReactDOM, { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Icon } from '@iconify/react';
@@ -16,6 +17,28 @@ import './assets/index.css';
 
 const MainComponent = () => {
   const [globalUser, setGlobalUser] = useState({});
+  const [userID, setUserID] = useState(0);
+  const [allUsers, setAllUsers] = useState([]);
+
+  useEffect(() => {
+    axios.get('/allUsers')
+      .then((data) => {
+        setAllUsers(data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios.get('/userID', { params: { email: globalUser.email } })
+      .then((data) => {
+        setUserID(data.data[0].user_id);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [globalUser]);
 
   return (
     <Router>
@@ -28,7 +51,7 @@ const MainComponent = () => {
           </Route>
           <Route path="/createUser" component={UserSignUp} />
           <Route exact path="/">
-            <App globalUser={globalUser} setGlobalUser={setGlobalUser}/>
+            <App globalUser={globalUser} setGlobalUser={setGlobalUser} />
             {' '}
           </Route>
           <Route path="/birdList" component={BirdList} />

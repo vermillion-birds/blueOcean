@@ -14,15 +14,19 @@ const postUser = (req) => {
     postQuery = withProfilePicture;
   }
 
-  return pool.query(postQuery)
+  return pool.query(postQuery);
 };
 
 const getEmail = (req) => pool.query(`SELECT email from USERS WHERE email='${req.email}';`);
 
 const getOneUser = (req) => pool.query(`SELECT * FROM users WHERE email='${req.email}';`);
 
+const getOneUserID = (req) => pool.query(`SELECT user_id FROM users WHERE email ='${req.email}';`);
+
+const getUsers = () => pool.query('SELECT * FROM users');
+
 // const updateOneUser = (req) =>
 
 module.exports = {
-  postUser, getEmail, getOneUser, updateOneUser,
+  postUser, getEmail, getOneUser, getOneUserID, getUsers,
 };

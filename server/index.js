@@ -8,7 +8,7 @@ const cors = require('cors');
 const pool = require('../database/db.js');
 const { getBirdNames, postBird } = require('./controllers/birds.js');
 const {
-  addUser, getUser, getUserEmail, updateUser,
+  addUser, getUser, getUserEmail, updateUser, getUserID, getAllUsers,
 } = require('./controllers/users.js');
 
 // middlewar e
@@ -42,6 +42,10 @@ app.get('/userInfo', getUserEmail);
 app.get('/getUser', getUser);
 // update's user information
 app.put('/updateUser', updateUser);
+// get userID based on email
+app.get('/userID', getUserID);
+// get all users
+app.get('/allUsers', getAllUsers);
 
 const PORT = process.env.PORT || 3001;
 
