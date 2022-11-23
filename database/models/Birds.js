@@ -16,10 +16,15 @@ const getBirds = () => pool.connect()
   })
   .catch((err) => console.log('getBirds FROM DB ERROR ', err));
 
-const postBirds = () => {
-
+const createABird = () => {
+// create a row in Birds, return bird_id
+};
+const createBirdSighting = () => {
+// create row in Bird_User and in Bird_Photo
 };
 
 module.exports = {
   getBirds,
-};
+  createABird,
+  createBirdSighting
+}

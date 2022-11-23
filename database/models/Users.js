@@ -21,7 +21,7 @@ const getEmail = (req) => pool.query(`SELECT email from USERS WHERE email='${req
 
 const getOneUser = (req) => pool.query(`SELECT * FROM users WHERE email='${req.email}';`);
 
-const updateOneUser = (req) =>
+// const updateOneUser = (req) =>
 
 module.exports = {
   postUser, getEmail, getOneUser, updateOneUser,
