@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components';
 import { Icon } from '@iconify/react';
 import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import AccountPage from './AccountPage.jsx';
 import UserSignUp from './UserSignUp.jsx';
 
@@ -25,8 +26,20 @@ const LandingButton = styled.button`
   width: 200px;
 `;
 
+const userdb = {
+  firstName: 'brian',
+  lastName: 'stern',
+  email: 'sterno2510@gmail.com',
+  username: 'sterno2510',
+  profileurl: '',
+  zipcode: '08901',
+};
+
 const Landing = () => {
   const [addUserToggle, setAddUserToggle] = useState(false);
+  const history = useHistory();
+
+  console.log(isAuthenticated, user);
   const {
     user,
     isAuthenticated,
@@ -41,13 +54,15 @@ const Landing = () => {
   const login = () => {
     loginWithRedirect({});
   };
-  console.log(user);
+
   useEffect(() => {
-    axios.get('/user')
+    axios.get('/userInfo')
       .then((data) => {
-        if (data.data.email === user.email) {
+        if (userdb.email === user.email) {
+          history.push('/user')
           console.log('send to account page');
         } else {
+          history.push('/createUser')
           console.log('send to create user page');
         }
       })

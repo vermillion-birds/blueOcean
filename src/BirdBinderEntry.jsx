@@ -7,10 +7,10 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 
-const BirdBinderEntry = (props) => {
+const BirdBinderEntry = ({bird, clicked}) => {
   return (
     <div>
-      <Card sx={{ maxWidth: 345 }}>
+      <Card onClick={() => { clicked(bird); }} sx={{ maxWidth: 345 }}>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             Bird Name
