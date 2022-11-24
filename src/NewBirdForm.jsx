@@ -183,30 +183,30 @@ const NewBirdForm = ({ close, allBirds }) => {
   const submitForm = (event) => {
 
 
-    // event.preventDefault();
-    // const birdInfo = {
-    //   commonName: birdName,
-    //   note: note,
-    //   dateSeen: dateSeen,
-    //   user_id: 1,
-    //   bird_id: 1,
-    //   location: locationObj
-    //   // photo: url
-    // };
-    // const form = document.getElementById("bird-form");
+    event.preventDefault();
+    const birdInfo = {
+      commonName: birdName,
+      note: note,
+      dateSeen: dateSeen,
+      user_id: 1,
+      bird_id: 1,
+      location: locationObj
+      // photo: url
+    };
+    const form = document.getElementById("bird-form");
 
-    // form.addEventListener('submit', submitForm);
-    // console.log(birdInfo);
+    form.addEventListener('submit', submitForm);
+    console.log(birdInfo);
 
-    // axios.post('/birds', birdInfo)
-    //   .then((data) => {
-    //     console.log(data);
-    //     // propably update too
-    //     close();
-    //   })
-    //   .catch((err) => {
-    //     console.log('error posting bird sighting: ', err);
-    //   });
+    axios.post('/birds', birdInfo)
+      .then((data) => {
+        console.log(data);
+        // propably update too
+        close();
+      })
+      .catch((err) => {
+        console.log('error posting bird sighting: ', err);
+      });
   };
 
   return (
