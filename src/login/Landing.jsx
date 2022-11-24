@@ -6,6 +6,7 @@ import { Icon } from '@iconify/react';
 import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import AccountPage from './AccountPage.jsx';
 import UserSignUp from './UserSignUp.jsx';
 
@@ -19,6 +20,7 @@ const Container = styled.div`
   border:solid;
   border-radius: 25px;
   box-shadow: 5px 5px 10px;
+  opacity: .95;
 `;
 
 const LandingButton = styled.button`
@@ -83,9 +85,21 @@ const Landing = ({ setGlobalUser, globalUser }) => {
       {!isAuthenticated
       && (
       <Container>
-        <div>
-          <Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100" />
+        <div className="outermotion">
+          <h1>Birder</h1>
+          <motion.div
+            class="motionBird"
+            style={{ display: 'flex' }}
+            animate={{ x: [0, 100, -100], rotateY: 180 }}
+            transition={{ duration: 5, repeat:"Infinity" }}
+          >
+            {/* <FlyingBird /> */}
+            <Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100" />
+          </motion.div>
         </div>
+        {/* <div>
+          <Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100" />
+        </div> */}
         <LandingButton onClick={() => login()}>Login</LandingButton>
         {/* <div>Don't Have An Account?</div> */}
         {/* <LandingButton onClick={() => { addUser(); }}>Create Account</LandingButton> */}
