@@ -95,7 +95,7 @@ const BirdList = ({userID, friend, back, allBirds}) => {
         return <BirdBinderEntry key={i} />
       })} */}
 
-          {addingBird && <NewBirdForm close={() => { setAddingBird(); } } allBirds={allBirds} />}
+          {addingBird && <NewBirdForm close={() => { setAddingBird(); } } allBirds={allBirds} userID={userID} />}
         </div>
       )}
       {cardView && <BirdCard bird={cardsBird} back={() => {cardClicked()}} />}

@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import styled, { css } from 'styled-components';
-// import ReactCardFlip from 'react-card-flip';
+import ReactCardFlip from 'react-card-flip';
+
 import Map from './Map.jsx';
 
 const SectionCard = styled.aside`
@@ -25,7 +26,7 @@ const SectionImage = styled.img`
   object-fit: cover;
   border: 6px solid #213547;
   box-shadow: 5px 5px 5px #213547;
- `;
+`;
 
 const Tag = styled.span`
 
@@ -93,15 +94,18 @@ const BirdCard = () => {
         <SectionCard onClick={() => setFlip(!flip)}>
           <aside>
             <h3>Location</h3>
-            <SectionImage
+            {/* <SectionImage
               src="https://media.istockphoto.com/id/1189064346/photo/city-map-with-pin-pointers-3d-rendering-image.jpg?s=612x612&w=is&k=20&c=4SZpTpQFkcJDuy5wJjs-a3JDaZyM1jEFbZVk2laEol4="
               alt="header image"
               height="400"
               width="384"
-            />
+            /> */}
+      <Map/>
           </aside>
         </SectionCard>
+
       </Container>
+
     </ReactCardFlip>
   );
 };

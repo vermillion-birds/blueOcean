@@ -42,7 +42,7 @@ const MainComponent = () => {
         setAllBirds(data.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err, 'error in getAllBirds');
       });
   }, []);
 
@@ -71,7 +71,7 @@ const MainComponent = () => {
             {' '}
           </Route>
           <Route path="/birdList">
-            <BirdList userID={userID} home={returnToAccountPage} allBrids={allBirds} />
+            <BirdList userID={userID} home={returnToAccountPage} allBirds={allBirds} />
           </Route>
           <Route path="/friendsList">
             <FriendsList userID={userID} allUsers={allUsers} home={returnToAccountPage} />
