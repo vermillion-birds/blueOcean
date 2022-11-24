@@ -88,10 +88,14 @@ const Landing = ({ setGlobalUser, globalUser }) => {
         <div className="outermotion">
           <h1>Birder</h1>
           <motion.div
-            class="motionBird"
             style={{ display: 'flex' }}
-            animate={{ x: [0, 100, -100], rotateY: 180 }}
-            transition={{ duration: 5, repeat:"Infinity" }}
+            animate={{ x: [-140, 155, -140], y: [0, 50, -170, -190, 0], rotateY: [0, 180, 0] }}
+            transition={{ duration: 7, repeat: 'Infinity' }}
+            whileHover={{
+              scale: 2,
+            }}
+            onHoverStart={(e) => {}}
+            onHoverEnd={(e) => {}}
           >
             {/* <FlyingBird /> */}
             <Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100" />
