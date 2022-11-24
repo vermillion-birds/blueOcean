@@ -60,6 +60,9 @@ app.get('/userID', getUserID);
 app.get('/allUsers', getAllUsers);
 // get a list of friends for one user
 app.get('/friendsList/:user_id', getFriendList);
+// get chatId (chat room)
+// app.get('/chatId/:chatIdString', getChatId);
+
 
 const PORT = process.env.PORT || 3001;
 

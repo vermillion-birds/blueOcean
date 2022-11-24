@@ -78,7 +78,6 @@ const MainComponent = () => {
         console.log(err);
       });
   }, [globalUser]);
-  console.log('this is the user id', userID);
   return (
     <Router>
       <Auth0ProviderWithHistory>
@@ -97,7 +96,7 @@ const MainComponent = () => {
             <BirdList userID={userID} allBirds={allBirds} />
           </Route>
           <Route path="/friendsList">
-            <FriendsList userID={userID} allUsers={allUsers} home={returnToAccountPage} />
+            <FriendsList userID={userID} allUsers={allUsers} home={returnToAccountPage} globalUser={globalUser}/>
           </Route>
         </Switch>
       </Auth0ProviderWithHistory>

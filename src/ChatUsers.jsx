@@ -1,16 +1,15 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 
-const ChatUsers = function ({users, currentUser}) {
-  const [currentSelected, setCurrentSelected] = useState(undefined);
+const ChatUsers = function ({friends, userID, globalUser, selectChat}) {
 
   return (
     <UsersContainer>
       <h2>Contacts</h2>
       <div className="friendsList">
-        {users.map((user, idx) => {
+        {friends.map((user, idx) => {
           return(
-            <div key={idx} className="users"> {user}</div>
+            <div onClick={() => selectChat(user)} key={idx} className="users"> {`${user.first_name} ${user.last_name}`}</div>
           )
         })}
       </div>
