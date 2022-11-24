@@ -65,7 +65,7 @@ const MainComponent = () => {
         setAllBirds(data.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err, 'error in getAllBirds');
       });
   }, []);
 

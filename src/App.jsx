@@ -11,22 +11,13 @@ import Landing from './login/Landing.jsx';
 import FlyingBird from './assets/101335-parrot.gif';
 import Chat from './Chat.jsx';
 
-
-const App = ({globalUser, setGlobalUser, userID, setUserID}) => (
+const App = ({ globalUser, setGlobalUser }) => (
   <>
-    {/* <video autoPlay loop muted id="video">
-        <source src={backgroundVideo} type="video/mp4" />
-      </video> */}
-    <motion.div
-      style={{ display: 'flex' }}
-      animate={{ x: [0, 100, 0], rotateY: 180 }}
-      transition={{ duration: 10 }}
-    >
-      {/* <FlyingBird /> */}
-      <Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100" />
-    </motion.div>
-    <h1>Birder</h1>
-    <Landing globalUser={globalUser} setGlobalUser={setGlobalUser} userID={userID} setUserID={setUserID}/>
+    <video autoPlay loop muted id="video">
+      <source src={require('./assets/mixkit-flock-of-seagulls-in-the-sky-17978-medium.mp4').default} type="video/mp4" />
+    </video>
+    {/* <img id='parrot' src={require( './assets/101335-parrot.gif').default} /> */}
+    <Landing globalUser={globalUser} setGlobalUser={setGlobalUser} />
   </>
 
 );

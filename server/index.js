@@ -10,6 +10,7 @@ const { getBirdNames, postBird, getGeoLocFromAddress, getBirdCards} = require('.
 const {
   addUser, getUser, getUserEmail, updateUser, getUserID, getAllUsers, getFriendList
 } = require('./controllers/users.js');
+const {getMessages} = require('./controllers/messages.js')
 
 // middlewar e
 app.use(express.json());
@@ -63,6 +64,9 @@ app.get('/friendsList/:user_id', getFriendList);
 // get chatId (chat room)
 // app.get('/chatId/:chatIdString', getChatId);
 
+
+// get messages with a conv id or create one if doesn't exist
+app.get('/chatId/:chatIdString', getMessages)
 
 const PORT = process.env.PORT || 3001;
 
