@@ -9,6 +9,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/function-component-definition */
 import React, { useState, useEffect } from 'react';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+import Autocomplete from '@mui/material/Autocomplete';
+import { Box } from '@mui/system';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -52,7 +56,7 @@ const DropDownDiv = styled.div`
 }
 `
 
-const NewBirdForm = ({ close }) => {
+const NewBirdForm = ({ close, allBirds }) => {
   const [birdName, setBirdName] = useState('');
   const [note, setNote] = useState('');
   const [dateSeen, setDateSeen] = useState('');
@@ -67,6 +71,7 @@ const NewBirdForm = ({ close }) => {
   const [addressOptions, setAddressOptions] = useState([]);
   const [locationObj, setLocationObj] = useState({});
   const [addressValReturned, setAddressValReturned] = useState(false);
+  const [dropDownOpen, setDropDownOpen] = useState(false);
   const sample = ['robin', 'blue jay', 'raven'];
 
   useEffect(() => {
@@ -86,6 +91,18 @@ const NewBirdForm = ({ close }) => {
       console.log('done typing bird name');
     }
   }, [birdName]);
+
+  useEffect(() => {
+    const birdOptions = allBirds.map(bird => {
+      const newBird = Object.assign({}, bird);
+      console.log(newBird)
+      newBird.label = bird.bird_common_name;
+      return newBird;
+    })
+    setSuggestedBirds(birdOptions);
+    console.log(birdOptions);
+
+  }, [])
 
   const onBirdName = (e) => {
     setBirdName(e.target.value);
@@ -135,21 +152,21 @@ const NewBirdForm = ({ close }) => {
   }
 
   const checkAddress = () => {
-    const addressString = place + street +' ' + state + ' '+ zip;
+    const addressString = place + street + ' ' + state + ' ' + zip;
     axios.post('/location', {
       address: addressString
-    } )
-    .then(results => {
-      const options = results.data;
-      setAddressOptions(options);
-      setAddressValReturned(true);
+    })
+      .then(results => {
+        const options = results.data;
+        setAddressOptions(options);
+        setAddressValReturned(true);
 
-    })
-    .catch(err => {
-      const noAddresses = {formatted_address: "No results: please try a different address"}
-      setAddressOptions([noAddresses]);
-      setAddressValReturned(true);
-    })
+      })
+      .catch(err => {
+        const noAddresses = { formatted_address: "No results: please try a different address" }
+        setAddressOptions([noAddresses]);
+        setAddressValReturned(true);
+      })
     setZip('');
     setStreet('');
     setState('');
@@ -157,12 +174,15 @@ const NewBirdForm = ({ close }) => {
   };
 
   const selectAddress = (index) => {
-    let latLong = addressOptions[index].geometry.location ;
+    let latLong = addressOptions[index].geometry.location;
     setLocationObj(latLong);
     setAddressValReturned(false);
   };
 
+
   const submitForm = (event) => {
+
+
     event.preventDefault();
     const birdInfo = {
       commonName: birdName,
@@ -173,10 +193,10 @@ const NewBirdForm = ({ close }) => {
       location: locationObj
       // photo: url
     };
-    // const form = document.getElementById("bird-form");
+    const form = document.getElementById("bird-form");
 
-    // form.addEventListener('submit', submitForm);
-    // console.log(birdInfo);
+    form.addEventListener('submit', submitForm);
+    console.log(birdInfo);
 
     axios.post('/birds', birdInfo)
       .then((data) => {
@@ -192,23 +212,55 @@ const NewBirdForm = ({ close }) => {
   return (
     <ModalBackground>
       <ModalContainer>
-        <button onClick={() => { close(); }}>CLOSE</button>
-        <form onSubmit="return false">
-          <div className="dropdown">
+        <button
+          onClick={() => { close(); }}>
+          CLOSE
+        </button>
+        <form
+        >
+          <div
+            className="dropdown">
             <label>Birds Common Name</label>
-            <input type="text" placeholder="ex. cardinal" onChange={onBirdName} />
-            {(suggestedBirds.length > 0) && (
+            <input
+              type="text"
+              placeholder="ex. cardinal"
+              onChange={onBirdName}
+            />
+            {(allBirds.length > 0) && (
               <div>
-                {suggestedBirds.map((bird, i) => {
+                {allBirds.map((bird, i) => {
                   console.log(bird);
                   return (
-                    <div key={i} onClick={() => { suggestionClicked(bird); }}>
-                      {bird}
-                    </div>
+                    <option key={i}
+                    onClick={() => { suggestionClicked(bird); }}>
+                      {bird.bird_common_name}
+                    </option>
                   );
                 })}
               </div>)}
           </div>
+          {/* <Stack
+            sx={{ width: '500px' }}
+          >
+            <Autocomplete
+              multiple
+              limitTags={2}
+              id="multiple-limit-tags"
+              getOptionLabel={(suggestedBirds) => `${suggestedBirds.label}`}
+              options={suggestedBirds}
+              sx={{ width: '300px' }}
+              // isOptionEqualToValue={(option, value) => { option.label === value.label }}
+              renderOption={(props, suggestedBirds) => (
+                <Box component="li" {...props} key={suggestedBirds.bird_id}>
+                  {suggestedBirds.label}
+                </Box>
+              )}
+              renderInput={(params) => (
+                <TextField {...params} label="ex: cardinal" />
+              )}
+            />
+          </Stack> */}
+
           <label>Personal Note</label>
           <input type="textarea" placeholder="a place to jot down your thoughts on this or future birdsightings" onChange={onNote} />
           <br />
@@ -240,17 +292,17 @@ const NewBirdForm = ({ close }) => {
               <input type="text" placeholder="ex. VA" onChange={onState} />
               <br />
               {
-              addressValReturned &&
-              addressOptions.map((option, index) => {
-                return (
-                  <DropDownDiv
-                    key={index}
-                    index={index}
-                    onClick={(event) => {selectAddress(index)}}>
+                addressValReturned &&
+                addressOptions.map((option, index) => {
+                  return (
+                    <DropDownDiv
+                      key={index}
+                      index={index}
+                      onClick={(event) => { selectAddress(index) }}>
                       {option.formatted_address}
-                  </DropDownDiv>
-                )
-              })
+                    </DropDownDiv>
+                  )
+                })
 
 
 
