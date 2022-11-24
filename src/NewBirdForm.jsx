@@ -137,6 +137,7 @@ const NewBirdForm = ({ close, allBirds }) => {
   };
 
   const suggestionClicked = (bird) => {
+    console.log('suggestion clicked', bird);
     setBirdName(bird);
     setSuggestedBirds([]);
   };
@@ -156,7 +157,6 @@ const NewBirdForm = ({ close, allBirds }) => {
         const options = results.data;
         setAddressOptions(options);
         setAddressValReturned(true);
-
       })
       .catch(err => {
         const noAddresses = { formatted_address: "No results: please try a different address" }
@@ -177,8 +177,6 @@ const NewBirdForm = ({ close, allBirds }) => {
 
 
   const submitForm = (event) => {
-
-
     event.preventDefault();
     const birdInfo = {
       commonName: birdName,
@@ -189,20 +187,17 @@ const NewBirdForm = ({ close, allBirds }) => {
       location: locationObj
       // photo: url
     };
-    const form = document.getElementById("bird-form");
-
-    form.addEventListener('submit', submitForm);
     console.log(birdInfo);
 
-    axios.post('/birds', birdInfo)
-      .then((data) => {
-        console.log(data);
-        // propably update too
-        close();
-      })
-      .catch((err) => {
-        console.log('error posting bird sighting: ', err);
-      });
+    // axios.post('/birds', birdInfo)
+    //   .then((data) => {
+    //     console.log(data);
+    //     // propably update too
+    //     close();
+    //   })
+    //   .catch((err) => {
+    //     console.log('error posting bird sighting: ', err);
+    //   });
   };
 
   return (
@@ -212,8 +207,7 @@ const NewBirdForm = ({ close, allBirds }) => {
           onClick={() => { close(); }}>
           CLOSE
         </button>
-        <form
-        >
+        <form>
           <div
             className="dropdown">
             <label>Birds Common Name</label>
@@ -228,7 +222,7 @@ const NewBirdForm = ({ close, allBirds }) => {
                   // console.log(bird);
                   return (
                     <option key={i}
-                    onClick={() => { suggestionClicked(bird); }}>
+                    onClick={() => { suggestionClicked(bird.bird_common_name); }}>
                       {bird.bird_common_name}
                     </option>
                   );
