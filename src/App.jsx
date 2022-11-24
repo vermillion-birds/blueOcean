@@ -9,7 +9,6 @@ import Landing from './login/Landing.jsx';
 //import backgroundVideo from './assets/106433-bird-flock-test.mp4';
 // import FlyingBird from './assets/101335-parrot.gif';
 
-
 const App = ({globalUser, setGlobalUser}) => (
   <>
     <video autoPlay loop muted id="video">
@@ -24,7 +23,7 @@ const App = ({globalUser, setGlobalUser}) => (
       <Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100" />
     </motion.div>
     <h1>Birder</h1>
-    <img id='parrot' src={require( './assets/101335-parrot.gif').default} />
+    <img id='landing-bird' src={require( './assets/101335-parrot.gif').default} />
     <Landing globalUser={globalUser} setGlobalUser={setGlobalUser} />
   </>
 
