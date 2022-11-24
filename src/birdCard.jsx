@@ -3,10 +3,6 @@ import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import styled, { css } from 'styled-components';
 import ReactCardFlip from 'react-card-flip';
-<<<<<<< HEAD
-
-=======
->>>>>>> f2b40eaa9d5eeb59fb53aa050ef8f7e53454e4de
 import Map from './Map.jsx';
 
 const SectionCard = styled.aside`
