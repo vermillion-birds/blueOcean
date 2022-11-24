@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-// import { googleMapsApiKey } from '../secrets.js';
+import { googleMapsApiKey } from '../secrets.js';
 //will need a a get to get geo loc of all bird pictures related to that bird, create an array as follows and then map through the array
 // the center location should be set to where the user's picture was located to.
 
