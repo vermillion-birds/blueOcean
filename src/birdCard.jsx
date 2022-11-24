@@ -3,6 +3,10 @@ import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import styled, { css } from 'styled-components';
 import ReactCardFlip from 'react-card-flip';
+<<<<<<< HEAD
+
+=======
+>>>>>>> f2b40eaa9d5eeb59fb53aa050ef8f7e53454e4de
 import Map from './Map.jsx';
 
 const SectionCard = styled.aside`
@@ -43,7 +47,7 @@ const SectionImage = styled.div`
   object-fit: cover;
   border: 6px solid #213547;
   box-shadow: 5px 5px 5px #213547;
- `;
+`;
 
 const Tag = styled.span`
 
@@ -116,6 +120,7 @@ const BirdCard = ({bird, back}) => {
           </aside>
         </SectionCardB>
       </Container>
+
     </ReactCardFlip>
   );
 };
