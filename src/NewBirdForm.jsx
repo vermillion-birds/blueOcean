@@ -9,10 +9,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/function-component-definition */
 import React, { useState, useEffect } from 'react';
-import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
-import Autocomplete from '@mui/material/Autocomplete';
-import { Box } from '@mui/system';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -76,10 +72,10 @@ const NewBirdForm = ({ close, allBirds }) => {
 
   useEffect(() => {
     if (birdName.length !== 0) {
-      console.log(birdName);
+      // console.log(birdName);
       // sort all users where username or birds sceen name matches term
-      const filtered = sample.filter((bird) => {
-        return bird.toUpperCase().includes(birdName.toUpperCase());
+      const filtered = allBirds.filter((bird) => {
+        return bird.bird_common_name.toUpperCase().includes(birdName.toUpperCase());
       });
       if (filtered.length === 1 && filtered[0] === birdName) {
         setSuggestedBirds([]);
@@ -92,17 +88,17 @@ const NewBirdForm = ({ close, allBirds }) => {
     }
   }, [birdName]);
 
-  useEffect(() => {
-    const birdOptions = allBirds.map(bird => {
-      const newBird = Object.assign({}, bird);
-      console.log(newBird)
-      newBird.label = bird.bird_common_name;
-      return newBird;
-    })
-    setSuggestedBirds(birdOptions);
-    console.log(birdOptions);
+  // useEffect(() => {
+  //   const birdOptions = allBirds.map(bird => {
+  //     const newBird = Object.assign({}, bird);
+  //     console.log(newBird)
+  //     newBird.label = bird.bird_common_name;
+  //     return newBird;
+  //   })
+  //   setSuggestedBirds(birdOptions);
+  //   console.log(birdOptions);
 
-  }, [])
+  // }, [])
 
   const onBirdName = (e) => {
     setBirdName(e.target.value);
@@ -226,10 +222,10 @@ const NewBirdForm = ({ close, allBirds }) => {
               placeholder="ex. cardinal"
               onChange={onBirdName}
             />
-            {(allBirds.length > 0) && (
+            {(suggestedBirds.length > 0) && (
               <div>
-                {allBirds.map((bird, i) => {
-                  console.log(bird);
+                {suggestedBirds.map((bird, i) => {
+                  // console.log(bird);
                   return (
                     <option key={i}
                     onClick={() => { suggestionClicked(bird); }}>
@@ -239,28 +235,6 @@ const NewBirdForm = ({ close, allBirds }) => {
                 })}
               </div>)}
           </div>
-          {/* <Stack
-            sx={{ width: '500px' }}
-          >
-            <Autocomplete
-              multiple
-              limitTags={2}
-              id="multiple-limit-tags"
-              getOptionLabel={(suggestedBirds) => `${suggestedBirds.label}`}
-              options={suggestedBirds}
-              sx={{ width: '300px' }}
-              // isOptionEqualToValue={(option, value) => { option.label === value.label }}
-              renderOption={(props, suggestedBirds) => (
-                <Box component="li" {...props} key={suggestedBirds.bird_id}>
-                  {suggestedBirds.label}
-                </Box>
-              )}
-              renderInput={(params) => (
-                <TextField {...params} label="ex: cardinal" />
-              )}
-            />
-          </Stack> */}
-
           <label>Personal Note</label>
           <input type="textarea" placeholder="a place to jot down your thoughts on this or future birdsightings" onChange={onNote} />
           <br />
@@ -301,11 +275,8 @@ const NewBirdForm = ({ close, allBirds }) => {
                       onClick={(event) => { selectAddress(index) }}>
                       {option.formatted_address}
                     </DropDownDiv>
-                  )
+                  );
                 })
-
-
-
               }
               <button type="button" onClick={checkAddress}>check address</button>
 
