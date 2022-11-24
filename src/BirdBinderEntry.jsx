@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable arrow-body-style */
 /* eslint-disable react/function-component-definition */
 import React from 'react';
@@ -13,7 +14,7 @@ const BirdBinderEntry = ({bird, clicked}) => {
       <Card onClick={() => { clicked(bird); }} sx={{ maxWidth: 345 }}>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Bird Name
+            {bird.common_name}
           </Typography>
         </CardContent>
         <CardMedia
