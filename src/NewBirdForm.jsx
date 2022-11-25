@@ -67,7 +67,7 @@ const NewBirdForm = ({ close, allBirds }) => {
   const [addressOptions, setAddressOptions] = useState([]);
   const [locationObj, setLocationObj] = useState({});
   const [addressValReturned, setAddressValReturned] = useState(false);
-  const [dropDownOpen, setDropDownOpen] = useState(false);
+  const [waiting, setWaiting] = useState(false);
   const sample = ['robin', 'blue jay', 'raven'];
 
   useEffect(() => {
@@ -143,12 +143,17 @@ const NewBirdForm = ({ close, allBirds }) => {
   };
 
   const getAddressFromBrowser = (event) => {
+    // setWaiting(!waiting);
+    console.log('waiting? ', waiting);
     navigator.geolocation.getCurrentPosition((position) => {
+      console.log('location when clicked', position);
+      // setWaiting(!waiting);
       setLocationObj({ lat: position.coords.latitude, lng: position.coords.longitude });
     });
   }
 
   const checkAddress = () => {
+    // setWaiting(!waiting);
     const addressString = place + street + ' ' + state + ' ' + zip;
     axios.post('/location', {
       address: addressString
@@ -157,12 +162,14 @@ const NewBirdForm = ({ close, allBirds }) => {
         const options = results.data;
         setAddressOptions(options);
         setAddressValReturned(true);
+        // setWaiting(!waiting);
       })
       .catch(err => {
         const noAddresses = { formatted_address: "No results: please try a different address" }
         setAddressOptions([noAddresses]);
         setAddressValReturned(true);
       })
+      // not really sure about the lines below so leaving them for now.
     setZip('');
     setStreet('');
     setState('');
@@ -235,9 +242,9 @@ const NewBirdForm = ({ close, allBirds }) => {
           <label>Date Seen</label>
           <input type="date" onChange={onDateSeen} />
           <br />
-          <label>Nickname of Location seen</label>
+          {/* <label>Nickname of Location seen</label>
           <input type="text" placeholder="ex. park on 1st" onChange={onPlaceName} />
-          <br />
+          <br /> */}
           <button type="button" onClick={getAddressFromBrowser}>grab location</button>
           <button onClick={typeAddressIn} type="button">fill out location or zip</button>
           {typeAddress && (
@@ -280,7 +287,8 @@ const NewBirdForm = ({ close, allBirds }) => {
           {/*
       photo from cloudinary?
       location? */}
-          <button type="submit" onClick={submitForm}>Submit</button>
+          {(!waiting) && <button type="submit" onClick={submitForm}>Submit</button>}
+          {waiting && <div>Waiting on Location Grab</div>}
         </form>
       </ModalContainer>
     </ModalBackground>
