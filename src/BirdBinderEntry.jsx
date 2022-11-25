@@ -11,6 +11,8 @@ import Card from '@mui/material/Card';
 import './assets/BirdList.css';
 
 const BirdBinderEntry = ({bird, clicked}) => {
+  // bird.note = 'testing';
+  // bird.notes = 'testing successful';
   return (
     <div className="binder-entry" onClick={() => { clicked(bird); }}>
       <div className="binder-card">
@@ -20,7 +22,7 @@ const BirdBinderEntry = ({bird, clicked}) => {
           <div className="binder-tag">Last Seen: </div>
           <div className="binder-tag">Spotted At: </div>
           <h3>Personal Notes</h3>
-          <div className="binder-description">Personal notes to go here</div>
+          <div className="binder-description">{(bird.note || bird.notes) || (bird.summary || 'no bird summary to replace notes')}</div>
         </aside>
       </div>
     </div>
