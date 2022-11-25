@@ -63,10 +63,11 @@ app.get('/allUsers', getAllUsers);
 app.get('/friendsList/:user_id', getFriendList);
 
 // get messages with a conv id or create one if doesn't exist
-app.get('/chatId/:chatIdString', getMessages)
+app.get('/chatId/:chatIdString', getMessages);
+
+app.post('/birds', postBird);
 
 const PORT = process.env.PORT || 3001;
-
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);

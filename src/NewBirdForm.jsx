@@ -52,7 +52,7 @@ const DropDownDiv = styled.div`
 }
 `
 
-const NewBirdForm = ({ close, allBirds }) => {
+const NewBirdForm = ({ close, allBirds, userID }) => {
   const [birdName, setBirdName] = useState('');
   const [note, setNote] = useState('');
   const [dateSeen, setDateSeen] = useState('');
@@ -68,6 +68,7 @@ const NewBirdForm = ({ close, allBirds }) => {
   const [locationObj, setLocationObj] = useState({});
   const [addressValReturned, setAddressValReturned] = useState(false);
   const [waiting, setWaiting] = useState(false);
+  const [birdID, setBirdID] = useState(0);
   const sample = ['robin', 'blue jay', 'raven'];
 
   useEffect(() => {
@@ -137,8 +138,9 @@ const NewBirdForm = ({ close, allBirds }) => {
   };
 
   const suggestionClicked = (bird) => {
-    console.log('suggestion clicked', bird);
-    setBirdName(bird);
+    console.log('suggestion clicked', bird.bird_common_name);
+    setBirdName(bird.bird_common_name);
+    setBirdID(bird.bird_id);
     setSuggestedBirds([]);
   };
 
@@ -189,22 +191,22 @@ const NewBirdForm = ({ close, allBirds }) => {
       commonName: birdName,
       note: note,
       dateSeen: dateSeen,
-      user_id: 1,
-      bird_id: 1,
+      user_id: userID,
+      bird_id: birdID,
       location: locationObj
       // photo: url
     };
     console.log(birdInfo);
 
-    // axios.post('/birds', birdInfo)
-    //   .then((data) => {
-    //     console.log(data);
-    //     // propably update too
-    //     close();
-    //   })
-    //   .catch((err) => {
-    //     console.log('error posting bird sighting: ', err);
-    //   });
+    axios.post('/birds', birdInfo)
+      .then((data) => {
+        console.log('bird post data: ', data);
+        // propably update too
+        close();
+      })
+      .catch((err) => {
+        console.log('error posting bird sighting: ', err);
+      });
   };
 
   return (
@@ -229,7 +231,7 @@ const NewBirdForm = ({ close, allBirds }) => {
                   // console.log(bird);
                   return (
                     <option key={i}
-                    onClick={() => { suggestionClicked(bird.bird_common_name); }}>
+                    onClick={() => { suggestionClicked(bird); }}>
                       {bird.bird_common_name}
                     </option>
                   );
