@@ -13,6 +13,7 @@ import './assets/BirdList.css';
 const BirdBinderEntry = ({bird, clicked}) => {
   // bird.note = 'testing';
   // bird.notes = 'testing successful';
+  const locations = ['The Park', 'Work', 'Friends House', 'The Bus Stop', 'The River', 'The Beach', 'The Lake House', 'The Cabbin in the Woods'];
   return (
     <div className="binder-entry" onClick={() => { clicked(bird); }}>
       <div className="binder-card">
@@ -20,7 +21,7 @@ const BirdBinderEntry = ({bird, clicked}) => {
           <h3>{bird.common_name}</h3>
           <img src={bird.bird_photos[0]} alt={`${bird.common_name}`} />
           <div className="binder-tag">{`Last Seen: ${bird.last_seen}` }</div>
-          <div className="binder-tag">Spotted At: the park </div>
+          <div className="binder-tag">{`Spotted At: ${locations[Math.floor(Math.random() * locations.length)]}`} </div>
           <h3>Personal Notes</h3>
           <div className="binder-description">{(bird.note || bird.notes) || (bird.summary || 'no personal notes or summary on file')}</div>
         </aside>
