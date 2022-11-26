@@ -18,10 +18,18 @@ const FriendsList = ({userID, allUsers, friendsList}) => {
   const [birdsView, setBirdsView] = useState(false);
   const [chatView, setChatView] = useState(false);
   const [clickedFriend, setClickedFriend] = useState({});
+  const [listState, setListState] = useState([]);
   const sample = ['name1', 'name2', 'name3'];
   const history = useHistory();
 
   console.log('friends: ', friendsList);
+
+  useState(() => {
+    if (Array.isArray(friendsList)) {
+      setListState(friendsList);
+    }
+
+  }, [friendsList]);
 
   const onFriendSearch = (e) => {
     setFriendSearch(e.target.value);
@@ -76,7 +84,7 @@ const FriendsList = ({userID, allUsers, friendsList}) => {
           </div>
         </div>
         <h1>Your Friends</h1>
-        {friendsList.map((friend, i) => {
+        {listState.map((friend, i) => {
           return (<FriendEntry key={i} friend={friend} chatClicked={(friend) => {onChatClicked(friend)}}
             birdClicked={(friend) => { onBirdClick(friend); }} />);
         })}
