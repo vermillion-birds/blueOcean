@@ -69,6 +69,7 @@ const NewBirdForm = ({ close, allBirds, userID }) => {
   const [addressValReturned, setAddressValReturned] = useState(false);
   const [waiting, setWaiting] = useState(false);
   const [birdID, setBirdID] = useState(0);
+  const [birlURL, setBirdURL] = useState('');
   const sample = ['robin', 'blue jay', 'raven'];
 
   useEffect(() => {
@@ -285,10 +286,11 @@ const NewBirdForm = ({ close, allBirds, userID }) => {
 
             </div>
           )}
-
-          {/*
-      photo from cloudinary?
-      location? */}
+          <br />
+              <label>Select a Photo of the Bird Seen!</label>
+              <input type="file"   />
+              <br />
+          {/*use birdURL and setBirdURL to store url in state */}
           {(!waiting) && <button type="submit" onClick={submitForm}>Submit</button>}
           {waiting && <div>Waiting on Location Grab</div>}
         </form>
