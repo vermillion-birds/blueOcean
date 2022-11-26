@@ -76,14 +76,14 @@ const FriendsList = ({userID, allUsers, friendsList}) => {
           </div>
         </div>
         <h1>Your Friends</h1>
-        {[1, 1, 1].map((friend, i) => {
+        {friendsList.map((friend, i) => {
           return (<FriendEntry key={i} friend={friend} chatClicked={(friend) => {onChatClicked(friend)}}
             birdClicked={(friend) => { onBirdClick(friend); }} />);
         })}
       </div>
       )}
       {birdsView && <BirdList friend={clickedFriend} back={() => {onBirdClick()}} userID={userID} />}
-      {chatView && <Chat friend={clickedFriend} userID={userID} back={() => {onChatClicked()}} allUsers={allUsers} />}
+      {chatView && <Chat friend={clickedFriend} userID={userID} back={() => {onChatClicked()}} allUsers={allUsers} friendsList={friendsList} />}
 
     </div>
   );

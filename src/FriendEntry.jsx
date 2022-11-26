@@ -8,9 +8,9 @@ const FriendEntry = ({chatClicked, birdClicked, friend}) => {
   return (
     <div>
       <span>{':)'}</span>
-      <span>Friends Name</span>
-      <button onClick={(friend) => {chatClicked(friend)}}>Chat With Friend</button>
-      <button onClick={(friend) => {birdClicked(friend)}}>See Friends Cards</button>
+      <span>{`${friend.first_name} ${friend.last_name}`}</span>
+      <button onClick={() => {chatClicked(friend)}}>{`Chat With ${friend.first_name}`}</button>
+      <button onClick={() => {birdClicked(friend)}}>{`See ${friend.first_name}'s Cards`}</button>
     </div>
   )
 }
