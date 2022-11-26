@@ -83,11 +83,11 @@ const createBirdSighting = (birdObj) => {
   return pool.query(`
     WITH insertBU AS (
     INSERT INTO bird_user(bird_id, user_id, note, first_seen, last_seen)
-    VALUES (${birdObj.bird_id}, ${birdObj.user_id}, ${birdObj.notes}, ${birdObj.dateSeen}, ${birdObj.dateSeen})
-    ),
+    VALUES (${birdObj.bird_id}, ${birdObj.user_id}, '${birdObj.notes}', '${birdObj.dateSeen}', '${birdObj.dateSeen}')
+    )
     INSERT INTO bird_photos(user_id, bird_id, location_lat, location_lon, date)
-    VALUES (${birdObj.user_id}, ${birdObj.bird_id}, ${birdObj.lat}, ${birdObj.lon}, ${birdObj.dateSeen})
-  )`)
+    VALUES (${birdObj.user_id}, ${birdObj.bird_id}, ${birdObj.lat}, ${birdObj.lon}, '${birdObj.dateSeen}')
+  `)
 };
 
 module.exports = {

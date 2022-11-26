@@ -144,12 +144,12 @@ const NewBirdForm = ({ close, allBirds, userID }) => {
     setSuggestedBirds([]);
   };
 
-  const getAddressFromBrowser = (event) => {
-    // setWaiting(!waiting);
+  const getAddressFromBrowser = () => {
+    setWaiting(!waiting);
     console.log('waiting? ', waiting);
     navigator.geolocation.getCurrentPosition((position) => {
       console.log('location when clicked', position);
-      // setWaiting(!waiting);
+      setWaiting(false);
       setLocationObj({ lat: position.coords.latitude, lng: position.coords.longitude });
     });
   }
