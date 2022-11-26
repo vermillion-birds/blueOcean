@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { userForm } from 'react-hook-form';
 
 const ModalBackground = styled.div`{
   width: 100%;
@@ -75,15 +76,15 @@ const UserSignUp = () => {
         <form>
           <button type="button" onClick={() => { cancel(); }}>Cancel</button>
           <div>First Name</div>
-          <input required onChange={(e) => { setFirstName(e.target.value); }} type="text" placeholder="First Name" />
+          <input name="firstName" required onChange={(e) => { setFirstName(e.target.value); }} type="text" placeholder="First Name" />
           <div>Last Name</div>
-          <input required onChange={(e) => { setLastName(e.target.value); }} type="text" placeholder="Last Name" />
+          <input name="lastName" required onChange={(e) => { setLastName(e.target.value); }} type="text" placeholder="Last Name" />
           <div>User Name</div>
-          <input required onChange={(e) => { setUserName(e.target.value); }} type="text" placeholder="User Name" />
+          <input name="userName" required onChange={(e) => { setUserName(e.target.value); }} type="text" placeholder="User Name" />
           <div>Email Address</div>
-          <input required onChange={(e) => { setEmail(e.target.value); }} type="email" placeholder="Email Address" />
+          <input name="email" required onChange={(e) => { setEmail(e.target.value); }} type="email" placeholder="Email Address" />
           <div>Zip Code</div>
-          <input required onChange={(e) => { setZipCode(e.target.value); }} type="number" placeholder="Zip Code" />
+          <input name="zipCode" required onChange={(e) => { setZipCode(e.target.value); }} type="number" placeholder="Zip Code" />
           <div>Profile Picture</div>
           <button type="submit" onClick={() => { submitForm(); }}>Submit</button>
         </form>
