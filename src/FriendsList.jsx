@@ -10,6 +10,7 @@ import FriendEntry from './FriendEntry.jsx';
 import BirdList from './BirdList.jsx';// remove whole line
 import Chat from './Chat.jsx';
 import { useHistory } from 'react-router-dom';
+import './assets/FriendList.css';
 
 const FriendsList = ({userID, allUsers, friendsList}) => {
   const [friendSearch, setFriendSearch] = useState('');
@@ -22,12 +23,13 @@ const FriendsList = ({userID, allUsers, friendsList}) => {
   const sample = ['name1', 'name2', 'name3'];
   const history = useHistory();
 
-  console.log('friends: ', friendsList);
+
 
   useState(() => {
     if (Array.isArray(friendsList)) {
       setListState(friendsList);
     }
+    console.log('friends: ', friendsList);
 
   }, [friendsList]);
 
