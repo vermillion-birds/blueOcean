@@ -194,8 +194,8 @@ const NewBirdForm = ({ close, allBirds, userID }) => {
       dateSeen: dateSeen,
       user_id: userID,
       bird_id: birdID,
-      location: locationObj
-      // photo: url
+      location: locationObj,
+      // photo: birdURL
     };
     console.log(birdInfo);
 
@@ -290,7 +290,7 @@ const NewBirdForm = ({ close, allBirds, userID }) => {
               <label>Select a Photo of the Bird Seen!</label>
               <input type="file"   />
               <br />
-          {/*use birdURL and setBirdURL to store url in state */}
+          {/*use birdURL and setBirdURL to store url in state, once set i'd check with Andy for what all needs to happen along the req chain starting with variable passed from here*/}
           {(!waiting) && <button type="submit" onClick={submitForm}>Submit</button>}
           {waiting && <div>Waiting on Location Grab</div>}
         </form>
