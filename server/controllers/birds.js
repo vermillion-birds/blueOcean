@@ -27,7 +27,7 @@ const getBirdCards = (req, res) => {
     //  console.log('data.row[0]', data.rows[0])
 
 
-    console.log('birdCards in server', results)
+    // console.log('birdCards in server', results)
     res.status(200).send(results);
   })
   .catch(err => {
