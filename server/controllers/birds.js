@@ -12,7 +12,7 @@ const getBirdNames = (req, res) => {
   console.log('REQUEST RECEIVED');
   getBirds().then((names) => {
 
-    console.log(names);
+    // console.log(names);
     res.send(names);
   })
 }
@@ -27,7 +27,7 @@ const getBirdCards = (req, res) => {
     //  console.log('data.row[0]', data.rows[0])
 
 
-    console.log('birdCards in server', results)
+    // console.log('birdCards in server', results)
     res.status(200).send(results);
   })
   .catch(err => {

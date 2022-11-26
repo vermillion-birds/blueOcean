@@ -69,6 +69,7 @@ const NewBirdForm = ({ close, allBirds, userID }) => {
   const [addressValReturned, setAddressValReturned] = useState(false);
   const [waiting, setWaiting] = useState(false);
   const [birdID, setBirdID] = useState(0);
+  const [birlURL, setBirdURL] = useState('');
   const sample = ['robin', 'blue jay', 'raven'];
 
   useEffect(() => {
@@ -144,12 +145,12 @@ const NewBirdForm = ({ close, allBirds, userID }) => {
     setSuggestedBirds([]);
   };
 
-  const getAddressFromBrowser = (event) => {
-    // setWaiting(!waiting);
+  const getAddressFromBrowser = () => {
+    setWaiting(!waiting);
     console.log('waiting? ', waiting);
     navigator.geolocation.getCurrentPosition((position) => {
       console.log('location when clicked', position);
-      // setWaiting(!waiting);
+      setWaiting(false);
       setLocationObj({ lat: position.coords.latitude, lng: position.coords.longitude });
     });
   }
@@ -193,8 +194,8 @@ const NewBirdForm = ({ close, allBirds, userID }) => {
       dateSeen: dateSeen,
       user_id: userID,
       bird_id: birdID,
-      location: locationObj
-      // photo: url
+      location: locationObj,
+      // photo: birdURL
     };
     console.log(birdInfo);
 
@@ -285,10 +286,11 @@ const NewBirdForm = ({ close, allBirds, userID }) => {
 
             </div>
           )}
-
-          {/*
-      photo from cloudinary?
-      location? */}
+          <br />
+              <label>Select a Photo of the Bird Seen!</label>
+              <input type="file"   />
+              <br />
+          {/*use birdURL and setBirdURL to store url in state, once set i'd check with Andy for what all needs to happen along the req chain starting with variable passed from here*/}
           {(!waiting) && <button type="submit" onClick={submitForm}>Submit</button>}
           {waiting && <div>Waiting on Location Grab</div>}
         </form>
