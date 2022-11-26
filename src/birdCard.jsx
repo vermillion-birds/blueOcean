@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import styled, { css } from 'styled-components';
-// import ReactCardFlip from 'react-card-flip';
+import ReactCardFlip from 'react-card-flip';
 import Map from './Map.jsx';
 
 const SectionCard = styled.aside`
@@ -17,7 +17,25 @@ const SectionCard = styled.aside`
     background-blend-mode: screen;
   `;
 
-const SectionImage = styled.img`
+
+
+  const SectionCardB = styled.aside`
+  border: 4mm ridge #213547;
+  padding: 2rem;
+  background:
+  linear-gradient(lightSkyBlue, transparent),
+  linear-gradient(to top left, #686868, transparent),
+  linear-gradient(to top right, #213547, transparent);
+  background-blend-mode: screen;
+  width:100%;
+  // height: 200%;
+  // object-fit: cover;
+
+`;
+
+
+
+const SectionImage = styled.div`
   margin-top: -1.25rem;
   margin-left: -1.25rem;
   width: calc(100% + 1.5rem);
@@ -25,7 +43,7 @@ const SectionImage = styled.img`
   object-fit: cover;
   border: 6px solid #213547;
   box-shadow: 5px 5px 5px #213547;
- `;
+`;
 
 const Tag = styled.span`
 
@@ -57,8 +75,9 @@ const Container = styled.div`
   margin: 0 auto;
   margin-top: 20vh;
   `;
-const BirdCard = () => {
+const BirdCard = ({bird, back}) => {
   const [flip, setFlip] = useState(false);
+  console.log(bird," this is the bird object", back , "this is the back to the admin page ")
 
   return (
     <ReactCardFlip
@@ -90,18 +109,14 @@ const BirdCard = () => {
         </SectionCard>
       </Container>
       <Container>
-        <SectionCard onClick={() => setFlip(!flip)}>
+        <SectionCardB onClick={() => setFlip(!flip)}>
           <aside>
             <h3>Location</h3>
-            <SectionImage
-              src="https://media.istockphoto.com/id/1189064346/photo/city-map-with-pin-pointers-3d-rendering-image.jpg?s=612x612&w=is&k=20&c=4SZpTpQFkcJDuy5wJjs-a3JDaZyM1jEFbZVk2laEol4="
-              alt="header image"
-              height="400"
-              width="384"
-            />
+            <Map />
           </aside>
-        </SectionCard>
+        </SectionCardB>
       </Container>
+
     </ReactCardFlip>
   );
 };

@@ -32,6 +32,7 @@ const getAllBirdCardInfo = (user_id) => {
       'summary', birds.summary,
       'first_seen', bird_user.first_seen,
       'last_seen', bird_user.last_seen,
+      'note', bird_user.note,
       'count', bird_user.count,
       'bird_photos', (SELECT json_agg(bird_photos.photo_url) FROM bird_photos WHERE bird_photos.bird_id = birds.bird_id),
       'bird_location', (SELECT json_agg(
@@ -84,8 +85,8 @@ const createBirdSighting = (birdObj) => {
     INSERT INTO bird_user(bird_id, user_id, note, first_seen, last_seen)
     VALUES (${birdObj.bird_id}, ${birdObj.user_id}, ${birdObj.notes}, ${birdObj.dateSeen}, ${birdObj.dateSeen})
     ),
-    INSERT INTO bird_photos(photo_url, user_id, bird_id, location_lat, location_lon, date)
-    VALUES (${birdObj.url}, ${birdObj.user_id}, ${birdObj.bird_id}, ${birdObj.lat}, ${birdObj.lon}, ${birdObj.dateSeen})
+    INSERT INTO bird_photos(user_id, bird_id, location_lat, location_lon, date)
+    VALUES (${birdObj.user_id}, ${birdObj.bird_id}, ${birdObj.lat}, ${birdObj.lon}, ${birdObj.dateSeen})
   )`)
 };
 

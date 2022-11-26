@@ -95,9 +95,12 @@ const getWikiSummary = async (scientificName) => {
 }
 
 const postBird = async (req, res) => {
+  // console.log('posting bird req body:', req.body);
+  // res.send('testing bird post');
 
   let bodyName = req.body.commonName;
-  const { lat, lng } = req.body.location; //requires that location is an object with lat and lng properties
+  const lat = req.body.location.lat || null; //requires that location is an object with lat and lng properties
+  const lng = req.body.location.lng || null;
   const note = req.body.note; // user notes
   const dateSeen = req.body.dateSeen;
   const userId = req.body.user_id;
@@ -106,10 +109,15 @@ const postBird = async (req, res) => {
     notes: note,
     dateSeen: dateSeen,
     // url: url,
-    user_id: userId
+    user_id: userId,
+    lat: lat,
+    lon: lng
   };
+
+  // console.log('posting bird obj:', birdObj);
+  // res.send('testing bird post');
   try {
-    if (!req.body.bird_id) {
+    if (req.body.bird_id === 0) {
       const { sciName } = await getScientificName(bodyName);
       const summary = await getWikiSummary(sciName);
       birdObj.sciName = sciName;
@@ -123,6 +131,7 @@ const postBird = async (req, res) => {
     await createBirdSighting(birdObj)
     res.sendStatus(200)
   } catch (err) {
+    console.log('error posting bird', err);
     res.status(500).send(err);
   }
 }
