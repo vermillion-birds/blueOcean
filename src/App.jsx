@@ -9,7 +9,7 @@ import Landing from './login/Landing.jsx';
 // import backgroundVideo from './assets/106433-bird-flock-test.mp4';
 import BirdList from './BirdList.jsx';// remove whole line
 import FriendsList from './FriendsList.jsx';// remove whole line
-
+import ImageUpload from './imageUpload/ImageUpload.jsx'
 const App = () => (
   <>
     {/* <video autoPlay loop muted id="video">
@@ -26,6 +26,7 @@ const App = () => (
     <Landing />
     <FriendsList />
     <BirdList />
+    <ImageUpload/>
   </>
 
 );
