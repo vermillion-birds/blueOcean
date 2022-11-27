@@ -94,7 +94,10 @@ const NewBirdForm = ({ close, allBirds, userID, birdCards, update }) => {
   }, [birdName]);
 
   useEffect(() => {
-    setCardList(birdCards);
+   if (Array.isArray(birdCards)) {
+    setCardList(birdCards)
+   };
+
   }, [birdCards])
 
   // useEffect(() => {
