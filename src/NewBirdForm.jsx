@@ -53,7 +53,7 @@ const DropDownDiv = styled.div`
 }
 `
 
-const NewBirdForm = ({ close, allBirds, userID, birdCards }) => {
+const NewBirdForm = ({ close, allBirds, userID, birdCards, update }) => {
   const [birdName, setBirdName] = useState('');
   const [note, setNote] = useState('');
   const [dateSeen, setDateSeen] = useState('');
@@ -210,6 +210,7 @@ const NewBirdForm = ({ close, allBirds, userID, birdCards }) => {
       .then((data) => {
         console.log('bird post data: ', data);
         // propably update too
+        update();
         close();
       })
       .catch((err) => {
