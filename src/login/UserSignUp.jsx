@@ -1,9 +1,10 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/function-component-definition */
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import { userForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 const ModalBackground = styled.div`{
   width: 100%;
@@ -38,6 +39,11 @@ const ModalContainer = styled.div`{
 
 }`;
 
+const Error = styled.p`
+  font-size: 10px;
+  margin: 1px;
+`;
+
 const UserSignUp = () => {
   const [firstNameForm, setFirstName] = useState('');
   const [lastNameForm, setLastName] = useState('');
@@ -46,18 +52,11 @@ const UserSignUp = () => {
   const [zipCodeForm, setZipCode] = useState(0);
   const [profilePictureForm, setProfilePicture] = useState('');
   const history = useHistory();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const submitForm = () => {
-    const newUser = {
-      firstName: firstNameForm,
-      lastName: lastNameForm,
-      userName: userNameForm,
-      email: emailForm,
-      zipCode: zipCodeForm,
-      profilePicture: profilePictureForm,
-    };
+  const submitForm = (submitData) => {
     history.push('/user');
-    axios.post('/addUser', newUser)
+    axios.post('/addUser', submitData)
       .then((data) => {
         console.log('activated post', data);
       })
@@ -73,20 +72,28 @@ const UserSignUp = () => {
   return (
     <ModalBackground>
       <ModalContainer>
-        <form>
+        <form onSubmit={handleSubmit((data) => {
+          submitForm(data);
+        })}
+        >
           <button type="button" onClick={() => { cancel(); }}>Cancel</button>
           <div>First Name</div>
-          <input name="firstName" required onChange={(e) => { setFirstName(e.target.value); }} type="text" placeholder="First Name" />
+          <input {...register('firstName', { required: true })} type="text" placeholder="First Name" />
+          {errors.firstName?.type === 'required' && <Error role="alert">First name is required</Error>}
           <div>Last Name</div>
-          <input name="lastName" required onChange={(e) => { setLastName(e.target.value); }} type="text" placeholder="Last Name" />
+          <input {...register('lastName', { required: true })} type="text" placeholder="Last Name" />
+          {errors.lastName?.type === 'required' && <Error role="alert">Last name is required</Error>}
           <div>User Name</div>
-          <input name="userName" required onChange={(e) => { setUserName(e.target.value); }} type="text" placeholder="User Name" />
+          <input {...register('userName', { required: true })} type="text" placeholder="User Name" />
+          {errors.userName?.type === 'required' && <Error role="alert">User name is required</Error>}
           <div>Email Address</div>
-          <input name="email" required onChange={(e) => { setEmail(e.target.value); }} type="email" placeholder="Email Address" />
+          <input {...register('email', { required: true })} type="email" placeholder="Email Address" />
+          {errors.email?.type === 'required' && <Error role="alert">Email is required</Error>}
           <div>Zip Code</div>
-          <input name="zipCode" required onChange={(e) => { setZipCode(e.target.value); }} type="number" placeholder="Zip Code" />
+          <input {...register('zipCode', { required: true })} type="number" placeholder="Zip Code" />
+          {errors.zipCode?.type === 'required' && <Error role="alert">Zip Code is required</Error>}
           <div>Profile Picture</div>
-          <button type="submit" onClick={() => { submitForm(); }}>Submit</button>
+          <button type="submit">Submit</button>
         </form>
       </ModalContainer>
     </ModalBackground>
