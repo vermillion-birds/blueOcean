@@ -25,7 +25,7 @@ const SectionImage = styled.img`
   object-fit: cover;
   border: 6px solid #213547;
   box-shadow: 5px 5px 5px #213547;
- `;
+`;
 
 const Tag = styled.span`
 
@@ -101,6 +101,7 @@ const BirdCard = ({bird, back}) => {
           </aside>
         </SectionCard>
       </Container>
+
     </ReactCardFlip>
   );
 };

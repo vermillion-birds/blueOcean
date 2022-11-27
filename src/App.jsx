@@ -6,25 +6,15 @@ import { motion } from 'framer-motion';
 import { Icon } from '@iconify/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Landing from './login/Landing.jsx';
-//import backgroundVideo from './assets/106433-bird-flock-test.mp4';
+// import backgroundVideo from './assets/106433-bird-flock-test.mp4';
 // import FlyingBird from './assets/101335-parrot.gif';
-
-
-const App = ({globalUser, setGlobalUser}) => (
+import ImageUpload from './imageUpload/ImageUpload.jsx'
+const App = ({ globalUser, setGlobalUser }) => (
   <>
     <video autoPlay loop muted id="video">
-        <source src={require( './assets/mixkit-flock-of-seagulls-in-the-sky-17978-medium.mp4').default} type="video/mp4" />
-      </video>
-    <motion.div
-      style={{ display: 'flex' }}
-      animate={{ x: [0, 100, 0], rotateY: 180 }}
-      transition={{ duration: 10 }}
-    >
-      {/* <FlyingBird /> */}
-      <Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100" />
-    </motion.div>
-    <h1>Birder</h1>
-    <img id='parrot' src={require( './assets/101335-parrot.gif').default} />
+      <source src={require('./assets/mixkit-flock-of-seagulls-in-the-sky-17978-medium.mp4').default} type="video/mp4" />
+    </video>
+    {/* <img id='parrot' src={require( './assets/101335-parrot.gif').default} /> */}
     <Landing globalUser={globalUser} setGlobalUser={setGlobalUser} />
   </>
 
