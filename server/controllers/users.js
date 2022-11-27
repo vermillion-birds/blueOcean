@@ -1,7 +1,7 @@
 /* eslint-disable import/extensions */
 const axios = require('axios');
 const {
-  postUser, getEmail, getOneUser, updateOneUser, getOneUserID, getUsers, getFriends
+  postUser, getEmail, getOneUser, updateOneUser, getOneUserID, getUsers, getFriends, postFriend
 } = require('../../database/models/Users.js');
 
 const getAllUsers = (req, res) => {
@@ -110,6 +110,19 @@ const getUserGeoLocFromZip = async (zip) => {
   }
 };
 
+const addFriend = (req, res) => {
+  // console.log('req in  add friend:', req.body);
+  // res.send('hitting add friend');
+  postFriend(req.body)
+    .then((response) => {
+      console.log(response);
+      res.send('added friend');
+    })
+    .catch((err) => {
+      console.log('error in add friend server controller: ', err);
+    })
+}
+
 module.exports = {
-  addUser, getUser, getUserEmail, updateUser, createNewUser, getUserID, getAllUsers,getFriendList,
+  addUser, getUser, getUserEmail, updateUser, createNewUser, getUserID, getAllUsers,getFriendList, addFriend
 };
