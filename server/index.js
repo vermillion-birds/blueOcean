@@ -8,7 +8,7 @@ const cors = require('cors');
 const pool = require('../database/db.js');
 const { getBirdNames, postBird, getGeoLocFromAddress, getBirdCards} = require('./controllers/birds.js');
 const {
-  addUser, getUser, getUserEmail, updateUser, getUserID, getAllUsers, getFriendList
+  addUser, getUser, getUserEmail, updateUser, getUserID, getAllUsers, getFriendList, addFriend
 } = require('./controllers/users.js');
 const {getMessages} = require('./controllers/messages.js')
 
@@ -66,6 +66,8 @@ app.get('/friendsList/:user_id', getFriendList);
 app.get('/chatId/:chatIdString', getMessages);
 
 app.post('/birds', postBird);
+
+app.post('/friends', addFriend);
 
 const PORT = process.env.PORT || 3001;
 
