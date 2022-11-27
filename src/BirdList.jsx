@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable react/prop-types */
 /* eslint-disable no-param-reassign */
 /* eslint-disable operator-assignment */
 /* eslint-disable comma-dangle */
@@ -15,7 +17,7 @@ import { useHistory } from 'react-router-dom';
 const BirdList = ({userID, friend, back, allBirds}) => {
   // need some menu or toggle switch to determine card sort
   const [addingBird, setAddingBird] = useState(false);
-  const [currUser, setCurrUser] = useState(true);
+  const [currUser, setCurrUser] = useState(false);
   const [cardRows, setCardRows] = useState([]);
   const [cardView, setCardView] = useState(false);
   const [cardsBird, setCardsBird] = useState({});
@@ -25,8 +27,13 @@ const BirdList = ({userID, friend, back, allBirds}) => {
   console.log('id', userID);
 
   const getBirdInfo = () => {
+    let id = userID;
+    if (typeof friend === 'object' && Object.keys(friend).length > 0) {
+      id = friend.friend_user_id;
+    }
+    console.log(id, friend);
     // conditional to check if friend or user
-    axios.get(`/birdcards/${userID}`)
+    axios.get(`/birdcards/${id}`)
       .then((data) => {
         console.log('bird card data: ', data.data);
         setBirds(data.data);
@@ -36,8 +43,12 @@ const BirdList = ({userID, friend, back, allBirds}) => {
       });
   };
 
+
   useEffect(() => {
     getBirdInfo();
+    if (!(typeof friend === 'object' && Object.keys(friend).length > 0)) {
+      setCurrUser(true);
+    }
   }, [userID]);// ?
 
   const nowAddingBird = () => {
@@ -77,8 +88,8 @@ const BirdList = ({userID, friend, back, allBirds}) => {
         <div>
           <h1>Bird Collection</h1>
           <button onClick={() => {history.push('/user')}}>Return Home</button>
-          {!currUser && <button onClick={back()}>Back to Friend List</button>}
-          <br/>
+           <br/>
+          {!currUser && <button onClick={back}>Back to Friend List</button>}
           {currUser && <button onClick={nowAddingBird}>Add Bird Sighting</button>}
           {/* filter option for alphabetical and something else date scene? */}
           {(cardRows.length > 0) && cardRows.map((row, i) => {
@@ -103,7 +114,7 @@ const BirdList = ({userID, friend, back, allBirds}) => {
           {addingBird && <NewBirdForm close={() => { setAddingBird(); } } allBirds={allBirds} userID={userID} />}
         </div>
       )}
-      {cardView && <BirdCard bird={cardsBird} back={() => {cardClicked()}} />}
+      {cardView && <BirdCard bird={cardsBird} back={() => {cardClicked()}} userID={userID} />}
     </div>
   );
 };
