@@ -54,14 +54,19 @@ const FriendsList = ({userID, allUsers, friendsList}) => {
     setChatView(!chatView);
   };
 
+  const onSuggestedFriend = (friend) => {
+    console.log(friend);
+  };
+
   useEffect(() => {
     if (friendSearch.length !== 0) {
       setSuggestions(true);
       console.log(friendSearch);
       // sort all users where username or birds sceen name matches term
       const filtered = allUsers.filter((friend) => {
-        return (`${friend.first_name} ${friend.last_name}`).toUpperCase().includes(friendSearch.toUpperCase());
+        return (`${friend.first_name} ${friend.last_name}`).toUpperCase().includes(friendSearch.toUpperCase()) && !(listState.some((element) => { return friend.user_id === element.friend_user_id}));
       });
+      console.log('filtered friends', filtered, listState);
       setSuggestedFriends(filtered);
     } else {
       console.log('return to seeing all friends');
@@ -80,7 +85,7 @@ const FriendsList = ({userID, allUsers, friendsList}) => {
             <input type="text" placeholder="Find Fellow Birders" onChange={onFriendSearch} />
             {suggestions && (
               suggestedFriends.map((friend, i) => {
-                return (<div key={i}>{`${friend.first_name} ${friend.last_name}`}</div>);
+                return (<div key={i} onClick={() => {onSuggestedFriend(friend)}}>{`${friend.first_name} ${friend.last_name}`}</div>);
               })
             )}
           </div>
