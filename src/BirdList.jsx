@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-param-reassign */
 /* eslint-disable operator-assignment */
@@ -113,7 +114,7 @@ const BirdList = ({userID, friend, back, allBirds}) => {
           {addingBird && <NewBirdForm close={() => { setAddingBird(); } } allBirds={allBirds} userID={userID} />}
         </div>
       )}
-      {cardView && <BirdCard bird={cardsBird} back={() => {cardClicked()}} />}
+      {cardView && <BirdCard bird={cardsBird} back={() => {cardClicked()}} userID={userID} />}
     </div>
   );
 };
