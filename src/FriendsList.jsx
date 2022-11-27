@@ -13,7 +13,7 @@ import { useHistory } from 'react-router-dom';
 import './assets/FriendList.css';
 import axios from 'axios';
 
-const FriendsList = ({userID, allUsers, friendsList}) => {
+const FriendsList = ({userID, allUsers, friendsList, updateFriends}) => {
   const [friendSearch, setFriendSearch] = useState('');
   const [suggestions, setSuggestions] = useState(false);
   const [suggestedFriends, setSuggestedFriends] = useState([]);
@@ -65,7 +65,8 @@ const FriendsList = ({userID, allUsers, friendsList}) => {
       .then((data) => {
         console.log('friend post data: ', data);
         // propably update too
-        close();
+        updateFriends();
+        setSuggestions(false);
       })
       .catch((err) => {
         console.log('error adding friend: ', err);
