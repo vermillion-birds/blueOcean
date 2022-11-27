@@ -96,14 +96,16 @@ const getBirds = () => {
 }
 
 const createABird = (birdObj) => {
+  console.log('object in creat a bird', birdObj);
 // create a row in Birds, return bird_id
   return pool.query(`
-    INSERT INTO birds (bird_common_name, scentific_name)
-    VALUES (${birdObj.commonName}, ${birdObj.sciName})
+    INSERT INTO birds (bird_common_name, scentific_name, summary)
+    VALUES ('${birdObj.commonName}', '${birdObj.sciName}', '${birdObj.summary}')
     RETURNING bird_id
   `)
 };
 const createBirdSighting = (birdObj) => {
+  console.log('object in creat a bird sighting ', birdObj);
 // create row in Bird_User and in Bird_Photo
   return pool.query(`
     WITH insertBU AS (

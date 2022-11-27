@@ -124,7 +124,8 @@ const postBird = async (req, res) => {
       birdObj.summary = summary;
       birdObj.commonName = bodyName;
       const birdId = await createABird(birdObj);
-      birdObj.bird_id = birdId;
+      // console.log(birdId.rows);
+      birdObj.bird_id = birdId.rows[0].bird_id;
     } else {
       birdObj.bird_id = req.body.bird_id;
     }
