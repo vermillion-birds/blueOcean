@@ -80,7 +80,7 @@ const FriendsList = ({userID, allUsers, friendsList}) => {
       <div>
         <button onClick={() => {history.push('/user')}}>Return Home</button>
         <div>
-          <button onClick={onSuggestions}>See Suggested Friends</button>
+          {/* <button onClick={onSuggestions}>See Suggested Friends</button> */}
           <div>
             <input type="text" placeholder="Find Fellow Birders" onChange={onFriendSearch} />
             {suggestions && (
