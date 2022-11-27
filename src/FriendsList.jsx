@@ -11,6 +11,7 @@ import BirdList from './BirdList.jsx';// remove whole line
 import Chat from './Chat.jsx';
 import { useHistory } from 'react-router-dom';
 import './assets/FriendList.css';
+import axios from 'axios';
 
 const FriendsList = ({userID, allUsers, friendsList}) => {
   const [friendSearch, setFriendSearch] = useState('');
@@ -55,7 +56,20 @@ const FriendsList = ({userID, allUsers, friendsList}) => {
   };
 
   const onSuggestedFriend = (friend) => {
-    console.log(friend);
+    // console.log(friend);
+    const friendInfo = {
+      userID: userID,
+      friend: friend.user_id
+    }
+    axios.post('/friends', friendInfo)
+      .then((data) => {
+        console.log('friend post data: ', data);
+        // propably update too
+        close();
+      })
+      .catch((err) => {
+        console.log('error adding friend: ', err);
+      });
   };
 
   useEffect(() => {
