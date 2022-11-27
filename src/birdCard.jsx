@@ -17,6 +17,16 @@ const SectionCard = styled.aside`
     background-blend-mode: screen;
   `;
 
+  const SectionCard2 = styled.aside`
+    border: 4mm ridge #213547;
+    padding: 2rem;
+    background:
+    linear-gradient(lightSkyBlue, transparent),
+    linear-gradient(to top left, #686868, transparent),
+    linear-gradient(to top right, #213547, transparent);
+    background-blend-mode: screen;
+  `;
+
 const SectionImage = styled.img`
   margin-top: -1.25rem;
   margin-left: -1.25rem;
@@ -57,10 +67,20 @@ const Container = styled.div`
   margin: 0 auto;
   margin-top: 20vh;
   `;
+
+  const Container2 = styled.div`
+  box-shadow: 10px 10px 10px #213547;;
+  border-radius: 20px;
+  border: 10px solid #686868;
+  // max-width: 400px;
+  margin: 0 auto;
+  margin-top: 20vh;
+  width: 40vh;
+  `;
 const BirdCard = ({bird, back}) => {
   const [flip, setFlip] = useState(false);
-
   return (
+    <div>
     <ReactCardFlip
       isFlipped={flip}
       flipDirection="vertical"
@@ -71,7 +91,7 @@ const BirdCard = ({bird, back}) => {
             <h3>{bird.scentific_name}</h3>
             <h3>AKA: {bird.common_name}</h3>
             <SectionImage
-              src="https://images.pexels.com/photos/162140/duckling-birds-yellow-fluffy-162140.jpeg?auto=compress&cs=tinysrgb&w=1600"
+              src={bird.bird_photos[0]}
               alt="header image"
               height="400"
               width="384"
@@ -84,25 +104,26 @@ const BirdCard = ({bird, back}) => {
              {bird.summary}
             </Decription>
             <h3>Personal Notes</h3>
-            <Decription>This is one of the cutest little birdies i have ever seen</Decription>
+            <Decription>{bird.note}</Decription>
           </aside>
         </SectionCard>
       </Container>
-      <Container>
-        <SectionCard onClick={() => setFlip(!flip)}>
+      <Container2>
+        <SectionCard2 onClick={() => setFlip(!flip)}>
           <aside>
-            <h3>Location</h3>
-            <SectionImage
-              src="https://media.istockphoto.com/id/1189064346/photo/city-map-with-pin-pointers-3d-rendering-image.jpg?s=612x612&w=is&k=20&c=4SZpTpQFkcJDuy5wJjs-a3JDaZyM1jEFbZVk2laEol4="
-              alt="header image"
-              height="400"
-              width="384"
-            />
+            <h3>Sighting Locations</h3>
+            <Map />
           </aside>
-        </SectionCard>
-      </Container>
+        </SectionCard2>
+
+      </Container2>
 
     </ReactCardFlip>
+ <div>
+  <button onClick={()=>{
+    back()}} style={{marginTop: 50}}>back</button>
+    </div>
+ </div>
   );
 };
 export default BirdCard;
