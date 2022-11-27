@@ -17,25 +17,7 @@ const SectionCard = styled.aside`
     background-blend-mode: screen;
   `;
 
-
-
-  const SectionCardB = styled.aside`
-  border: 4mm ridge #213547;
-  padding: 2rem;
-  background:
-  linear-gradient(lightSkyBlue, transparent),
-  linear-gradient(to top left, #686868, transparent),
-  linear-gradient(to top right, #213547, transparent);
-  background-blend-mode: screen;
-  width:100%;
-  // height: 200%;
-  // object-fit: cover;
-
-`;
-
-
-
-const SectionImage = styled.div`
+const SectionImage = styled.img`
   margin-top: -1.25rem;
   margin-left: -1.25rem;
   width: calc(100% + 1.5rem);
@@ -77,7 +59,6 @@ const Container = styled.div`
   `;
 const BirdCard = ({bird, back}) => {
   const [flip, setFlip] = useState(false);
-  console.log(bird," this is the bird object", back , "this is the back to the admin page ")
 
   return (
     <ReactCardFlip
@@ -87,21 +68,20 @@ const BirdCard = ({bird, back}) => {
       <Container>
         <SectionCard onClick={() => setFlip(!flip)}>
           <aside>
-            <h3>Bird Name</h3>
-            <h3>Common Name</h3>
+            <h3>{bird.scentific_name}</h3>
+            <h3>AKA: {bird.common_name}</h3>
             <SectionImage
               src="https://images.pexels.com/photos/162140/duckling-birds-yellow-fluffy-162140.jpeg?auto=compress&cs=tinysrgb&w=1600"
               alt="header image"
               height="400"
               width="384"
             />
-            <Tag>First Seen:   </Tag>
-            <Tag>Last Seen:    </Tag>
-            <Tag>Times seen:   </Tag>
+            <div>First Seen: {bird.first_seen}</div>
+            <div>Last Seen: {bird.last_seen}</div>
+            <div>Times seen: {bird.count}</div>
             <h3>Decription</h3>
             <Decription>
-              This is the elusive baby duck. coming from the duck family.
-              It has long been held as the cutiest animal in the kingdom!
+             {bird.summary}
             </Decription>
             <h3>Personal Notes</h3>
             <Decription>This is one of the cutest little birdies i have ever seen</Decription>
@@ -109,12 +89,17 @@ const BirdCard = ({bird, back}) => {
         </SectionCard>
       </Container>
       <Container>
-        <SectionCardB onClick={() => setFlip(!flip)}>
+        <SectionCard onClick={() => setFlip(!flip)}>
           <aside>
             <h3>Location</h3>
-            <Map />
+            <SectionImage
+              src="https://media.istockphoto.com/id/1189064346/photo/city-map-with-pin-pointers-3d-rendering-image.jpg?s=612x612&w=is&k=20&c=4SZpTpQFkcJDuy5wJjs-a3JDaZyM1jEFbZVk2laEol4="
+              alt="header image"
+              height="400"
+              width="384"
+            />
           </aside>
-        </SectionCardB>
+        </SectionCard>
       </Container>
     </ReactCardFlip>
   );
