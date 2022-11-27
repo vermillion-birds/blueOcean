@@ -11,8 +11,9 @@ import BirdList from './BirdList.jsx';// remove whole line
 import Chat from './Chat.jsx';
 import { useHistory } from 'react-router-dom';
 import './assets/FriendList.css';
+import axios from 'axios';
 
-const FriendsList = ({userID, allUsers, friendsList}) => {
+const FriendsList = ({userID, allUsers, friendsList, updateFriends}) => {
   const [friendSearch, setFriendSearch] = useState('');
   const [suggestions, setSuggestions] = useState(false);
   const [suggestedFriends, setSuggestedFriends] = useState([]);
@@ -54,14 +55,33 @@ const FriendsList = ({userID, allUsers, friendsList}) => {
     setChatView(!chatView);
   };
 
+  const onSuggestedFriend = (friend) => {
+    // console.log(friend);
+    const friendInfo = {
+      userID: userID,
+      friend: friend.user_id
+    }
+    axios.post('/friends', friendInfo)
+      .then((data) => {
+        console.log('friend post data: ', data);
+        // propably update too
+        updateFriends();
+        setSuggestions(false);
+      })
+      .catch((err) => {
+        console.log('error adding friend: ', err);
+      });
+  };
+
   useEffect(() => {
     if (friendSearch.length !== 0) {
       setSuggestions(true);
       console.log(friendSearch);
       // sort all users where username or birds sceen name matches term
       const filtered = allUsers.filter((friend) => {
-        return (`${friend.first_name} ${friend.last_name}`).toUpperCase().includes(friendSearch.toUpperCase());
+        return (`${friend.first_name} ${friend.last_name}`).toUpperCase().includes(friendSearch.toUpperCase()) && !(listState.some((element) => { return friend.user_id === element.friend_user_id}));
       });
+      console.log('filtered friends', filtered, listState);
       setSuggestedFriends(filtered);
     } else {
       console.log('return to seeing all friends');
@@ -75,12 +95,12 @@ const FriendsList = ({userID, allUsers, friendsList}) => {
       <div>
         <button onClick={() => {history.push('/user')}}>Return Home</button>
         <div>
-          <button onClick={onSuggestions}>See Suggested Friends</button>
+          {/* <button onClick={onSuggestions}>See Suggested Friends</button> */}
           <div>
             <input type="text" placeholder="Find Fellow Birders" onChange={onFriendSearch} />
             {suggestions && (
               suggestedFriends.map((friend, i) => {
-                return (<div key={i}>{`${friend.first_name} ${friend.last_name}`}</div>);
+                return (<div key={i} onClick={() => {onSuggestedFriend(friend)}}>{`${friend.first_name} ${friend.last_name}`}</div>);
               })
             )}
           </div>
