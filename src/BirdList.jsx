@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-param-reassign */
@@ -111,7 +112,8 @@ const BirdList = ({userID, friend, back, allBirds}) => {
         return <BirdBinderEntry key={i} />
       })} */}
 
-          {addingBird && <NewBirdForm close={() => { setAddingBird(); } } allBirds={allBirds} userID={userID} birdCards={birds} />}
+          {addingBird && <NewBirdForm close={() => { setAddingBird(); } } allBirds={allBirds} userID={userID} birdCards={birds}
+          update={() => {getBirdInfo()}} />}
         </div>
       )}
       {cardView && <BirdCard bird={cardsBird} back={() => {cardClicked()}} userID={userID} />}
