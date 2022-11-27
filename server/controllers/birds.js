@@ -22,7 +22,7 @@ const getBirdCards = (req, res) => {
   .then((data) => {
     let results = [];
     if (data.rows[0]) {
-      results = data.rows[0].birdcardinfo
+      results = data.rows
     }
     //  console.log('data.row[0]', data.rows[0])
 
