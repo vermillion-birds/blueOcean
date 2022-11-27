@@ -45,7 +45,14 @@ const ModalContainer = styled.div`{
 
 }`;
 
-const NewBirdForm = ({ close }) => {
+const DropDownDiv = styled.div`
+{
+  border:solid;
+  cursor: pointer;
+}
+`
+
+const NewBirdForm = ({ close, allBirds, userID }) => {
   const [birdName, setBirdName] = useState('');
   const [note, setNote] = useState('');
   const [dateSeen, setDateSeen] = useState('');
@@ -57,14 +64,20 @@ const NewBirdForm = ({ close }) => {
   const [state, setState] = useState('');
   const [place, setPlace] = useState('');
   const [placeName, setPlaceName] = useState('');
+  const [addressOptions, setAddressOptions] = useState([]);
+  const [locationObj, setLocationObj] = useState({});
+  const [addressValReturned, setAddressValReturned] = useState(false);
+  const [waiting, setWaiting] = useState(false);
+  const [birdID, setBirdID] = useState(0);
+  const [birlURL, setBirdURL] = useState('');
   const sample = ['robin', 'blue jay', 'raven'];
 
   useEffect(() => {
     if (birdName.length !== 0) {
-      console.log(birdName);
+      // console.log(birdName);
       // sort all users where username or birds sceen name matches term
-      const filtered = sample.filter((bird) => {
-        return bird.toUpperCase().includes(birdName.toUpperCase());
+      const filtered = allBirds.filter((bird) => {
+        return bird.bird_common_name.toUpperCase().includes(birdName.toUpperCase());
       });
       if (filtered.length === 1 && filtered[0] === birdName) {
         setSuggestedBirds([]);
@@ -76,6 +89,18 @@ const NewBirdForm = ({ close }) => {
       console.log('done typing bird name');
     }
   }, [birdName]);
+
+  // useEffect(() => {
+  //   const birdOptions = allBirds.map(bird => {
+  //     const newBird = Object.assign({}, bird);
+  //     console.log(newBird)
+  //     newBird.label = bird.bird_common_name;
+  //     return newBird;
+  //   })
+  //   setSuggestedBirds(birdOptions);
+  //   console.log(birdOptions);
+
+  // }, [])
 
   const onBirdName = (e) => {
     setBirdName(e.target.value);
@@ -114,57 +139,105 @@ const NewBirdForm = ({ close }) => {
   };
 
   const suggestionClicked = (bird) => {
-    setBirdName(bird);
+    console.log('suggestion clicked', bird.bird_common_name);
+    setBirdName(bird.bird_common_name);
+    setBirdID(bird.bird_id);
     setSuggestedBirds([]);
   };
 
+  const getAddressFromBrowser = () => {
+    setWaiting(!waiting);
+    console.log('waiting? ', waiting);
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log('location when clicked', position);
+      setWaiting(false);
+      setLocationObj({ lat: position.coords.latitude, lng: position.coords.longitude });
+    });
+  }
+
   const checkAddress = () => {
-    console.log(state, street, zip, place);
+    // setWaiting(!waiting);
+    const addressString = place + street + ' ' + state + ' ' + zip;
+    axios.post('/location', {
+      address: addressString
+    })
+      .then(results => {
+        const options = results.data;
+        setAddressOptions(options);
+        setAddressValReturned(true);
+        // setWaiting(!waiting);
+      })
+      .catch(err => {
+        const noAddresses = { formatted_address: "No results: please try a different address" }
+        setAddressOptions([noAddresses]);
+        setAddressValReturned(true);
+      })
+      // not really sure about the lines below so leaving them for now.
+    setZip('');
+    setStreet('');
+    setState('');
+    setPlace('');
   };
+
+  const selectAddress = (index) => {
+    let latLong = addressOptions[index].geometry.location;
+    setLocationObj(latLong);
+    setAddressValReturned(false);
+  };
+
 
   const submitForm = (event) => {
     event.preventDefault();
     const birdInfo = {
-      commmonName: birdName,
+      commonName: birdName,
       note: note,
       dateSeen: dateSeen,
-      // location: {lat: lng:},
-      // photo: url
+      user_id: userID,
+      bird_id: birdID,
+      location: locationObj,
+      // photo: birdURL
     };
-    // const form = document.getElementById("bird-form");
-
-    // form.addEventListener('submit', submitForm);
     console.log(birdInfo);
 
-    // axios.post('/whatever', birdInfo)
-    //   .then((data) => {
-    //     console.log(data);
-    //     // propably update too
-    //     close();
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    axios.post('/birds', birdInfo)
+      .then((data) => {
+        console.log('bird post data: ', data);
+        // propably update too
+        close();
+      })
+      .catch((err) => {
+        console.log('error posting bird sighting: ', err);
+      });
   };
+
   return (
     <ModalBackground>
       <ModalContainer>
-        <button onClick={() => { close(); }}>CLOSE</button>
-        <form onSubmit="return false">
-          <div className="dropdown">
+        <button
+          onClick={() => { close(); }}>
+          CLOSE
+        </button>
+        <form>
+          <div
+            className="dropdown">
             <label>Birds Common Name</label>
-            <input type="text" placeholder="ex. cardinal" onChange={onBirdName} />
+            <input
+              type="text"
+              placeholder="ex. cardinal"
+              onChange={onBirdName}
+            />
             {(suggestedBirds.length > 0) && (
-            <div>
-              {suggestedBirds.map((bird, i) => {
-                console.log(bird);
-                return (
-                  <div key={i} onClick={() => { suggestionClicked(bird); }}>
-                    {bird}
-                  </div>
-                );
-              })}
-            </div>)}
+              <div>
+                {suggestedBirds.map((bird, i) => {
+                  // console.log(bird);
+                  return (
+                    <option key={i}
+                    onClick={() => { suggestionClicked(bird); }}>
+                      {bird.bird_common_name}
+                    </option>
+                  );
+                })}
+              </div>)}
           </div>
           <label>Personal Note</label>
           <input type="textarea" placeholder="a place to jot down your thoughts on this or future birdsightings" onChange={onNote} />
@@ -172,10 +245,10 @@ const NewBirdForm = ({ close }) => {
           <label>Date Seen</label>
           <input type="date" onChange={onDateSeen} />
           <br />
-          <label>Nickname of Lacation seen</label>
+          {/* <label>Nickname of Location seen</label>
           <input type="text" placeholder="ex. park on 1st" onChange={onPlaceName} />
-          <br />
-          <button type="button">grab location</button>
+          <br /> */}
+          <button type="button" onClick={getAddressFromBrowser}>grab location</button>
           <button onClick={typeAddressIn} type="button">fill out location or zip</button>
           {typeAddress && (
             <div>
@@ -196,14 +269,30 @@ const NewBirdForm = ({ close }) => {
               <label>State initials?</label>
               <input type="text" placeholder="ex. VA" onChange={onState} />
               <br />
+              {
+                addressValReturned &&
+                addressOptions.map((option, index) => {
+                  return (
+                    <DropDownDiv
+                      key={index}
+                      index={index}
+                      onClick={(event) => { selectAddress(index) }}>
+                      {option.formatted_address}
+                    </DropDownDiv>
+                  );
+                })
+              }
               <button type="button" onClick={checkAddress}>check address</button>
 
             </div>
           )}
-          {/*
-      photo from cloudinary?
-      location? */}
-          <button type="submit" onClick={submitForm}>Submit</button>
+          <br />
+              <label>Select a Photo of the Bird Seen!</label>
+              <input type="file"   />
+              <br />
+          {/*use birdURL and setBirdURL to store url in state, once set i'd check with Andy for what all needs to happen along the req chain starting with variable passed from here*/}
+          {(!waiting) && <button type="submit" onClick={submitForm}>Submit</button>}
+          {waiting && <div>Waiting on Location Grab</div>}
         </form>
       </ModalContainer>
     </ModalBackground>

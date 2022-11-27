@@ -6,6 +6,7 @@ import { Icon } from '@iconify/react';
 import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import AccountPage from './AccountPage.jsx';
 import UserSignUp from './UserSignUp.jsx';
 
@@ -19,6 +20,7 @@ const Container = styled.div`
   border:solid;
   border-radius: 25px;
   box-shadow: 5px 5px 10px;
+  opacity: .95;
 `;
 
 const LandingButton = styled.button`
@@ -35,11 +37,10 @@ const userdb = {
   zipcode: '08901',
 };
 
-const Landing = () => {
+const Landing = ({ setGlobalUser, globalUser }) => {
   const [addUserToggle, setAddUserToggle] = useState(false);
   const history = useHistory();
 
-  console.log(isAuthenticated, user);
   const {
     user,
     isAuthenticated,
@@ -56,19 +57,23 @@ const Landing = () => {
   };
 
   useEffect(() => {
-    axios.get('/userInfo')
-      .then((data) => {
-        if (userdb.email === user.email) {
-          history.push('/user')
-          console.log('send to account page');
-        } else {
-          history.push('/createUser')
-          console.log('send to create user page');
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (user) {
+      setGlobalUser(user);
+      axios.get('/userInfo', { params: { email: user.email } })
+        .then((data) => {
+          if (data.data[0] !== undefined) {
+            history.push('/user');
+            console.log('send to account page');
+          } else {
+            console.log('DATA IN ELSE', data);
+            history.push('/createUser');
+            console.log('send to create user page');
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, [user]);
 
   const addUser = () => {
@@ -80,21 +85,40 @@ const Landing = () => {
       {!isAuthenticated
       && (
       <Container>
-        <div>
-          <Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100" />
+        <div className="outermotion">
+          <h1>Birder</h1>
+          <motion.div
+            style={{ display: 'flex' }}
+            animate={{ x: [-140, 155, -140], y: [0, 50, -170, -190, 0], rotateY: [0, 180, 0] }}
+            transition={{ duration: 7, repeat: 'Infinity' }}
+            whileHover={{
+              scale: 2,
+            }}
+            onHoverStart={(e) => {}}
+            onHoverEnd={(e) => {}}
+          >
+            {/* <FlyingBird /> */}
+            <Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100" />
+          </motion.div>
         </div>
-        {/* Need to create functionality that will check if the user already exists in our
-        database.  If they click on login and don't exist in our page, it will take them to the
-        create user page. */}
+        {/* <div>
+          <Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100" />
+        </div> */}
         <LandingButton onClick={() => login()}>Login</LandingButton>
-        <div>Don't Have An Account?</div>
-        <LandingButton onClick={() => { addUser(); }}>Create Account</LandingButton>
-        {addUserToggle
-        && <UserSignUp setAddUserToggle={setAddUserToggle} />}
+        {/* <div>Don't Have An Account?</div> */}
+        {/* <LandingButton onClick={() => { addUser(); }}>Create Account</LandingButton> */}
+        {/* {addUserToggle
+        && <UserSignUp setAddUserToggle={setAddUserToggle} />} */}
       </Container>
       )}
       {isAuthenticated
-      && <AccountPage logoutWithRedirect={logoutWithRedirect} />}
+      && (
+      <AccountPage
+        logoutWithRedirect={logoutWithRedirect}
+        globalUser={globalUser}
+        setGlobalUser={setGlobalUser}
+      />
+      )}
     </>
   );
 };

@@ -17,5 +17,5 @@ const pool = new Pool(config);
 console.log('CONNECTED TO POSTGRES');
 
 module.exports = {
-  pool,
+  pool
 }

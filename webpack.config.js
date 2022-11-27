@@ -29,7 +29,19 @@ module.exports = {
         options:{
           name:"dummyData"
         }
-      }
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
+      {
+        test: /\.mp4$/,
+        use: 'file-loader?name=videos/[name].[ext]',
+ }
     ]
   },
   // [devtool] this is an additional source map that will let the browser know what files are running our code.

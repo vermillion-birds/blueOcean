@@ -1,18 +1,97 @@
+/* eslint-disable import/extensions */
 const axios = require('axios');
-require("dotenv").config();
+const {
+  postUser, getEmail, getOneUser, updateOneUser, getOneUserID, getUsers, getFriends
+} = require('../../database/models/Users.js');
+
+const getAllUsers = (req, res) => {
+  console.log('IN GET ALL USERS');
+  getUsers()
+    .then((response) => {
+      res.send(response.rows);
+      res.end();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const getUserID = (req, res) => {
+  getOneUserID(req.query)
+    .then((response) => {
+      res.send(response.rows);
+      res.end();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const addUser = (req, res) => {
+  postUser(req.body)
+    .then((response) => {
+      console.log('RESPONSE IN ADDUSER', response);
+      res.send(response);
+      res.end();
+    })
+    .catch((err) => {
+      console.log(err);
+      res.end('error in add user');
+    });
+};
+
+const getUser = (req, res) => {
+  getOneUser(req.query)
+    .then((data) => {
+      res.send(data.rows);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const updateUser = (req, res) => {
+  updateOneUser(req.body)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const getUserEmail = (req, res) => {
+  getEmail(req.query)
+    .then((data) => {
+      res.send(data.rows);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const getFriendList = (req, res) => {
+  console.log('INSIDE GETFRIENDLIST');
+  getFriends(parseInt(req.params.user_id))
+  .then((data) => {
+    console.log(data);
+    res.status(200).send(data.rows[0].friends)
+  })
+  .catch(err => console.log('ERROR IN GETFRIENDLIST ', err))
+};
+
+require('dotenv').config();
 // const { postUser } = require('../../database/models/Birds.js');
 
 const createNewUser = async (req, res) => {
-  let zipCode = req.body.zip; //check name of what client is sending
+  const zipCode = req.body.zip; // check name of what client is sending
 
   try {
     getUserGeoLocFromZip(zipCode);
   } catch (err) {
     console.log(err, 'error in createNewUser');
   }
-}
-
-
+};
 
 const getUserGeoLocFromZip = async (zip) => {
   const encodedZip = encodeURI(zip);
@@ -24,25 +103,13 @@ const getUserGeoLocFromZip = async (zip) => {
     // console.log('location obj', fullLocationData.data.results[0].geometry);
     geoLocation.lat = fullLocationData.data.results[0].geometry.location.lat;
     geoLocation.lng = fullLocationData.data.results[0].geometry.location.lng;
-    console.log(geoLocation)
+    console.log(geoLocation);
     // return geoLocation;
   } catch (err) {
     console.log('error inside getUserGeoLocFromZip', err);
   }
-
-}
+};
 
 module.exports = {
-  createNewUser
-}
-
-//show current location https://developers.google.com/maps/documentation/javascript/geolocation
-
-
-
-
-
-
-
-
-
+  addUser, getUser, getUserEmail, updateUser, createNewUser, getUserID, getAllUsers,getFriendList,
+};
