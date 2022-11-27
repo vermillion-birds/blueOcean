@@ -1,3 +1,4 @@
+/* eslint-disable react/self-closing-comp */
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable max-len */
 /* eslint-disable react/prop-types */
@@ -90,9 +91,17 @@ const BirdList = ({userID, friend, back, allBirds}) => {
           <h1>Bird Collection</h1>
           <button onClick={() => {history.push('/user')}}>Return Home</button>
            <br/>
+           <br/>
           {!currUser && <button onClick={back}>Back to Friend List</button>}
           {currUser && <button onClick={nowAddingBird}>Add Bird Sighting</button>}
           {/* filter option for alphabetical and something else date scene? */}
+          <br/>
+          <br/>
+          <label className="toggle">
+            <input type="checkbox" />
+            <span className="slider"></span>
+            <span className="labels" data-on="Recent" data-off="ABC"></span>
+          </label>
           {(cardRows.length > 0) && cardRows.map((row, i) => {
             if (row[1]) {
               return (

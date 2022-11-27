@@ -3,6 +3,7 @@
   display: flex;
   justify-content: space-between;
   border: 2px solid black;
+  min-width: 375px;
 }
 
 .friends-name {
