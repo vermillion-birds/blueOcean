@@ -44,6 +44,11 @@ const getFriends = (user_id) => pool.query(`
 // const updateOneUser = (req) =>
 const updateOneUser = (req) => {}
 
+const postFriend = (req) => pool.query(
+  `INSERT INTO friendships (logged_in_user_id, friend_user_id) VALUES (${req.userID}, ${req.friend});
+  INSERT INTO friendships (logged_in_user_id, friend_user_id) VALUES (${req.friend}, ${req.userID});`
+);
+
 module.exports = {
-  postUser, getEmail, getOneUser, getOneUserID, getUsers, getFriends,
+  postUser, getEmail, getOneUser, getOneUserID, getUsers, getFriends, postFriend
 };

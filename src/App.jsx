@@ -8,9 +8,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Landing from './login/Landing.jsx';
 // import backgroundVideo from './assets/106433-bird-flock-test.mp4';
 // import FlyingBird from './assets/101335-parrot.gif';
-import FlyingBird from './assets/101335-parrot.gif';
-import Chat from './Chat.jsx';
-
+import ImageUpload from './imageUpload/ImageUpload.jsx'
 const App = ({ globalUser, setGlobalUser }) => (
   <>
     <video autoPlay loop muted id="video">

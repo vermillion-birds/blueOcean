@@ -17,25 +17,17 @@ const SectionCard = styled.aside`
     background-blend-mode: screen;
   `;
 
+  const SectionCard2 = styled.aside`
+    border: 4mm ridge #213547;
+    padding: 2rem;
+    background:
+    linear-gradient(lightSkyBlue, transparent),
+    linear-gradient(to top left, #686868, transparent),
+    linear-gradient(to top right, #213547, transparent);
+    background-blend-mode: screen;
+  `;
 
-
-  const SectionCardB = styled.aside`
-  border: 4mm ridge #213547;
-  padding: 2rem;
-  background:
-  linear-gradient(lightSkyBlue, transparent),
-  linear-gradient(to top left, #686868, transparent),
-  linear-gradient(to top right, #213547, transparent);
-  background-blend-mode: screen;
-  width:100%;
-  // height: 200%;
-  // object-fit: cover;
-
-`;
-
-
-
-const SectionImage = styled.div`
+const SectionImage = styled.img`
   margin-top: -1.25rem;
   margin-left: -1.25rem;
   width: calc(100% + 1.5rem);
@@ -75,11 +67,20 @@ const Container = styled.div`
   margin: 0 auto;
   margin-top: 20vh;
   `;
+
+  const Container2 = styled.div`
+  box-shadow: 10px 10px 10px #213547;;
+  border-radius: 20px;
+  border: 10px solid #686868;
+  // max-width: 400px;
+  margin: 0 auto;
+  margin-top: 20vh;
+  width: 40vh;
+  `;
 const BirdCard = ({bird, back}) => {
   const [flip, setFlip] = useState(false);
-  console.log(bird," this is the bird object", back , "this is the back to the admin page ")
-
   return (
+    <div>
     <ReactCardFlip
       isFlipped={flip}
       flipDirection="vertical"
@@ -87,37 +88,42 @@ const BirdCard = ({bird, back}) => {
       <Container>
         <SectionCard onClick={() => setFlip(!flip)}>
           <aside>
-            <h3>Bird Name</h3>
-            <h3>Common Name</h3>
+            <h3>{bird.scentific_name}</h3>
+            <h3>AKA: {bird.common_name}</h3>
             <SectionImage
-              src="https://images.pexels.com/photos/162140/duckling-birds-yellow-fluffy-162140.jpeg?auto=compress&cs=tinysrgb&w=1600"
+              src={bird.bird_photos[0]}
               alt="header image"
               height="400"
               width="384"
             />
-            <Tag>First Seen:   </Tag>
-            <Tag>Last Seen:    </Tag>
-            <Tag>Times seen:   </Tag>
+            <div>First Seen: {bird.first_seen}</div>
+            <div>Last Seen: {bird.last_seen}</div>
+            <div>Times seen: {bird.count}</div>
             <h3>Decription</h3>
             <Decription>
-              This is the elusive baby duck. coming from the duck family.
-              It has long been held as the cutiest animal in the kingdom!
+             {bird.summary}
             </Decription>
             <h3>Personal Notes</h3>
-            <Decription>This is one of the cutest little birdies i have ever seen</Decription>
+            <Decription>{bird.note}</Decription>
           </aside>
         </SectionCard>
       </Container>
-      <Container>
-        <SectionCardB onClick={() => setFlip(!flip)}>
+      <Container2>
+        <SectionCard2 onClick={() => setFlip(!flip)}>
           <aside>
-            <h3>Location</h3>
+            <h3>Sighting Locations</h3>
             <Map />
           </aside>
-        </SectionCardB>
-      </Container>
+        </SectionCard2>
+
+      </Container2>
 
     </ReactCardFlip>
+ <div>
+  <button onClick={()=>{
+    back()}} style={{marginTop: 50}}>back</button>
+    </div>
+ </div>
   );
 };
 export default BirdCard;

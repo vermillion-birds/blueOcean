@@ -1,3 +1,8 @@
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react/jsx-wrap-multilines */
+/* eslint-disable max-len */
+/* eslint-disable react/prop-types */
 /* eslint-disable no-param-reassign */
 /* eslint-disable operator-assignment */
 /* eslint-disable comma-dangle */
@@ -15,20 +20,52 @@ import { useHistory } from 'react-router-dom';
 const BirdList = ({userID, friend, back, allBirds}) => {
   // need some menu or toggle switch to determine card sort
   const [addingBird, setAddingBird] = useState(false);
-  const [currUser, setCurrUser] = useState(true);
+  const [currUser, setCurrUser] = useState(false);
   const [cardRows, setCardRows] = useState([]);
   const [cardView, setCardView] = useState(false);
   const [cardsBird, setCardsBird] = useState({});
   const [birds, setBirds] = useState([]);
+  const [alpBirds, setAlpBirds] = useState([]);
+  const [recBirds, setRecBirds] = useState([]);
+  const [sort, setSort] = useState(true);
   const history = useHistory();
 
-  console.log('id', userID);
+  // console.log('id', userID);
 
   const getBirdInfo = () => {
+    let id = userID;
+    if (typeof friend === 'object' && Object.keys(friend).length > 0) {
+      id = friend.friend_user_id;
+    }
+    // console.log(id, friend);
     // conditional to check if friend or user
-    axios.get(`/birdcards/${userID}`)
+    axios.get(`/birdcards/${id}`)
       .then((data) => {
-        console.log('bird card data: ', data.data);
+        let copy1 = data.data.slice();
+        let copy2 = data.data.slice();
+
+        let sorted = copy1.sort(function compareFn(a, b) {
+          if (a.common_name.toUpperCase() < b.common_name.toUpperCase()) {
+            return -1;
+          }
+          if (a.common_name.toUpperCase() < b.common_name.toUpperCase()) {
+            return 1;
+          }
+          // a must be equal to b
+          return 0;
+        });
+        let sortedRec = copy2.sort(function compareFn(a, b) {
+          if (a.first_seen > b.first_seen) {
+            return -1;
+          }
+          if (a.first_seen < b.first_seen) {
+            return 1;
+          }
+          // a must be equal to b
+          return 0;
+        });
+        setRecBirds(sortedRec);
+        setAlpBirds(sorted);
         setBirds(data.data);
       })
       .catch((err) => {
@@ -36,8 +73,12 @@ const BirdList = ({userID, friend, back, allBirds}) => {
       });
   };
 
+
   useEffect(() => {
     getBirdInfo();
+    if (!(typeof friend === 'object' && Object.keys(friend).length > 0)) {
+      setCurrUser(true);
+    }
   }, [userID]);// ?
 
   const nowAddingBird = () => {
@@ -67,8 +108,20 @@ const BirdList = ({userID, friend, back, allBirds}) => {
     setCardRows(cardStorage);
   };
 
+  const sortChange = () => {
+    setSort(!sort);
+
+    if (sort) {
+      setBirds(alpBirds);
+    } else {
+      setBirds(recBirds);
+    }
+
+  };
+
   useEffect(() => {
     generateCardRows();
+    console.log('bird card data: ', birds);
   }, [birds]);
 
   return (
@@ -77,10 +130,17 @@ const BirdList = ({userID, friend, back, allBirds}) => {
         <div>
           <h1>Bird Collection</h1>
           <button onClick={() => {history.push('/user')}}>Return Home</button>
-          {!currUser && <button onClick={back()}>Back to Friend List</button>}
-          <br/>
+           <br/>
+           <br/>
+          {!currUser && <button onClick={back}>Back to Friend List</button>}
           {currUser && <button onClick={nowAddingBird}>Add Bird Sighting</button>}
           {/* filter option for alphabetical and something else date scene? */}
+          <br/>
+          <br/>
+          {sort && <button onClick={sortChange}>Alphabetical</button>}
+          {!sort && <button onClick={sortChange}>Most Recent</button>}
+          <br/>
+          <br/>
           {(cardRows.length > 0) && cardRows.map((row, i) => {
             if (row[1]) {
               return (
@@ -100,10 +160,11 @@ const BirdList = ({userID, friend, back, allBirds}) => {
         return <BirdBinderEntry key={i} />
       })} */}
 
-          {addingBird && <NewBirdForm close={() => { setAddingBird(); } } allBirds={allBirds} userID={userID} />}
+          {addingBird && <NewBirdForm close={() => { setAddingBird(); } } allBirds={allBirds} userID={userID} birdCards={birds}
+          update={() => {getBirdInfo()}} />}
         </div>
       )}
-      {cardView && <BirdCard bird={cardsBird} back={() => {cardClicked()}} />}
+      {cardView && <BirdCard bird={cardsBird} back={() => {cardClicked()}} userID={userID} />}
     </div>
   );
 };
