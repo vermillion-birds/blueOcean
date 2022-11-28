@@ -56,7 +56,7 @@ const UsersContainer = styled.div`
       align-items: center;
       justify-content: center;
       transition: 0.5s ease-in-out;
-      font-size: 1.5rem;
+      font-size: 1.5vw;
     }
     .currentChatUser {
       background-color: blue;

@@ -1,9 +1,50 @@
 import React, {useState, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import ChatInputField from './ChatInputField.jsx';
+import { v4 as uuidv4} from 'uuid';
+import axios from 'axios';
 
-const ChatContainer = function ({friendSelected, chatMessages, globalUser, userID, displayMessages, chatId}) {
+const ChatContainer = function ({friendSelected, chatMessages, setChatMessages, globalUser, userID, displayMessages, chatId, socket}) {
   const scrollRef = useRef();
+  const [message, setMessage] = useState('');
+  const [incomingMessages, setIncomingMessages] = useState(null);
+
+  const sendMessage = function (msg) {
+      //Have a function that sends the message to the database
+      socket.current.emit('send-msg', {
+        to: friendSelected.friend_user_id,
+        from: userID,
+        message: msg,
+      })
+      axios.post('/chatId/sendMessage', {
+        message: message,
+        timestamp: JSON.stringify(new Date().toISOString()),
+        currentUser: userID,
+        conversationId: chatId
+      })
+        .then((response) => {
+          // displayMessages();
+          const msgs = [...chatMessages];
+          msgs.push({fromSelf: true, message: msg})
+          setChatMessages(msgs);
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+  };
+
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on("msg-received", (msg) => {
+        setIncomingMessages({ fromSelf: false, message: msg });
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    incomingMessages && setChatMessages((prev) => [...prev, incomingMessages]);
+  }, [incomingMessages]);
+
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -27,21 +68,22 @@ const ChatContainer = function ({friendSelected, chatMessages, globalUser, userI
       <div className="chat-messages">
         {chatMessages !== undefined ? chatMessages.map((message, idx) => {
           return (
-            <div ref={scrollRef} key={idx+message.sender_name}>
+            <div ref={scrollRef} key={uuidv4()}>
               <div className={`message ${
-                message.sender_name === `${friendSelected.first_name} ${friendSelected.last_name}` ? `incoming` : `outgoing`
+                message.sender_name === `${friendSelected.first_name} ${friendSelected.last_name}` || message.fromSelf === false ? `incoming` : `outgoing`
               }`}>
                 <div className="content ">
-                  <p>{message.message}</p>
+                  <p style={{fontSize: '1vw'}}>{message.message}</p>
                 </div>
                 </div>
               </div>
               )}) : <></>}
       </div>
-      <ChatInputField friendSelected={friendSelected} globalUser={globalUser} userID={userID} chatMessages={chatMessages} displayMessages={displayMessages} chatId={chatId} />
+      <ChatInputField friendSelected={friendSelected} globalUser={globalUser} userID={userID} chatMessages={chatMessages} displayMessages={displayMessages} message={message} setMessage={setMessage} sendMessage={sendMessage} chatId={chatId} socket={socket} />
     </Container>
   )
 };
+
 
 
 const Container = styled.div`

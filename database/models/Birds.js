@@ -47,7 +47,7 @@ const getAllBirdCardInfo
 //   LIMIT 1
 
 const getAllBirdCardInfo = (user_id) => {
-  console.log('QUERYING WITH USER ID ', user_id)
+  // console.log('QUERYING WITH USER ID ', user_id)
   return pool.query(`
   with birdsArray AS (
     SELECT array_agg(bird_id) AS arr FROM bird_user WHERE user_id = ${user_id}
@@ -80,11 +80,11 @@ const getAllBirdCardInfo = (user_id) => {
 const getBirds = () => {
   return pool.connect()
     .then(client => {
-      console.log('CONNECTING TO POSTGRES POOL CLIENT');
+      // console.log('CONNECTING TO POSTGRES POOL CLIENT');
       return client.query('SELECT * FROM birds')
       .then((res) => {
         client.release();
-        console.log('RETREIVING FROM DATABASE');
+        // console.log('RETREIVING FROM DATABASE');
         return res.rows;
       })
       .catch((err) => {
@@ -96,7 +96,7 @@ const getBirds = () => {
 }
 
 const createABird = (birdObj) => {
-  console.log('object in creat a bird', birdObj);
+  // console.log('object in creat a bird', birdObj);
 // create a row in Birds, return bird_id
   return pool.query(`
     INSERT INTO birds (bird_common_name, scentific_name, summary)
@@ -105,7 +105,7 @@ const createABird = (birdObj) => {
   `)
 };
 const createBirdSighting = (birdObj) => {
-  console.log('object in creat a bird sighting ', birdObj);
+  // console.log('object in creat a bird sighting ', birdObj);
 // create row in Bird_User and in Bird_Photo
   return pool.query(`
     WITH insertBU AS (
