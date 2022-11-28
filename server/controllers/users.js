@@ -41,6 +41,7 @@ const addUser = (req, res) => {
 };
 
 const getUser = (req, res) => {
+  console.log('GET USER FOR ACCOUNT PAGE', req.query)
   getOneUser(req.query)
     .then((data) => {
       res.send(data.rows);
@@ -73,11 +74,11 @@ const getUserEmail = (req, res) => {
 const getFriendList = (req, res) => {
   console.log('INSIDE GETFRIENDLIST');
   getFriends(parseInt(req.params.user_id))
-  .then((data) => {
-    console.log(data);
-    res.status(200).send(data.rows[0].friends)
-  })
-  .catch(err => console.log('ERROR IN GETFRIENDLIST ', err))
+    .then((data) => {
+      console.log(data);
+      res.status(200).send(data.rows[0].friends);
+    })
+    .catch((err) => console.log('ERROR IN GETFRIENDLIST ', err));
 };
 
 require('dotenv').config();
@@ -103,7 +104,7 @@ const getUserGeoLocFromZip = async (zip) => {
     // console.log('location obj', fullLocationData.data.results[0].geometry);
     geoLocation.lat = fullLocationData.data.results[0].geometry.location.lat;
     geoLocation.lng = fullLocationData.data.results[0].geometry.location.lng;
-    console.log(geoLocation);
+    // console.log(geoLocation);
     // return geoLocation;
   } catch (err) {
     console.log('error inside getUserGeoLocFromZip', err);

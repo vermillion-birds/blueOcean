@@ -1,37 +1,51 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import ChatInputField from './ChatInputField.jsx';
 
-const ChatContainer = function ({currentUser}) {
+const ChatContainer = function ({friendSelected, chatMessages, globalUser, userID, displayMessages, chatId}) {
+  const scrollRef = useRef();
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatMessages]);
+
   return (
   <Container>
       <div className="chat-header">
         <div className="user-details">
           <div className="avatar">
             <img
-              src="https://www.pngkey.com/png/full/203-2037403_flat-faces-icons-circle-girl-flat-icon-png.png"
+              src={`${friendSelected.profile_url}`}
               alt=""
             />
           </div>
           <div className="username">
-            <h3>UserOne</h3>
+            <h3>{`${friendSelected.first_name} ${friendSelected.last_name}`}</h3>
           </div>
         </div>
       </div>
       <div className="chat-messages">
-              <div className="message">
+        {chatMessages !== undefined ? chatMessages.map((message, idx) => {
+          return (
+            <div ref={scrollRef} key={idx+message.sender_name}>
+              <div className={`message ${
+                message.sender_name === `${friendSelected.first_name} ${friendSelected.last_name}` ? `incoming` : `outgoing`
+              }`}>
                 <div className="content ">
-                  <p>This is a message</p>
+                  <p>{message.message}</p>
+                </div>
                 </div>
               </div>
+              )}) : <></>}
       </div>
-      <ChatInputField />
+      <ChatInputField friendSelected={friendSelected} globalUser={globalUser} userID={userID} chatMessages={chatMessages} displayMessages={displayMessages} chatId={chatId} />
     </Container>
   )
 };
 
+
 const Container = styled.div`
-  display: grid;
+display: grid;
   grid-template-rows: 10% 80% 10%;
   gap: 0.1rem;
   overflow: hidden;
@@ -79,7 +93,7 @@ const Container = styled.div`
       .content {
         max-width: 40%;
         overflow-wrap: break-word;
-        padding: 1rem;
+        padding: 0.2rem;
         font-size: 1.1rem;
         border-radius: 1rem;
         color: #d1d1d1;
@@ -88,20 +102,19 @@ const Container = styled.div`
         }
       }
     }
-    .content {
-      background-color: #264A60;
+    .outgoing {
+      justify-content: flex-end;
+      .content {
+        background-color: #83C9F4;
+        color: #535252;
+      }
     }
-    // .sended {
-    //   justify-content: flex-end;
-    //   .content {
-    //     background-color: #4f04ff21;
-    //   }
-    // }
-    // .received {
-    //   justify-content: flex-start;
-    //   .content {
-    //     background-color: #9900ff20;
-    //   }
+    .incoming {
+      justify-content: flex-start;
+      .content {
+        background-color: #d9f0ff;
+        color: #535252;
+      }
     }
   }
 `;

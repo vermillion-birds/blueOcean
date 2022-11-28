@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { Icon } from '@iconify/react';
 
 const ModalBackground = styled.div`{
   width: 100%;
@@ -25,7 +26,7 @@ const ModalContainer = styled.div`{
     border:solid;
   }
   width: 500px;
-  height: 500px;
+  height: 600px;
   border:solid;
   border-radius: 25px;
   background-color: #686868;
@@ -34,8 +35,11 @@ const ModalContainer = styled.div`{
   flex-direction: column;
   padding: 25px;
   font-size: 24px;
-
 }`;
+
+const Input = styled.input`
+  margin: 15px;
+`;
 
 const UpdateForm = ({ setUpdate, update, globalUser }) => {
   const [firstNameForm, setFirstName] = useState('');
@@ -64,20 +68,21 @@ const UpdateForm = ({ setUpdate, update, globalUser }) => {
 
   const submitForm = () => {
     const newUser = {};
+    newUser.user_id = user.user_id;
     if (firstNameForm.length > 0) {
-      newUser['firstName'] = firstNameForm;
+      newUser.first_name = firstNameForm;
     }
     if (lastNameForm.length > 0) {
-      newUser['lastName'] = lastNameForm;
+      newUser.last_name = lastNameForm;
     }
     if (userNameForm.length > 0) {
-      newUser['userName'] = userNameForm;
+      newUser.username = userNameForm;
     }
     if (emailForm.length > 0) {
-      newUser['email'] = emailForm;
+      newUser.email = emailForm;
     }
-    if (zipCodeForm.length !== 0) {
-      newUser['zipCode'] = firstNameForm;
+    if (zipCodeForm !== 0) {
+      newUser.user_location = zipCodeForm;
     }
 
     history.push('/user');
@@ -102,19 +107,21 @@ const UpdateForm = ({ setUpdate, update, globalUser }) => {
         <>
           <div>Update Your Account</div>
           <form>
-            <button type="button" onClick={() => { cancel(); }}>Cancel</button>
+            <p style={{ margin: '0px' }}><Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100" /></p>
             <div>First Name</div>
-            <input defaultValue={user.first_name} required onChange={(e) => { setFirstName(e.target.value); }} type="text" />
+            <Input defaultValue={user.first_name} required onChange={(e) => { setFirstName(e.target.value); }} type="text" />
             <div>Last Name</div>
-            <input defaultValue={user.last_name} required onChange={(e) => { setLastName(e.target.value); }} type="text" placeholder="Last Name" />
+            <Input defaultValue={user.last_name} required onChange={(e) => { setLastName(e.target.value); }} type="text" placeholder="Last Name" />
             <div>User Name</div>
-            <input defaultValue={user.username} required onChange={(e) => { setUserName(e.target.value); }} type="text" placeholder="User Name" />
+            <Input defaultValue={user.username} required onChange={(e) => { setUserName(e.target.value); }} type="text" placeholder="User Name" />
             <div>Email Address</div>
-            <input defaultValue={user.email} required onChange={(e) => { setEmail(e.target.value); }} type="email" placeholder="Email Address" />
+            <Input defaultValue={user.email} required onChange={(e) => { setEmail(e.target.value); }} type="email" placeholder="Email Address" />
             <div>Zip Code</div>
-            <input defaultValue={user.user_location} required onChange={(e) => { setZipCode(e.target.value); }} type="number" placeholder="Zip Code" />
-            <div>Profile Picture</div>
-            <button type="submit" onClick={() => { submitForm(); }}>Submit</button>
+            <Input defaultValue={user.user_location} required onChange={(e) => { setZipCode(e.target.value); }} type="integer" placeholder="Zip Code" />
+            <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+              <button type="submit" onClick={() => { submitForm(); }}>Submit</button>
+              <button type="button" onClick={() => { cancel(); }}>Cancel</button>
+            </div>
           </form>
         </>
         )}
