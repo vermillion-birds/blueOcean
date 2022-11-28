@@ -13,11 +13,7 @@ import { useHistory } from 'react-router-dom';
 import './assets/FriendList.css';
 import axios from 'axios';
 
-<<<<<<< HEAD
-const FriendsList = ({userID, allUsers, globalUser}) => {
-=======
-const FriendsList = ({userID, allUsers, friendsList, updateFriends}) => {
->>>>>>> main
+const FriendsList = ({userID, allUsers, friendsList, updateFriends, globalUser}) => {
   const [friendSearch, setFriendSearch] = useState('');
   const [suggestions, setSuggestions] = useState(false);
   const [suggestedFriends, setSuggestedFriends] = useState([]);
