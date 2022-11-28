@@ -57,8 +57,8 @@ const AccountPage = ({ globalUser, setGlobalUser }) => {
       >
         <motion.div
           style={{ display: 'flex' }}
-          animate={{ x: [-140, 155, 155, -140], y: [0, 400, 400, 0], rotateY: [0, 180, 0] }}
-          transition={{ duration: 7, repeat: 'Infinity' }}
+          animate={{ x: [-190, 190, 190, -190, -190], y: [0, 0, 400, 400, 0], rotateY: [0, 180, 0] }}
+          transition={{ duration: 9, repeat: 'Infinity' }}
           whileHover={{
             scale: 2,
           }}
