@@ -1,10 +1,9 @@
 const {getAllMessages, insertMessage} = require('../../database/models/Messages.js');
 
 const getMessages = (req, res) => {
-  console.log(req.params.chatIdString);
+  // console.log(req.params.chatIdString);
   getAllMessages(req.params.chatIdString)
   .then(data => {
-    console.log(data.rows);
     if (data.rows[0]){
       res.send(data.rows[0].chats);
     } else {
@@ -17,7 +16,6 @@ const getMessages = (req, res) => {
 }
 
 const sendMessage = (req, res) => {
-  console.log('type of timestamp', req.body);
   insertMessage({
     message: req.body.message,
     timestamp: req.body.timestamp,
@@ -29,7 +27,12 @@ const sendMessage = (req, res) => {
     })
 }
 
+const getConversationId = function (req, res) {
+  console.log('New params for convId', req.params)
+}
+
 module.exports={
   getMessages,
-  sendMessage
+  sendMessage,
+  getConversationId
 }

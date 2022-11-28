@@ -5,7 +5,7 @@ import {faSmile, faPaperPlane} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 
-const ChatInputField = function ({friendSelected, globalUser, userID, chatMessages, displayMessages}) {
+const ChatInputField = function ({friendSelected, globalUser, userID, chatMessages, displayMessages, chatId}) {
   const [message, setMessage] = useState('');
 
 
@@ -17,7 +17,7 @@ const ChatInputField = function ({friendSelected, globalUser, userID, chatMessag
         message: message,
         timestamp: JSON.stringify(new Date().toISOString()),
         currentUser: userID,
-        conversationId: chatMessages[0].conversation_id
+        conversationId: chatId
       })
         .then((response) => {
           displayMessages();
