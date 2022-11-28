@@ -26,7 +26,7 @@ const FriendsList = ({userID, allUsers, friendsList, updateFriends, globalUser})
 
 
 
-  useState(() => {
+  useEffect(() => {
     if (Array.isArray(friendsList)) {
       setListState(friendsList);
     }

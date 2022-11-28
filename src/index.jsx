@@ -43,14 +43,22 @@ const MainComponent = () => {
 
   useEffect(() => {
     const data = window.localStorage.getItem('userID');
+    const friendsData = window.localStorage.getItem('frindsList');
     if (data !== null) {
       setUserID(JSON.parse(data));
+    }
+    if (friendsData !== null) {
+      setFriendsList(JSON.parse(friendsData));
     }
   }, []);
 
   useEffect(() => {
     window.localStorage.setItem('userID', JSON.stringify(userID));
   }, [userID]);
+
+  useEffect(() => {
+    window.localStorage.setItem('friendsList', JSON.stringify(friendsList));
+  }, [friendsList]);
 
   useEffect(() => {
     axios.get('/allUsers')
