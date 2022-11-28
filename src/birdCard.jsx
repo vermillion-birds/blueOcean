@@ -4,6 +4,7 @@ import Card from '@mui/material/Card';
 import styled, { css } from 'styled-components';
 import ReactCardFlip from 'react-card-flip';
 import Map from './Map.jsx';
+import birdphotos from './planz.jsx';
 
 const SectionCard = styled.aside`
     border: 4mm ridge #213547;
@@ -91,7 +92,7 @@ const BirdCard = ({bird, back}) => {
             <h3>{bird.scentific_name}</h3>
             <h3>AKA: {bird.common_name}</h3>
             <SectionImage
-              src={bird.bird_photos[0]}
+              src={birdphotos[bird.bird_id - 1] || bird.bird_photos[0]}
               alt="header image"
               height="400"
               width="384"
@@ -112,7 +113,7 @@ const BirdCard = ({bird, back}) => {
         <SectionCard2 onClick={() => setFlip(!flip)}>
           <aside>
             <h3>Sighting Locations</h3>
-            <Map />
+            <Map locations={bird.bird_location} />
           </aside>
         </SectionCard2>
 

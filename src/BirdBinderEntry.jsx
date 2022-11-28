@@ -9,6 +9,7 @@ import Card from '@mui/material/Card';
 // import CardMedia from '@mui/material/CardMedia';
 // import Typography from '@mui/material/Typography';
 import './assets/BirdList.css';
+import birdphotos from './planz.jsx';
 
 const BirdBinderEntry = ({bird, clicked}) => {
   // bird.note = 'testing';
@@ -19,7 +20,7 @@ const BirdBinderEntry = ({bird, clicked}) => {
       <div className="binder-card">
         <aside>
           <h3>{bird.common_name}</h3>
-          <img src={bird.bird_photos[0]} alt={`${bird.common_name}`} />
+          <img src={birdphotos[bird.bird_id - 1] || bird.bird_photos[0]} alt={`${bird.common_name}`} />
           <div className="binder-tag">{`Last Seen: ${bird.last_seen}` }</div>
           <div className="binder-tag">{`Spotted At: ${locations[Math.floor(Math.random() * locations.length)]}`} </div>
           <h3>Personal Notes</h3>

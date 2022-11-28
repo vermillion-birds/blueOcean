@@ -5,6 +5,8 @@ import styled, { css } from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { motion } from 'framer-motion';
+import { Icon } from '@iconify/react';
 import UpdateForm from './UpdateForm.jsx';
 
 const Container = styled.div`
@@ -53,7 +55,19 @@ const AccountPage = ({ globalUser, setGlobalUser }) => {
         fontSize: '30px', display: 'flex', flexDirection: 'column', alignItems: 'center',
       }}
       >
-        <div style={{ paddingBottom: '20px' }}>{userName}</div>
+        <motion.div
+          style={{ display: 'flex' }}
+          animate={{ x: [-190, 190, 190, -190, -190], y: [0, 0, 400, 400, 0], rotateY: [0, 180, 0] }}
+          transition={{ duration: 9, repeat: 'Infinity' }}
+          whileHover={{
+            scale: 2,
+          }}
+          onHoverStart={(e) => {}}
+          onHoverEnd={(e) => {}}
+        >
+          <Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100" />
+        </motion.div>
+        <div style={{ paddingBottom: '20px' }}>{`Welcome ${userName}!`}</div>
         <img referrerPolicy="no-referrer" alt="profile" style={{ borderRadius: '50%', height: '70px', width: '70px' }} src={globalUser.picture} />
       </div>
       )}
@@ -61,6 +75,7 @@ const AccountPage = ({ globalUser, setGlobalUser }) => {
         <button type="button" onClick={() => logoutWithRedirect()}>Log Out</button>
         <button type="button" onClick={() => history.push('/birdList')}>My Birds</button>
         <button type="button" onClick={() => history.push('/friendsList')}>My Friends</button>
+        <button type="button" onClick={() => history.push('/discover')}>Discover a Bird</button>
       </Container>
     </>
   );
