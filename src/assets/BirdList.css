@@ -60,3 +60,26 @@
   overflow-y: hidden;
 }
 
+.bird-right {
+  margin-right: 3px;
+}
+
+.bird-left {
+  margin-left: 3px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.bird-suggestions {
+  background-color: rgb(71, 71, 71);
+  position:absolute;
+  z-index: 1;
+}
+
+.bird-suggestion-entry {
+  border: 1px solid #ddd;
+  width: 425px;
+}
