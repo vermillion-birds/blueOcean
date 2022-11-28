@@ -18,6 +18,7 @@ const getAllMessages = (users_hash) => {
   	json_build_object(
 		'message', messages.message,
 		'timestamp', messages.timestamp,
+    'conversation_id', messages.conversation_id,
 		'sender_name', (SELECT first_name || ' ' || last_name AS full_name FROM users WHERE users.user_id = messages.sender_id)
 	)
 	ORDER BY timestamp
@@ -29,6 +30,14 @@ const getAllMessages = (users_hash) => {
   .catch(err => console.log(err));
 }
 
+const insertMessage = (incomingMsg) => {
+  return pool.query (
+    `INSERT INTO messages (message, timestamp, sender_id, conversation_id)
+  VALUES ('${incomingMsg.message}', '${incomingMsg.timestamp}', ${incomingMsg.sender_id}, ${incomingMsg.conversation_id})`)
+  .catch(err => console.log(err));
+}
+
 module.exports ={
   getAllMessages,
+  insertMessage
 }

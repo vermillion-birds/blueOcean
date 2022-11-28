@@ -13,7 +13,7 @@ import { useHistory } from 'react-router-dom';
 import './assets/FriendList.css';
 import axios from 'axios';
 
-const FriendsList = ({userID, allUsers, friendsList, updateFriends}) => {
+const FriendsList = ({userID, allUsers, friendsList, updateFriends, globalUser}) => {
   const [friendSearch, setFriendSearch] = useState('');
   const [suggestions, setSuggestions] = useState(false);
   const [suggestedFriends, setSuggestedFriends] = useState([]);
@@ -96,13 +96,14 @@ const FriendsList = ({userID, allUsers, friendsList, updateFriends}) => {
         <button onClick={() => {history.push('/user')}}>Return Home</button>
         <div>
           {/* <button onClick={onSuggestions}>See Suggested Friends</button> */}
-          <div>
-            <input type="text" placeholder="Find Fellow Birders" onChange={onFriendSearch} />
+          <div className="friends-dropdown">
+            <input  className="friend-search" type="text" placeholder="Find Fellow Birders" onChange={onFriendSearch} />
             {suggestions && (
-              suggestedFriends.map((friend, i) => {
-                return (<div key={i} onClick={() => {onSuggestedFriend(friend)}}>{`${friend.first_name} ${friend.last_name}`}</div>);
-              })
-            )}
+              <div className="friends-suggestions">
+                  {suggestedFriends.map((friend, i) => {
+                    return (<div key={i} onClick={() => { onSuggestedFriend(friend) }} className="friend-entry">{`${friend.first_name} ${friend.last_name}`}</div>);
+                  })}
+            </div>)}
           </div>
         </div>
         <h1>Your Friends</h1>
@@ -113,7 +114,7 @@ const FriendsList = ({userID, allUsers, friendsList, updateFriends}) => {
       </div>
       )}
       {birdsView && <BirdList friend={clickedFriend} back={() => {onBirdClick()}} userID={userID} />}
-      {chatView && <Chat friend={clickedFriend} userID={userID} back={() => {onChatClicked()}} allUsers={allUsers} friendsList={friendsList} />}
+      {chatView && <Chat friend={clickedFriend} userID={userID} back={() => {onChatClicked()}} allUsers={allUsers} globalUser={globalUser}/>}
 
     </div>
   );

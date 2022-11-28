@@ -1,4 +1,4 @@
-const {getAllMessages} = require('../../database/models/Messages.js');
+const {getAllMessages, insertMessage} = require('../../database/models/Messages.js');
 
 const getMessages = (req, res) => {
   console.log(req.params.chatIdString);
@@ -16,6 +16,20 @@ const getMessages = (req, res) => {
 
 }
 
+const sendMessage = (req, res) => {
+  console.log('type of timestamp', req.body);
+  insertMessage({
+    message: req.body.message,
+    timestamp: req.body.timestamp,
+    sender_id: req.body.currentUser,
+    conversation_id: req.body.conversationId
+  })
+    .then((response) => {
+      res.send(response)
+    })
+}
+
 module.exports={
-  getMessages
+  getMessages,
+  sendMessage
 }

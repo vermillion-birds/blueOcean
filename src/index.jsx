@@ -104,9 +104,11 @@ const MainComponent = () => {
             <AccountPage setGlobalUser={setGlobalUser} globalUser={globalUser} />
             {' '}
           </Route>
-          <Route path="/createUser" component={UserSignUp} />
+          <Route path="/createUser">
+            <UserSignUp globalUser={globalUser} />
+          </Route>
           <Route exact path="/">
-            <App globalUser={globalUser} setGlobalUser={setGlobalUser} />
+            <App globalUser={globalUser} setGlobalUser={setGlobalUser} userID={userID} setUserID={setUserID} />
             {' '}
           </Route>
           <Route path="/birdList">
@@ -114,7 +116,7 @@ const MainComponent = () => {
           </Route>
           <Route path="/friendsList">
             <FriendsList userID={userID} allUsers={allUsers} home={returnToAccountPage} friendsList={friendsList}
-            updateFriends={() => {getFriendsList()}} />
+            updateFriends={() => {getFriendsList()}} globalUser={globalUser}/>
           </Route>
         </Switch>
       </Auth0ProviderWithHistory>

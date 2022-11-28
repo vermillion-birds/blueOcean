@@ -6,7 +6,8 @@
   box-shadow: 10px 10px 10px #213547;;
   border-radius: 20px;
   border: 10px solid #686868;
-  max-width: 350px;
+  width: 325px;
+  height: 500px;
   margin-right: 10px;
   margin-left: 10px;
   margin-top: 3vh;
@@ -22,6 +23,7 @@
   linear-gradient(to top left, #686868, transparent),
   linear-gradient(to top right, #213547, transparent);
   background-blend-mode: screen;
+  overflow-y: hidden;
 }
 
 .binder-card img {
@@ -48,3 +50,4 @@
   line-height: 150%;
   color: white;
 }
+

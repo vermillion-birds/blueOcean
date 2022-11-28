@@ -3,8 +3,30 @@
   display: flex;
   justify-content: space-between;
   border: 2px solid black;
+  min-width: 375px;
 }
 
 .friends-name {
   align-self: center;
+}
+
+.friends-suggestions {
+  background-color: rgb(71, 71, 71);
+  position:absolute;
+  z-index: 1;
+}
+
+.friends-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.friend-entry {
+  border: 1px solid #ddd;
+  width: 255px;
+}
+
+.friend-search {
+  margin-top: 20px;
+  width: 250px;
 }
