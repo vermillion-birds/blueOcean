@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { Icon } from '@iconify/react';
 
 const ModalBackground = styled.div`{
   width: 100%;
@@ -27,7 +28,7 @@ const ModalContainer = styled.div`{
     border:solid;
   }
   width: 500px;
-  height: 500px;
+  height: 600px;
   border:solid;
   border-radius: 25px;
   background-color: #686868;
@@ -44,29 +45,28 @@ const Error = styled.p`
   margin: 1px;
 `;
 
-const UserSignUp = () => {
-  const [firstNameForm, setFirstName] = useState('');
-  const [lastNameForm, setLastName] = useState('');
-  const [emailForm, setEmail] = useState('');
-  const [userNameForm, setUserName] = useState('');
-  const [zipCodeForm, setZipCode] = useState(0);
-  const [profilePictureForm, setProfilePicture] = useState('');
+const Input = styled.input`
+  margin: 15px;
+`;
+
+const UserSignUp = ({ globalUser }) => {
   const history = useHistory();
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const submitForm = (submitData) => {
-    history.push('/user');
-    axios.post('/addUser', submitData)
-      .then((data) => {
-        console.log('activated post', data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const cancel = () => {
-    history.push('/user');
+    if (globalUser.email === submitData.email) {
+      submitData.profilePicture = '';
+      history.push('/user');
+      axios.post('/addUser', submitData)
+        .then((data) => {
+          console.log('activated post', data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      alert('Your email address must match the email you entered in your login page');
+    }
   };
 
   return (
@@ -76,24 +76,25 @@ const UserSignUp = () => {
           submitForm(data);
         })}
         >
-          <button type="button" onClick={() => { cancel(); }}>Cancel</button>
+          <p style={{ margin: '0px' }}><Icon icon="mdi:bird" color="#d9f0ff" width="100" height="100" /></p>
           <div>First Name</div>
-          <input {...register('firstName', { required: true })} type="text" placeholder="First Name" />
+          <Input {...register('firstName', { required: true })} type="text" placeholder="First Name" />
           {errors.firstName?.type === 'required' && <Error role="alert">First name is required</Error>}
           <div>Last Name</div>
-          <input {...register('lastName', { required: true })} type="text" placeholder="Last Name" />
+          <Input {...register('lastName', { required: true })} type="text" placeholder="Last Name" />
           {errors.lastName?.type === 'required' && <Error role="alert">Last name is required</Error>}
           <div>User Name</div>
-          <input {...register('userName', { required: true })} type="text" placeholder="User Name" />
+          <Input {...register('userName', { required: true })} type="text" placeholder="User Name" />
           {errors.userName?.type === 'required' && <Error role="alert">User name is required</Error>}
           <div>Email Address</div>
-          <input {...register('email', { required: true })} type="email" placeholder="Email Address" />
+          <Input {...register('email', { required: true })} type="email" placeholder="Email Address" />
           {errors.email?.type === 'required' && <Error role="alert">Email is required</Error>}
           <div>Zip Code</div>
-          <input {...register('zipCode', { required: true })} type="number" placeholder="Zip Code" />
+          <Input {...register('zipCode', { required: true, maxLength: 5, minLength: 5 })} type="integer" placeholder="Zip Code" />
           {errors.zipCode?.type === 'required' && <Error role="alert">Zip Code is required</Error>}
-          <div>Profile Picture</div>
-          <button type="submit">Submit</button>
+          <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+            <button style={{ rightMargin: '5px' }} type="submit">Submit</button>
+          </div>
         </form>
       </ModalContainer>
     </ModalBackground>

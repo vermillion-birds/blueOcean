@@ -88,7 +88,9 @@ const MainComponent = () => {
             <AccountPage setGlobalUser={setGlobalUser} globalUser={globalUser} />
             {' '}
           </Route>
-          <Route path="/createUser" component={UserSignUp} />
+          <Route path="/createUser">
+            <UserSignUp globalUser={globalUser} />
+          </Route>
           <Route exact path="/">
             <App globalUser={globalUser} setGlobalUser={setGlobalUser} />
             {' '}
