@@ -112,7 +112,7 @@ const BirdCard = ({bird, back}) => {
         <SectionCard2 onClick={() => setFlip(!flip)}>
           <aside>
             <h3>Sighting Locations</h3>
-            <Map />
+            <Map locations={bird.bird_location} />
           </aside>
         </SectionCard2>
 
