@@ -11,6 +11,13 @@
   margin-right: 10px;
   margin-left: 10px;
   margin-top: 3vh;
+  overflow-y: scroll;
+}
+
+.binder-entry::-webkit-scrollbar {
+  display: none;
+ background: inherit;
+ width: 3px;
 }
 
 .binder-card {
@@ -42,6 +49,7 @@
   background: gray;
   color: white;
   font-size: 15px;
+  overflow-y: hidden;
 }
 
 .binder-description {
@@ -49,5 +57,6 @@
   color: #7f8c9b;
   line-height: 150%;
   color: white;
+  overflow-y: hidden;
 }
 
