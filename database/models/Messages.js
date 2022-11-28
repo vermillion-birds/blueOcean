@@ -1,17 +1,17 @@
 const { pool } = require('../db.js');
 
 const getAllMessages = (users_hash) => {
-  users_hash = users_hash.split('&');
+  // users_hash = users_hash.split('&');
   console.log(users_hash);
   return pool.query(`
   with tryInsert AS (
 	  INSERT INTO conversations (users_hash)
-	  VALUES (${users_hash[0]}::varchar(255)||'&'||${users_hash[1]}::varchar(255))
+	  VALUES ('${users_hash}')
       ON CONFLICT (users_hash)
       Do Nothing
       ),
    getConvId AS (
-      SELECT  conv_id AS conversation FROM conversations WHERE users_hash = ${users_hash[0]}::varchar(255)||'&'||${users_hash[1]}::varchar(255)
+      SELECT  conv_id AS conversation FROM conversations WHERE users_hash = '${users_hash}'
   )
 
   SELECT json_agg(
@@ -32,8 +32,12 @@ const getAllMessages = (users_hash) => {
 
 const insertMessage = (incomingMsg) => {
   return pool.query (
-    `INSERT INTO messages (message, timestamp, sender_id, conversation_id)
-  VALUES ('${incomingMsg.message}', '${incomingMsg.timestamp}', ${incomingMsg.sender_id}, ${incomingMsg.conversation_id})`)
+    `WITH getConvId AS (
+      SELECT  conv_id AS conversation FROM conversations WHERE users_hash = '${incomingMsg.conversation_id}'
+  )
+    INSERT INTO messages (message, timestamp, sender_id, conversation_id)
+  VALUES ('${incomingMsg.message}', '${incomingMsg.timestamp}', ${incomingMsg.sender_id},
+  (SELECT conversation FROM getConvId ))`)
   .catch(err => console.log(err));
 }
 
