@@ -13,7 +13,7 @@ import { useHistory } from 'react-router-dom';
 import './assets/FriendList.css';
 import axios from 'axios';
 
-const FriendsList = ({userID, allUsers, friendsList, updateFriends}) => {
+const FriendsList = ({userID, allUsers, friendsList, updateFriends, globalUser}) => {
   const [friendSearch, setFriendSearch] = useState('');
   const [suggestions, setSuggestions] = useState(false);
   const [suggestedFriends, setSuggestedFriends] = useState([]);
@@ -114,7 +114,7 @@ const FriendsList = ({userID, allUsers, friendsList, updateFriends}) => {
       </div>
       )}
       {birdsView && <BirdList friend={clickedFriend} back={() => {onBirdClick()}} userID={userID} />}
-      {chatView && <Chat friend={clickedFriend} userID={userID} back={() => {onChatClicked()}} allUsers={allUsers} friendsList={friendsList} />}
+      {chatView && <Chat friend={clickedFriend} userID={userID} back={() => {onChatClicked()}} allUsers={allUsers} globalUser={globalUser}/>}
 
     </div>
   );
