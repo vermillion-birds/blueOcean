@@ -72,6 +72,17 @@ const MainComponent = () => {
       });
   }, [globalUser]);
 
+  const getFriendsList = () => {
+    axios.get(`/friendsList/${userID}`)
+      .then((data) => {
+        // console.log('friends? ', data);
+        setFriendsList(data.data);
+      })
+      .catch((err) => {
+        console.log(err, 'error in getFriendsList');
+      });
+  };
+
   useEffect(() => {
     axios.get('/birds')
       .then((data) => {
@@ -81,14 +92,7 @@ const MainComponent = () => {
       .catch((err) => {
         console.log(err, 'error in getAllBirds');
       });
-    axios.get(`/friendsList/${userID}`)
-      .then((data) => {
-        // console.log('friends? ', data);
-        setFriendsList(data.data);
-      })
-      .catch((err) => {
-        console.log(err, 'error in getFriendsList');
-      });
+    getFriendsList();
   }, [userID]);
 
   return (
@@ -109,7 +113,8 @@ const MainComponent = () => {
             <BirdList userID={userID} allBirds={allBirds} />
           </Route>
           <Route path="/friendsList">
-            <FriendsList userID={userID} allUsers={allUsers} home={returnToAccountPage} friendsList={friendsList} />
+            <FriendsList userID={userID} allUsers={allUsers} home={returnToAccountPage} friendsList={friendsList}
+            updateFriends={() => {getFriendsList()}} />
           </Route>
         </Switch>
       </Auth0ProviderWithHistory>

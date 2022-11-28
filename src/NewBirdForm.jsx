@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/jsx-wrap-multilines */
@@ -52,7 +53,7 @@ const DropDownDiv = styled.div`
 }
 `
 
-const NewBirdForm = ({ close, allBirds, userID }) => {
+const NewBirdForm = ({ close, allBirds, userID, birdCards, update }) => {
   const [birdName, setBirdName] = useState('');
   const [note, setNote] = useState('');
   const [dateSeen, setDateSeen] = useState('');
@@ -69,6 +70,8 @@ const NewBirdForm = ({ close, allBirds, userID }) => {
   const [addressValReturned, setAddressValReturned] = useState(false);
   const [waiting, setWaiting] = useState(false);
   const [birdID, setBirdID] = useState(0);
+  const [birdSugClicked, setBirdSugClicked] = useState(false);
+  const [cardList, setCardList] = useState([]);
   const [birlURL, setBirdURL] = useState('');
   const sample = ['robin', 'blue jay', 'raven'];
 
@@ -77,7 +80,7 @@ const NewBirdForm = ({ close, allBirds, userID }) => {
       // console.log(birdName);
       // sort all users where username or birds sceen name matches term
       const filtered = allBirds.filter((bird) => {
-        return bird.bird_common_name.toUpperCase().includes(birdName.toUpperCase());
+        return bird.bird_common_name.toUpperCase().includes(birdName.toUpperCase()) && !(cardList.some((element) => { return bird.bird_id === element.bird_id}));
       });
       if (filtered.length === 1 && filtered[0] === birdName) {
         setSuggestedBirds([]);
@@ -89,6 +92,13 @@ const NewBirdForm = ({ close, allBirds, userID }) => {
       console.log('done typing bird name');
     }
   }, [birdName]);
+
+  useEffect(() => {
+   if (Array.isArray(birdCards)) {
+    setCardList(birdCards)
+   };
+
+  }, [birdCards])
 
   // useEffect(() => {
   //   const birdOptions = allBirds.map(bird => {
@@ -142,7 +152,7 @@ const NewBirdForm = ({ close, allBirds, userID }) => {
     console.log('suggestion clicked', bird.bird_common_name);
     setBirdName(bird.bird_common_name);
     setBirdID(bird.bird_id);
-    setSuggestedBirds([]);
+    setBirdSugClicked(true);
   };
 
   const getAddressFromBrowser = () => {
@@ -203,6 +213,7 @@ const NewBirdForm = ({ close, allBirds, userID }) => {
       .then((data) => {
         console.log('bird post data: ', data);
         // propably update too
+        update();
         close();
       })
       .catch((err) => {
@@ -218,6 +229,7 @@ const NewBirdForm = ({ close, allBirds, userID }) => {
           CLOSE
         </button>
         <form>
+          {!birdSugClicked && (
           <div
             className="dropdown">
             <label>Birds Common Name</label>
@@ -238,7 +250,8 @@ const NewBirdForm = ({ close, allBirds, userID }) => {
                   );
                 })}
               </div>)}
-          </div>
+          </div>)}
+          {birdSugClicked && <div>{`You Clicked ${birdName}`}</div>}
           <label>Personal Note</label>
           <input type="textarea" placeholder="a place to jot down your thoughts on this or future birdsightings" onChange={onNote} />
           <br />
@@ -276,7 +289,7 @@ const NewBirdForm = ({ close, allBirds, userID }) => {
                     <DropDownDiv
                       key={index}
                       index={index}
-                      onClick={(event) => { selectAddress(index) }}>
+                      onClick={() => { selectAddress(index) }}>
                       {option.formatted_address}
                     </DropDownDiv>
                   );
