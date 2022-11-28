@@ -103,7 +103,7 @@ const getUserGeoLocFromZip = async (zip) => {
     // console.log('location obj', fullLocationData.data.results[0].geometry);
     geoLocation.lat = fullLocationData.data.results[0].geometry.location.lat;
     geoLocation.lng = fullLocationData.data.results[0].geometry.location.lng;
-    console.log(geoLocation);
+    // console.log(geoLocation);
     // return geoLocation;
   } catch (err) {
     console.log('error inside getUserGeoLocFromZip', err);

@@ -8,13 +8,27 @@ import axios from 'axios';
 function Chat ({clickedFriend, userID, globalUser}) {
   const [friends, setFriends] = useState([]);
   const [friendSelected, setFriendSelected] = useState(undefined);
+  const [chatMessages, setChatMessages] = useState(undefined);
 
-  const selectChat = function (user) {
-    let chatIdArray = [user.friend_user_id, userID].sort((a, b) => a - b);
-    let chatIdString = `${chatIdArray[0]}+${chatIdArray[1]}`;
-    // axios.get()
-    console.log(chatIdString);
+  const setChat = function (user) {
     setFriendSelected(user);
+    let chatIdArray = [user.friend_user_id, userID].sort((a, b) => a - b);
+    let chatIdString = `${chatIdArray[0]}&${chatIdArray[1]}`;
+    axios.get(`/chatId/${chatIdString}`)
+    .then((response) => {
+      setChatMessages(response.data);
+    })
+  };
+
+  const displayMessages = function () {
+    let chatIdArray = [friendSelected.friend_user_id, userID].sort((a, b) => a - b);
+    let chatIdString = `${chatIdArray[0]}&${chatIdArray[1]}`;
+    console.log(friendSelected);
+
+    axios.get(`/chatId/${chatIdString}`)
+      .then((response) => {
+        setChatMessages(response.data);
+      })
   };
 
   useEffect(() => {
@@ -28,8 +42,8 @@ function Chat ({clickedFriend, userID, globalUser}) {
   <OuterContainer>
     <div className="innerContainer">
     <img style={{position: "absolute", height: "5em"}} src='https://i.pinimg.com/originals/7e/58/c4/7e58c42bd5c6bbe05a1d49ee9737f909.gif' alt="logo" />
-    <ChatUsers friends={friends} userID={userID} globalUser={globalUser} selectChat={selectChat}/>
-    {friendSelected ? <ChatContainer /> : <ChatWelcomeScreen />}
+    <ChatUsers friends={friends} userID={userID} globalUser={globalUser} setChat={setChat} />
+    {friendSelected !== undefined ? <ChatContainer friendSelected={friendSelected} setFriendSelected={setFriendSelected} chatMessages={chatMessages} globalUser={globalUser} userID={userID} displayMessages={displayMessages}/> : <ChatWelcomeScreen />}
     </div>
   </OuterContainer>
   );
