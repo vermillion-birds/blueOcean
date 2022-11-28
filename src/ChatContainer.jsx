@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import ChatInputField from './ChatInputField.jsx';
 
-const ChatContainer = function ({friendSelected, chatMessages, globalUser, userID, displayMessages}) {
+const ChatContainer = function ({friendSelected, chatMessages, globalUser, userID, displayMessages, chatId}) {
   const scrollRef = useRef();
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const ChatContainer = function ({friendSelected, chatMessages, globalUser, userI
               </div>
               )}) : <></>}
       </div>
-      <ChatInputField friendSelected={friendSelected} globalUser={globalUser} userID={userID} chatMessages={chatMessages} displayMessages={displayMessages} />
+      <ChatInputField friendSelected={friendSelected} globalUser={globalUser} userID={userID} chatMessages={chatMessages} displayMessages={displayMessages} chatId={chatId} />
     </Container>
   )
 };
