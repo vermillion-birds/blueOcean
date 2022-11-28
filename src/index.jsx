@@ -23,6 +23,7 @@ const MainComponent = () => {
   const [userID, setUserID] = useState(0);
   const [allUsers, setAllUsers] = useState([]);
   const [allBirds, setAllBirds] = useState([]);
+  const [friendsList, setFriendsList] = useState([]);
   const history = useHistory();
 
   const returnToAccountPage = () => {
@@ -59,14 +60,6 @@ const MainComponent = () => {
       .catch((err) => {
         console.log(err);
       });
-    axios.get('/birds')
-      .then((data) => {
-        // console.log('birds? ', data.data);
-        setAllBirds(data.data);
-      })
-      .catch((err) => {
-        console.log(err, 'error in getAllBirds');
-      });
   }, []);
 
   useEffect(() => {
@@ -78,6 +71,29 @@ const MainComponent = () => {
         console.log(err);
       });
   }, [globalUser]);
+
+  const getFriendsList = () => {
+    axios.get(`/friendsList/${userID}`)
+      .then((data) => {
+        // console.log('friends? ', data);
+        setFriendsList(data.data);
+      })
+      .catch((err) => {
+        console.log(err, 'error in getFriendsList');
+      });
+  };
+
+  useEffect(() => {
+    axios.get('/birds')
+      .then((data) => {
+        // console.log('birds? ', data.data);
+        setAllBirds(data.data);
+      })
+      .catch((err) => {
+        console.log(err, 'error in getAllBirds');
+      });
+    getFriendsList();
+  }, [userID]);
 
   return (
     <Router>
@@ -92,14 +108,15 @@ const MainComponent = () => {
             <UserSignUp globalUser={globalUser} />
           </Route>
           <Route exact path="/">
-            <App globalUser={globalUser} setGlobalUser={setGlobalUser} />
+            <App globalUser={globalUser} setGlobalUser={setGlobalUser} userID={userID} setUserID={setUserID} />
             {' '}
           </Route>
           <Route path="/birdList">
             <BirdList userID={userID} allBirds={allBirds} />
           </Route>
           <Route path="/friendsList">
-            <FriendsList userID={userID} allUsers={allUsers} home={returnToAccountPage} />
+            <FriendsList userID={userID} allUsers={allUsers} home={returnToAccountPage} friendsList={friendsList}
+            updateFriends={() => {getFriendsList()}} globalUser={globalUser}/>
           </Route>
         </Switch>
       </Auth0ProviderWithHistory>

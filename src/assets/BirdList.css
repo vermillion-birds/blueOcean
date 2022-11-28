@@ -1,3 +1,53 @@
 .full-card-row {
   display: flex;
+  justify-content: space-between;
 }
+.binder-entry {
+  box-shadow: 10px 10px 10px #213547;;
+  border-radius: 20px;
+  border: 10px solid #686868;
+  width: 325px;
+  height: 500px;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-top: 3vh;
+}
+
+.binder-card {
+  border: 4mm ridge #213547;
+  box-shadow: 5px 5px 5px #213547;;
+  padding: 2rem;
+  background-color: #2d5d7b;
+  background:
+  linear-gradient(lightSkyBlue, transparent),
+  linear-gradient(to top left, #686868, transparent),
+  linear-gradient(to top right, #213547, transparent);
+  background-blend-mode: screen;
+  overflow-y: hidden;
+}
+
+.binder-card img {
+  margin-top: -1.25rem;
+  margin-left: -1.25rem;
+  width: calc(100% + 1.5rem);
+  height: 214px;
+  object-fit: cover;
+  border: 6px solid #213547;
+  box-shadow: 5px 5px 5px #213547;
+}
+
+.binder-tag {
+  padding: .5px;
+  text-align: center;
+  background: gray;
+  color: white;
+  font-size: 15px;
+}
+
+.binder-description {
+  font-size: 14px;
+  color: #7f8c9b;
+  line-height: 150%;
+  color: white;
+}
+

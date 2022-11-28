@@ -12,7 +12,7 @@ const getBirdNames = (req, res) => {
   console.log('REQUEST RECEIVED');
   getBirds().then((names) => {
 
-    console.log(names);
+    // console.log(names);
     res.send(names);
   })
 }
@@ -27,7 +27,7 @@ const getBirdCards = (req, res) => {
     //  console.log('data.row[0]', data.rows[0])
 
 
-    console.log('birdCards in server', results)
+    // console.log('birdCards in server', results)
     res.status(200).send(results);
   })
   .catch(err => {
@@ -95,9 +95,12 @@ const getWikiSummary = async (scientificName) => {
 }
 
 const postBird = async (req, res) => {
+  // console.log('posting bird req body:', req.body);
+  // res.send('testing bird post');
 
   let bodyName = req.body.commonName;
-  const { lat, lng } = req.body.location; //requires that location is an object with lat and lng properties
+  const lat = req.body.location.lat || null; //requires that location is an object with lat and lng properties
+  const lng = req.body.location.lng || null;
   const note = req.body.note; // user notes
   const dateSeen = req.body.dateSeen;
   const userId = req.body.user_id;
@@ -106,26 +109,35 @@ const postBird = async (req, res) => {
     notes: note,
     dateSeen: dateSeen,
     // url: url,
-    user_id: userId
+    user_id: userId,
+    lat: lat,
+    lon: lng
   };
+
+  // console.log('posting bird obj:', birdObj);
+  // res.send('testing bird post');
   try {
-    if (!req.body.bird_id) {
+    if (req.body.bird_id === 0) {
       const { sciName } = await getScientificName(bodyName);
       const summary = await getWikiSummary(sciName);
       birdObj.sciName = sciName;
       birdObj.summary = summary;
       birdObj.commonName = bodyName;
       const birdId = await createABird(birdObj);
-      birdObj.bird_id = birdId;
+      // console.log(birdId.rows);
+      birdObj.bird_id = birdId.rows[0].bird_id;
     } else {
       birdObj.bird_id = req.body.bird_id;
     }
     await createBirdSighting(birdObj)
     res.sendStatus(200)
   } catch (err) {
+    console.log('error posting bird', err);
     res.status(500).send(err);
   }
 }
+
+
 
 
 

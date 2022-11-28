@@ -44,7 +44,7 @@ const Map = () => {
     }
   ];
   const mapStyles = {
-    height: "100vh",
+    height: "50vh",
     width: "100%"
   };
 

@@ -1,16 +1,15 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 
-const ChatUsers = function ({users, currentUser}) {
-  const [currentSelected, setCurrentSelected] = useState(undefined);
+const ChatUsers = function ({friends, userID, globalUser, setChat}) {
 
   return (
     <UsersContainer>
       <h2>Contacts</h2>
       <div className="friendsList">
-        {users.map((user, idx) => {
+        {friends.map((user, idx) => {
           return(
-            <div key={idx} className="users"> {user}</div>
+            <div onClick={() => setChat(user)} key={idx+user.first_name} className="users"> {`${user.first_name} ${user.last_name}`}</div>
           )
         })}
       </div>
@@ -57,6 +56,7 @@ const UsersContainer = styled.div`
       align-items: center;
       justify-content: center;
       transition: 0.5s ease-in-out;
+      font-size: 1.5rem;
     }
     .currentChatUser {
       background-color: blue;

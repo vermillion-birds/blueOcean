@@ -1,7 +1,7 @@
 /* eslint-disable import/extensions */
 const axios = require('axios');
 const {
-  postUser, getEmail, getOneUser, updateOneUser, getOneUserID, getUsers, getFriends,
+  postUser, getEmail, getOneUser, updateOneUser, getOneUserID, getUsers, getFriends, postFriend
 } = require('../../database/models/Users.js');
 
 const getAllUsers = (req, res) => {
@@ -104,13 +104,26 @@ const getUserGeoLocFromZip = async (zip) => {
     // console.log('location obj', fullLocationData.data.results[0].geometry);
     geoLocation.lat = fullLocationData.data.results[0].geometry.location.lat;
     geoLocation.lng = fullLocationData.data.results[0].geometry.location.lng;
-    console.log(geoLocation);
+    // console.log(geoLocation);
     // return geoLocation;
   } catch (err) {
     console.log('error inside getUserGeoLocFromZip', err);
   }
 };
 
+const addFriend = (req, res) => {
+  // console.log('req in  add friend:', req.body);
+  // res.send('hitting add friend');
+  postFriend(req.body)
+    .then((response) => {
+      console.log(response);
+      res.send('added friend');
+    })
+    .catch((err) => {
+      console.log('error in add friend server controller: ', err);
+    })
+}
+
 module.exports = {
-  addUser, getUser, getUserEmail, updateUser, createNewUser, getUserID, getAllUsers, getFriendList,
+  addUser, getUser, getUserEmail, updateUser, createNewUser, getUserID, getAllUsers,getFriendList, addFriend
 };
