@@ -3,12 +3,14 @@ import styled from 'styled-components';
 import ChatUsers from './ChatUsers.jsx';
 import ChatWelcomeScreen from './ChatWelcomeScreen.jsx';
 import ChatContainer from './ChatContainer.jsx';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
-function Chat ({clickedFriend, userID, globalUser}) {
+function Chat ({clickedFriend, userID, globalUser, back}) {
   const [friends, setFriends] = useState([]);
   const [friendSelected, setFriendSelected] = useState(undefined);
   const [chatMessages, setChatMessages] = useState(undefined);
+  const history = useHistory();
 
   const setChat = function (user) {
     setFriendSelected(user);
@@ -40,6 +42,8 @@ function Chat ({clickedFriend, userID, globalUser}) {
 
   return (
   <OuterContainer>
+    <button onClick={back}>back</button>
+    <button onClick={() => history.push('/user')}>Home</button>
     <div className="innerContainer">
     <img style={{position: "absolute", height: "5em"}} src='https://i.pinimg.com/originals/7e/58/c4/7e58c42bd5c6bbe05a1d49ee9737f909.gif' alt="logo" />
     <ChatUsers friends={friends} userID={userID} globalUser={globalUser} setChat={setChat} />
