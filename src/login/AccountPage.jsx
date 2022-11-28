@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 import UpdateForm from './UpdateForm.jsx';
 
 const Container = styled.div`
@@ -20,25 +21,26 @@ const Container = styled.div`
 
 const AccountPage = ({ globalUser, setGlobalUser }) => {
   const [update, setUpdate] = useState(false);
+  const [userName, setUserName] = useState('');
   const history = useHistory();
   const { logout, user } = useAuth0();
   const logoutWithRedirect = () => logout({
     returnTo: window.location.origin,
   });
 
-  // useEffect(() => {
-  //   setGlobalUser(JSON.parse(JSON.stringify(localStorage.getItem('globalUser'))));
-  // }, []);
-
-  // useEffect(() => {
-  //   localStorage.setItem('globalUser', globalUser);
-  // }, [globalUser]);
+  useEffect(() => {
+    axios.get('/getUser', { params: { email: globalUser.email } })
+      .then((data) => {
+        setUserName(data.data[0].username);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [globalUser]);
 
   const updateUser = () => {
     setUpdate(!update);
   };
-
-  console.log(globalUser, 'global');
 
   return (
     <>
@@ -51,8 +53,8 @@ const AccountPage = ({ globalUser, setGlobalUser }) => {
         fontSize: '30px', display: 'flex', flexDirection: 'column', alignItems: 'center',
       }}
       >
-        <div style={{ paddingBottom: '10px' }}>{globalUser.name}</div>
-        <img alt="profile" style={{ borderRadius: '50%', height: '70px', width: '70px' }} src={globalUser.picture} />
+        <div style={{ paddingBottom: '20px' }}>{userName}</div>
+        <img referrerPolicy="no-referrer" alt="profile" style={{ borderRadius: '50%', height: '70px', width: '70px' }} src={globalUser.picture} />
       </div>
       )}
         <button type="button" onClick={() => updateUser()}>Update Account</button>
