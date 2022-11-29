@@ -5,29 +5,16 @@ import {faSmile, faPaperPlane} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 
-const ChatInputField = function ({friendSelected, globalUser, userID, chatMessages, displayMessages, chatId}) {
-  const [message, setMessage] = useState('');
+const ChatInputField = function ({friendSelected, globalUser, userID, chatMessages, displayMessages, chatId, socket, sendMessage, message, setMessage}) {
 
-
-  const sendMessage = function (e) {
+  const sendChat = function (e) {
     e.preventDefault();
-    if(message.length > 0) {
-      //Have a function that sends the message to the database
-      axios.post('/chatId/sendMessage', {
-        message: message,
-        timestamp: JSON.stringify(new Date().toISOString()),
-        currentUser: userID,
-        conversationId: chatId
-      })
-        .then((response) => {
-          displayMessages();
-        })
-        .catch((err) => {
-          console.log(response);
-        })
+    if (message.length > 0) {
+      sendMessage(message);
+      setMessage("");
     }
-    setMessage('');
-  };
+  }
+
 
   return (
     <Container>
@@ -36,7 +23,7 @@ const ChatInputField = function ({friendSelected, globalUser, userID, chatMessag
       <FontAwesomeIcon icon={faSmile} />
       </div>
     </div>
-    <form className="input-container" onSubmit={(e) => sendMessage(e)}>
+    <form className="input-container" onSubmit={(e) => sendChat(e)}>
       <input
         type="text"
         placeholder="type your message here"

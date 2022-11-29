@@ -4,6 +4,7 @@ const util = require('node:util');
 // image upload
 let cloudinary = require('cloudinary').v2;
 require('body-parser');
+const socket = require('socket.io');
 
 const app = express();
 const path = require('path');
@@ -114,6 +115,30 @@ app.get('/chatId/:chatIdString/getConversationId');
 
 const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
+});
+
+const io = socket(server, {
+  cors:{
+    origin:'http://localhost:3001',
+    credentials: true,
+  }
+})
+
+global.onlineUsers = new Map();
+
+io.on('connection', (socket) => {
+  global.chatSocket = socket;
+  socket.on('add-user', (userId) => {
+    onlineUsers.set(userId, socket.id);
+  });
+
+  socket.on('send-msg', (data) => {
+    console.log(data)
+    const sendUserSocket = onlineUsers.get(data.to);
+    if( sendUserSocket) {
+      socket.to(sendUserSocket).emit('msg-received', data.message);
+    }
+  });
 });

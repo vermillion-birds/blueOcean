@@ -30,7 +30,7 @@ const FriendsList = ({userID, allUsers, friendsList, updateFriends, globalUser})
     if (Array.isArray(friendsList)) {
       setListState(friendsList);
     }
-    console.log('friends: ', friendsList);
+    // console.log('friends: ', friendsList);
 
   }, [friendsList]);
 
@@ -63,7 +63,7 @@ const FriendsList = ({userID, allUsers, friendsList, updateFriends, globalUser})
     }
     axios.post('/friends', friendInfo)
       .then((data) => {
-        console.log('friend post data: ', data);
+        // console.log('friend post data: ', data);
         // propably update too
         updateFriends();
         setSuggestions(false);
@@ -76,15 +76,15 @@ const FriendsList = ({userID, allUsers, friendsList, updateFriends, globalUser})
   useEffect(() => {
     if (friendSearch.length !== 0) {
       setSuggestions(true);
-      console.log(friendSearch);
+      // console.log(friendSearch);
       // sort all users where username or birds sceen name matches term
       const filtered = allUsers.filter((friend) => {
         return (`${friend.first_name} ${friend.last_name}`).toUpperCase().includes(friendSearch.toUpperCase()) && !(listState.some((element) => { return friend.user_id === element.friend_user_id}));
       });
-      console.log('filtered friends', filtered, listState);
+      // console.log('filtered friends', filtered, listState);
       setSuggestedFriends(filtered);
     } else {
-      console.log('return to seeing all friends');
+      // console.log('return to seeing all friends');
       setSuggestions(false);
     }
   }, [friendSearch]);

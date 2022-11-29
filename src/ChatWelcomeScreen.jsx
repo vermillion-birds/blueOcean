@@ -5,10 +5,10 @@ const ChatWelcomeScreen = function () {
   return (
     <WelcomeContainer>
       <img src='https://media.tenor.com/PN7Bccnho5wAAAAi/penguin-hi.gif' alt="" />
-      <h1>
+      <h1 style={{fontSize: '3.5vw'}}>
         Welcome
       </h1>
-      <h2>Please select a chat to Start messaging.</h2>
+      <h2 style={{fontSize: '2vw'}}>Please select a chat to Start messaging.</h2>
     </WelcomeContainer>
   )
 };
@@ -22,6 +22,7 @@ const WelcomeContainer = styled.div`
   color: white;
   flex-direction: column;
   img {
-    height: 20rem;
+    max-width: 100%;
+    height: auto;
   }
 `;
