@@ -228,6 +228,8 @@ const NewBirdForm = ({ close, allBirds, userID, birdCards, update }) => {
           onClick={() => { close(); }}>
           CLOSE
         </button>
+        <br />
+        <br />
         <form>
           {!birdSugClicked && (
           <div
@@ -239,11 +241,11 @@ const NewBirdForm = ({ close, allBirds, userID, birdCards, update }) => {
               onChange={onBirdName}
             />
             {(suggestedBirds.length > 0) && (
-              <div>
+              <div className="bird-suggestions">
                 {suggestedBirds.map((bird, i) => {
                   // console.log(bird);
                   return (
-                    <option key={i}
+                    <option  className="bird-suggestion-entry" key={i}
                     onClick={() => { suggestionClicked(bird); }}>
                       {bird.bird_common_name}
                     </option>
@@ -252,17 +254,21 @@ const NewBirdForm = ({ close, allBirds, userID, birdCards, update }) => {
               </div>)}
           </div>)}
           {birdSugClicked && <div>{`You Clicked ${birdName}`}</div>}
+          <br />
+          <br />
           <label>Personal Note</label>
           <input type="textarea" placeholder="a place to jot down your thoughts on this or future birdsightings" onChange={onNote} />
+          <br />
           <br />
           <label>Date Seen</label>
           <input type="date" onChange={onDateSeen} />
           <br />
+          <br />
           {/* <label>Nickname of Location seen</label>
           <input type="text" placeholder="ex. park on 1st" onChange={onPlaceName} />
           <br /> */}
-          <button type="button" onClick={getAddressFromBrowser}>grab location</button>
-          <button onClick={typeAddressIn} type="button">fill out location or zip</button>
+          <button className="bird-right" type="button" onClick={getAddressFromBrowser}>grab location</button>
+          <button className="bird-left" onClick={typeAddressIn} type="button">fill out location or zip</button>
           {typeAddress && (
             <div>
               {/* address form to get here once I have better idea of how many states */}
@@ -300,10 +306,12 @@ const NewBirdForm = ({ close, allBirds, userID, birdCards, update }) => {
             </div>
           )}
           <br />
+          <br />
               <label>Select a Photo of the Bird Seen!</label>
               <input type="file"   />
               <br />
           {/*use birdURL and setBirdURL to store url in state, once set i'd check with Andy for what all needs to happen along the req chain starting with variable passed from here*/}
+          <br />
           {(!waiting) && <button type="submit" onClick={submitForm}>Submit</button>}
           {waiting && <div>Waiting on Location Grab</div>}
         </form>

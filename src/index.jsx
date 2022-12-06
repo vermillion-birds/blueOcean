@@ -14,6 +14,7 @@ import AccountPage from './login/AccountPage.jsx';
 import UserSignUp from './login/UserSignUp.jsx';
 import BirdList from './BirdList.jsx';
 import FriendsList from './FriendsList.jsx';
+import Discover from './Discover.jsx';
 // Import from react-dom the ability to create a root render
 import App from './App.jsx';
 import './assets/index.css';
@@ -43,14 +44,22 @@ const MainComponent = () => {
 
   useEffect(() => {
     const data = window.localStorage.getItem('userID');
+    const friendsData = window.localStorage.getItem('frindsList');
     if (data !== null) {
       setUserID(JSON.parse(data));
+    }
+    if (friendsData !== null) {
+      setFriendsList(JSON.parse(friendsData));
     }
   }, []);
 
   useEffect(() => {
     window.localStorage.setItem('userID', JSON.stringify(userID));
   }, [userID]);
+
+  useEffect(() => {
+    window.localStorage.setItem('friendsList', JSON.stringify(friendsList));
+  }, [friendsList]);
 
   useEffect(() => {
     axios.get('/allUsers')
@@ -113,6 +122,9 @@ const MainComponent = () => {
           </Route>
           <Route path="/birdList">
             <BirdList userID={userID} allBirds={allBirds} />
+          </Route>
+          <Route path="/discover">
+            <Discover allBirds={allBirds} />
           </Route>
           <Route path="/friendsList">
             <FriendsList userID={userID} allUsers={allUsers} home={returnToAccountPage} friendsList={friendsList}

@@ -30,3 +30,20 @@
   margin-top: 20px;
   width: 250px;
 }
+
+.button-container-friend {
+  align-self: center;
+}
+
+.friend-button-chat {
+  margin-right: 3px;
+}
+
+.friend-button-bird {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.discover {
+  max-width: 700px;
+}

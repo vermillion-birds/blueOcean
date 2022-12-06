@@ -23,8 +23,10 @@ const FriendEntry = ({chatClicked, birdClicked, friend}) => {
     <div className="friend">
       <RoundImage img={friend.profile_url} />
       <span className="friends-name">{`${friend.first_name} ${friend.last_name}`}</span>
-      <button onClick={() => {chatClicked(friend)}}>{`Chat`}</button>
-      <button onClick={() => {birdClicked(friend)}}>{`Birds`}</button>
+      <div className="button-container-friend">
+      <button onClick={() => {chatClicked(friend)}} className="friend-button-chat">{`Chat`}</button>
+      <button onClick={() => {birdClicked(friend)}} className="friend-button-bird">{`Birds`}</button>
+      </div>
     </div>
   )
 }

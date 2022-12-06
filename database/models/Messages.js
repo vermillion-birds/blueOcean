@@ -32,8 +32,12 @@ const getAllMessages = (users_hash) => {
 
 const insertMessage = (incomingMsg) => {
   return pool.query (
-    `INSERT INTO messages (message, timestamp, sender_id, conversation_id)
-  VALUES ('${incomingMsg.message}', '${incomingMsg.timestamp}', ${incomingMsg.sender_id}, ${incomingMsg.conversation_id})`)
+    `WITH getConvId AS (
+      SELECT  conv_id AS conversation FROM conversations WHERE users_hash = '${incomingMsg.conversation_id}'
+  )
+    INSERT INTO messages (message, timestamp, sender_id, conversation_id)
+  VALUES ('${incomingMsg.message}', '${incomingMsg.timestamp}', ${incomingMsg.sender_id},
+  (SELECT conversation FROM getConvId ))`)
   .catch(err => console.log(err));
 }
 
